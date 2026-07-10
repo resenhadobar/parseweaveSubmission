@@ -23,6 +23,12 @@ export class OrbitCameraController {
     this.update()
   }
 
+  setAngles(yaw: number, pitch: number): void {
+    this.yaw = yaw
+    this.pitch = pitch
+    this.update()
+  }
+
   update(): void {
     this.pitch = THREE.MathUtils.clamp(this.pitch, 0.18, 1.42)
     this.distance = THREE.MathUtils.clamp(this.distance, 5, 140)
