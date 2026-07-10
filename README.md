@@ -4,7 +4,7 @@ A browser-playable 3D voxel beach neighborhood prototype built with Vite, TypeSc
 
 ## Overview
 
-Voxel Beach Block presents a polished oceanfront diorama with a proper voxel beach, animated ocean shader, Ocean Avenue, beachfront houses, surf shop, cars, people, palm trees, lifeguard tower, umbrellas, towels, benches, signs, streetlights, and decorations.
+Voxel Beach Block presents a polished oceanfront diorama with a proper voxel beach, animated ocean shader, Ocean Avenue, denser playable neighborhood blocks, varied houses and smaller multi-building apartment blocks, cars, realistically scaled people, palm trees, lifeguard tower, umbrellas, towels, benches, signs, streetlights, and decorations. The playable neighborhood is surrounded by an unplayable voxel perimeter of mountains, trees, and border scenery inspired by `assets/conceptArt.png`.
 
 It also includes a separate individual 3D asset viewer so each voxel structure can be inspected outside the full neighborhood scene.
 
@@ -25,8 +25,10 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 - Animated ocean shader with waves, foam bands, shallow/deep water blending, and shimmer.
 - Ocean Avenue with road markings, sidewalks, crosswalks, streetlights, cars, and benches.
 - Beach decorations including towels, umbrellas, dunes, shells, volleyball net, and lifeguard tower.
-- Beachfront buildings including pastel houses and surf shop.
-- Voxel people, palm trees, vehicles, and props.
+- Beachfront and inland buildings including pastel houses, surf shop, cottages, and smaller apartment clusters.
+- Voxel people scaled so buildings read as walkable interiors compared to cars and doors.
+- Unplayable surrounding scenery with voxel mountains, outer terrain, tree line, and perimeter border.
+- Voxel people, palm trees, pine trees, vehicles, and props.
 - Separate 3D asset inspection mode.
 - Responsive full-window browser canvas.
 
@@ -61,8 +63,10 @@ npm run typecheck
 - `src/voxel/blocks.ts` - reusable voxel block helpers.
 - `src/voxel/materials.ts` - voxel color palette and materials.
 - `src/voxel/assets.ts` - procedural voxel asset factories.
+- `src/voxel/scenery.ts` - unplayable outer terrain, mountains, tree line, and playable border.
 - `src/voxel/scene.ts` - full beach block composition.
 - `src/voxel/ocean.ts` - animated ocean shader.
+- `tests/voxelLayout.test.ts` - layout, road, scale, and perimeter validation tests.
 - `GAME_DESIGN_DOCUMENT.md` - living design document.
 - `uploads/parseweave_jam_requirements.txt` - supplied Parsewave Game Jam requirements reference.
 
