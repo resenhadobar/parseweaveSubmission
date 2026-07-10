@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 
 export function createOcean(): THREE.Mesh {
-  const geometry = new THREE.PlaneGeometry(92, 30, 80, 24)
+  const geometry = new THREE.PlaneGeometry(150, 34, 96, 24)
   const material = new THREE.ShaderMaterial({
     uniforms: {
       uTime: { value: 0 },
@@ -46,7 +46,7 @@ export function createOcean(): THREE.Mesh {
   const ocean = new THREE.Mesh(geometry, material)
   ocean.name = 'animated-ocean-shader'
   ocean.rotation.x = -Math.PI / 2
-  ocean.position.set(0, 0.16, -37)
+  ocean.position.set(0, 0.16, -49)
   ocean.receiveShadow = false
   return ocean
 }
