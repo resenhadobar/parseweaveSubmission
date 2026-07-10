@@ -34,11 +34,7 @@ export const lots: Lot[] = [
   { id: 'back-right-blocker', x: 49, z: 45, width: 13, depth: 8, kind: 'large', body: 'cream', roof: 'teal', rotation: Math.PI, stories: 5 },
 
   { id: 'left-edge-a', x: -56, z: 3, width: 7, depth: 7, kind: 'large', body: 'blue', roof: 'navy', rotation: Math.PI / 2, stories: 3 },
-  { id: 'left-edge-b', x: -56, z: 18, width: 7, depth: 7, kind: 'large', body: 'coral', roof: 'orange', rotation: Math.PI / 2, stories: 4 },
-  { id: 'left-edge-c', x: -56, z: 42, width: 7, depth: 7, kind: 'large', body: 'cream', roof: 'red', rotation: Math.PI / 2, stories: 4 },
   { id: 'right-edge-a', x: 56, z: 3, width: 7, depth: 7, kind: 'large', body: 'yellow', roof: 'red', rotation: -Math.PI / 2, stories: 3 },
-  { id: 'right-edge-b', x: 56, z: 22, width: 7, depth: 7, kind: 'large', body: 'teal', roof: 'navy', rotation: -Math.PI / 2, stories: 4 },
-  { id: 'right-edge-c', x: 56, z: 42, width: 7, depth: 7, kind: 'large', body: 'coral', roof: 'orange', rotation: -Math.PI / 2, stories: 4 },
 ]
 
 export const vehicles: Vehicle[] = [
