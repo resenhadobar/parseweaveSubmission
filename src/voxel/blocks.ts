@@ -40,7 +40,7 @@ export function addGrid(
       addBlock(parent, {
         color,
         position: [startX + x, y, startZ + z],
-        scale: [0.96, 0.18, 0.96],
+        scale: [1, 0.18, 1],
       })
     }
   }
