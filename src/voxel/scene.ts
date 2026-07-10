@@ -124,15 +124,34 @@ function createLargeBuilding(lot: Lot): THREE.Group {
   const height = lot.stories * floorHeight
   addBlock(group, { color: lot.body, position: [0, height / 2, 0], scale: [lot.width, height, lot.depth] })
   addBlock(group, { color: lot.roof, position: [0, height + 0.25, 0], scale: [lot.width + 0.8, isSkyscraper ? 0.34 : 0.66, lot.depth + 0.8] })
-  addBlock(group, { color: 'darkGlass', position: [0, 1.18, -lot.depth / 2 - 0.04], scale: [0.9, 1.72, 0.08] })
+  addStreetFacingDoor(group, lot)
   for (let floor = 0; floor < lot.stories; floor += 1) {
-    for (let col = 0; col < Math.floor(lot.width / 2.4); col += 1) {
-      addBlock(group, { color: 'glass', position: [-lot.width / 2 + 1.3 + col * 2.2, 1.55 + floor * floorHeight, -lot.depth / 2 - 0.05], scale: [0.72, 0.58, 0.08] })
-    }
-    if (isSkyscraper) addBlock(group, { color: 'darkGlass', position: [lot.width / 2 + 0.05, 1.55 + floor * floorHeight, 0], scale: [0.08, 0.5, lot.depth * 0.65] })
+    addBuildingWindows(group, lot, floor, floorHeight, isSkyscraper)
   }
   if (isSkyscraper) addBlock(group, { color: 'metal', position: [0, height + 1.05, 0], scale: [0.28, 1.6, 0.28] })
   return group
+}
+
+function addStreetFacingDoor(group: THREE.Group, lot: Lot): void {
+  const frontZ = lot.rotation === Math.PI ? lot.depth / 2 + 0.04 : -lot.depth / 2 - 0.04
+  addBlock(group, { color: 'darkGlass', position: [0, 1.18, frontZ], scale: [0.9, 1.72, 0.08] })
+  addBlock(group, { color: 'metal', position: [0, 0.26, frontZ + (frontZ > 0 ? 0.03 : -0.03)], scale: [1.25, 0.16, 0.18] })
+}
+
+function addBuildingWindows(group: THREE.Group, lot: Lot, floor: number, floorHeight: number, isSkyscraper: boolean): void {
+  const y = 1.55 + floor * floorHeight
+  const cols = Math.floor(lot.width / 2.4)
+  for (let col = 0; col < cols; col += 1) {
+    const x = -lot.width / 2 + 1.3 + col * 2.2
+    addBlock(group, { color: 'glass', position: [x, y, -lot.depth / 2 - 0.05], scale: [0.72, 0.58, 0.08] })
+    addBlock(group, { color: 'glass', position: [x, y, lot.depth / 2 + 0.05], scale: [0.72, 0.58, 0.08] })
+  }
+  const sideRows = Math.max(2, Math.floor(lot.depth / 2.2))
+  for (let row = 0; row < sideRows; row += 1) {
+    const z = -lot.depth / 2 + 1.2 + row * 2
+    addBlock(group, { color: isSkyscraper ? 'darkGlass' : 'glass', position: [lot.width / 2 + 0.05, y, z], scale: [0.08, 0.5, 0.62] })
+    addBlock(group, { color: isSkyscraper ? 'darkGlass' : 'glass', position: [-lot.width / 2 - 0.05, y, z], scale: [0.08, 0.5, 0.62] })
+  }
 }
 
 function createLandscape(world: THREE.Group): void {
