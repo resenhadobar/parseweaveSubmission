@@ -72,4 +72,9 @@ describe('voxel neighborhood layout', () => {
     expect(sceneryBounds.minZ).toBeLessThan(worldBounds.minZ)
     expect(sceneryBounds.maxZ).toBeGreaterThan(worldBounds.maxZ)
   })
+
+  it('includes a high-rise skyline behind the neighborhood', () => {
+    const highRises = lots.filter((lot) => lot.kind === 'large' && lot.stories >= 8 && lot.z > 35)
+    expect(highRises.length).toBeGreaterThanOrEqual(3)
+  })
 })
