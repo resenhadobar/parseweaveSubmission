@@ -39,9 +39,9 @@ export const lots: Lot[] = [
   { id: 'palm-court', x: 54, z: 24, width: 8, depth: 6, kind: 'large', body: 'teal', roof: 'orange', rotation: 0, stories: 3 },
 
   { id: 'back-left-blocker', x: -51, z: 45, width: 13, depth: 8, kind: 'large', body: 'yellow', roof: 'orange', rotation: Math.PI, stories: 4 },
-  { id: 'back-mid-left-blocker', x: -24, z: 45, width: 13, depth: 8, kind: 'large', body: 'teal', roof: 'navy', rotation: Math.PI, stories: 5 },
-  { id: 'back-mid-right-blocker', x: 14, z: 45, width: 13, depth: 8, kind: 'large', body: 'pink', roof: 'red', rotation: Math.PI, stories: 4 },
-  { id: 'back-right-blocker', x: 49, z: 45, width: 13, depth: 8, kind: 'large', body: 'cream', roof: 'teal', rotation: Math.PI, stories: 5 },
+  { id: 'back-mid-left-blocker', x: -24, z: 45, width: 13, depth: 8, kind: 'large', body: 'teal', roof: 'navy', rotation: Math.PI, stories: 9 },
+  { id: 'back-mid-right-blocker', x: 14, z: 45, width: 13, depth: 8, kind: 'large', body: 'pink', roof: 'red', rotation: Math.PI, stories: 8 },
+  { id: 'back-right-blocker', x: 49, z: 45, width: 13, depth: 8, kind: 'large', body: 'cream', roof: 'teal', rotation: Math.PI, stories: 10 },
   { id: 'back-small-teal', x: -9, z: 42, width: 7, depth: 6, kind: 'large', body: 'teal', roof: 'red', rotation: Math.PI, stories: 2 },
   { id: 'back-small-orange', x: 25, z: 42, width: 7, depth: 6, kind: 'large', body: 'orange', roof: 'navy', rotation: Math.PI, stories: 2 },
 
