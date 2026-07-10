@@ -24,18 +24,17 @@ export const lots: Lot[] = [
   { id: 'blue-house', x: 14, z: 0, width: 7, depth: 6, kind: 'house', body: 'blue', roof: 'orange', rotation: 0, stories: 2 },
   { id: 'teal-house', x: 43, z: 0, width: 7, depth: 6, kind: 'house', body: 'teal', roof: 'red', rotation: 0, stories: 2 },
 
-  { id: 'west-cottage', x: -52, z: 19, width: 7, depth: 6, kind: 'house', body: 'yellow', roof: 'orange', rotation: Math.PI, stories: 2 },
-  { id: 'central-cottage', x: -21, z: 18, width: 7, depth: 6, kind: 'house', body: 'pink', roof: 'red', rotation: Math.PI, stories: 2 },
-  { id: 'east-cottage', x: 13, z: 18, width: 7, depth: 6, kind: 'house', body: 'cream', roof: 'teal', rotation: Math.PI, stories: 2 },
-  { id: 'palm-cottage', x: 48, z: 18, width: 7, depth: 6, kind: 'house', body: 'coral', roof: 'navy', rotation: Math.PI, stories: 2 },
+  { id: 'west-cottage', x: -55, z: 18, width: 7, depth: 6, kind: 'house', body: 'yellow', roof: 'orange', rotation: Math.PI, stories: 2 },
+  { id: 'central-cottage', x: -28, z: 18, width: 7, depth: 6, kind: 'house', body: 'pink', roof: 'red', rotation: Math.PI, stories: 2 },
+  { id: 'east-cottage', x: 8, z: 18, width: 7, depth: 6, kind: 'house', body: 'cream', roof: 'teal', rotation: Math.PI, stories: 2 },
+  { id: 'palm-cottage', x: 44, z: 18, width: 7, depth: 6, kind: 'house', body: 'coral', roof: 'navy', rotation: Math.PI, stories: 2 },
 
-  { id: 'west-apartments', x: -51, z: 23, width: 10, depth: 7, kind: 'large', body: 'coral', roof: 'navy', rotation: 0, stories: 3 },
-  { id: 'west-studio', x: -41, z: 22, width: 7, depth: 6, kind: 'large', body: 'cream', roof: 'teal', rotation: 0, stories: 2 },
-  { id: 'central-hotel', x: -16, z: 23, width: 10, depth: 7, kind: 'large', body: 'cream', roof: 'teal', rotation: 0, stories: 3 },
-  { id: 'central-row', x: -7, z: 22, width: 7, depth: 6, kind: 'large', body: 'teal', roof: 'navy', rotation: 0, stories: 2 },
-  { id: 'east-condos', x: 18, z: 23, width: 10, depth: 7, kind: 'large', body: 'blue', roof: 'red', rotation: 0, stories: 3 },
-  { id: 'east-row', x: 27, z: 22, width: 7, depth: 6, kind: 'large', body: 'yellow', roof: 'orange', rotation: 0, stories: 2 },
-  { id: 'palm-court', x: 51, z: 23, width: 10, depth: 7, kind: 'large', body: 'teal', roof: 'orange', rotation: 0, stories: 3 },
+  { id: 'west-apartments', x: -44, z: 24, width: 8, depth: 6, kind: 'large', body: 'coral', roof: 'navy', rotation: 0, stories: 3 },
+  { id: 'central-hotel', x: -17, z: 24, width: 8, depth: 6, kind: 'large', body: 'cream', roof: 'teal', rotation: 0, stories: 3 },
+  { id: 'central-row', x: -7, z: 24, width: 7, depth: 6, kind: 'large', body: 'teal', roof: 'navy', rotation: 0, stories: 2 },
+  { id: 'east-condos', x: 18, z: 24, width: 8, depth: 6, kind: 'large', body: 'blue', roof: 'red', rotation: 0, stories: 3 },
+  { id: 'east-row', x: 28, z: 18, width: 7, depth: 6, kind: 'large', body: 'yellow', roof: 'orange', rotation: 0, stories: 2 },
+  { id: 'palm-court', x: 54, z: 24, width: 8, depth: 6, kind: 'large', body: 'teal', roof: 'orange', rotation: 0, stories: 3 },
 
   { id: 'back-left-blocker', x: -51, z: 45, width: 13, depth: 8, kind: 'large', body: 'yellow', roof: 'orange', rotation: Math.PI, stories: 4 },
   { id: 'back-mid-left-blocker', x: -24, z: 45, width: 13, depth: 8, kind: 'large', body: 'teal', roof: 'navy', rotation: Math.PI, stories: 5 },
@@ -44,8 +43,6 @@ export const lots: Lot[] = [
 
   { id: 'left-edge-a', x: -56, z: 3, width: 7, depth: 7, kind: 'large', body: 'blue', roof: 'navy', rotation: Math.PI / 2, stories: 3 },
   { id: 'right-edge-a', x: 56, z: 3, width: 7, depth: 7, kind: 'large', body: 'yellow', roof: 'red', rotation: -Math.PI / 2, stories: 3 },
-  { id: 'left-edge-b', x: -56, z: 19, width: 7, depth: 7, kind: 'house', body: 'cream', roof: 'teal', rotation: Math.PI / 2, stories: 2 },
-  { id: 'right-edge-b', x: 56, z: 19, width: 7, depth: 7, kind: 'house', body: 'pink', roof: 'navy', rotation: -Math.PI / 2, stories: 2 },
 ]
 
 export const vehicles: Vehicle[] = [
