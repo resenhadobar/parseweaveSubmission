@@ -8,7 +8,7 @@ export class VoxelBeachApp {
   private readonly scene = new THREE.Scene()
   private readonly camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 180)
   private readonly renderer = new THREE.WebGLRenderer({ antialias: true })
-  private readonly clock = new THREE.Clock()
+  private lastFrameSeconds = performance.now() / 1000
   private readonly beachBlock = createBeachBlockScene()
   private readonly controller: OrbitCameraController
   private readonly viewer: AssetViewer
@@ -21,7 +21,7 @@ export class VoxelBeachApp {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.renderer.shadowMap.enabled = true
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    this.renderer.shadowMap.type = THREE.PCFShadowMap
     this.mount.replaceChildren(this.renderer.domElement)
 
     this.addLights()
@@ -79,8 +79,10 @@ export class VoxelBeachApp {
   }
 
   private render(): void {
-    const delta = this.clock.getDelta()
-    const elapsed = this.clock.elapsedTime
+    const now = performance.now() / 1000
+    const delta = now - this.lastFrameSeconds
+    this.lastFrameSeconds = now
+    const elapsed = now
     if (this.ocean) updateOcean(this.ocean, elapsed)
     this.viewer.update(delta)
     this.renderer.render(this.scene, this.camera)
