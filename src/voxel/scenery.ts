@@ -4,46 +4,43 @@ import { createPalmTree } from './assets'
 import { sceneryBounds, worldBounds } from './layout'
 import type { PaletteKey } from './materials'
 
-type Mesa = { x: number; z: number; width: number; depth: number; levels: number }
+type Peak = { x: number; z: number; radius: number; height: number }
 type TreeSpot = { x: number; z: number; palm?: boolean }
 
-const mesas: Mesa[] = [
-  { x: -72, z: -34, width: 15, depth: 10, levels: 4 },
-  { x: -76, z: 22, width: 14, depth: 13, levels: 5 },
-  { x: -70, z: 56, width: 18, depth: 14, levels: 5 },
-  { x: -47, z: 64, width: 19, depth: 15, levels: 6 },
-  { x: -17, z: 65, width: 22, depth: 16, levels: 6 },
-  { x: 15, z: 65, width: 21, depth: 15, levels: 6 },
-  { x: 45, z: 64, width: 19, depth: 15, levels: 5 },
-  { x: 72, z: 56, width: 17, depth: 13, levels: 5 },
-  { x: 76, z: 24, width: 14, depth: 12, levels: 4 },
+const peaks: Peak[] = [
+  { x: -78, z: 35, radius: 18, height: 7 },
+  { x: -62, z: 61, radius: 24, height: 11 },
+  { x: -28, z: 66, radius: 25, height: 13 },
+  { x: 8, z: 67, radius: 27, height: 12 },
+  { x: 42, z: 64, radius: 23, height: 11 },
+  { x: 72, z: 42, radius: 19, height: 8 },
 ]
 
 const treeSpots: TreeSpot[] = [
   { x: -77, z: -20, palm: true },
   { x: -67, z: -13, palm: true },
-  { x: -70, z: 6 },
-  { x: -79, z: 39 },
+  { x: -74, z: 11 },
+  { x: -79, z: 38 },
   { x: -58, z: 52 },
-  { x: -32, z: 56 },
-  { x: -2, z: 56 },
-  { x: 28, z: 55 },
-  { x: 58, z: 52 },
-  { x: 78, z: 39 },
-  { x: 70, z: 6 },
+  { x: -34, z: 57 },
+  { x: -9, z: 58 },
+  { x: 20, z: 57 },
+  { x: 47, z: 55 },
+  { x: 70, z: 42 },
+  { x: 75, z: 12 },
   { x: 76, z: -18, palm: true },
 ]
 
 export function createPerimeterScenery(): THREE.Group {
   const group = new THREE.Group()
-  group.name = 'reference-style-unplayable-perimeter'
+  group.name = 'rio-inspired-organic-perimeter'
 
   createFlatBoardExtension(group)
-  mesas.forEach((mesa) => addTerracedMesa(group, mesa))
+  createOrganicMountains(group)
   treeSpots.forEach((spot) => addVoxelTree(group, spot))
   addPlayableRoadsidePosts(group)
 
-  console.info('[VoxelBeach] Added reference-style perimeter: flat board, terraced brown/white voxel mesas, and edge trees')
+  console.info('[VoxelBeach] Added Rio-inspired organic green/rock mountain perimeter and edge trees')
   return group
 }
 
@@ -51,30 +48,56 @@ function createFlatBoardExtension(group: THREE.Group): void {
   for (let x = sceneryBounds.minX; x <= sceneryBounds.maxX; x += 2) {
     for (let z = sceneryBounds.minZ; z <= sceneryBounds.maxZ; z += 2) {
       if (x >= worldBounds.minX && x <= worldBounds.maxX && z >= worldBounds.minZ && z <= worldBounds.maxZ) continue
-      const color: PaletteKey = z <= worldBounds.beachEndZ ? 'sand' : (x + z) % 10 === 0 ? 'leaf' : 'green'
+      const color: PaletteKey = z <= worldBounds.beachEndZ ? 'sand' : (hash(x, z) > 0.84 ? 'leaf' : 'green')
       addBlock(group, { color, position: [x, -0.04, z], scale: [2, 0.14, 2] })
     }
   }
 }
 
-function addTerracedMesa(group: THREE.Group, mesa: Mesa): void {
-  for (let level = 0; level < mesa.levels; level += 1) {
-    const inset = level * 1.35
-    const width = Math.max(2.5, mesa.width - inset * 2)
-    const depth = Math.max(2.5, mesa.depth - inset * 2)
-    const y = 0.18 + level * 0.42
-    addBlock(group, {
-      color: level === mesa.levels - 1 ? 'snow' : 'earth',
-      position: [mesa.x, y, mesa.z],
-      scale: [width, 0.42, depth],
-    })
-    if (level < mesa.levels - 1) {
-      addBlock(group, {
-        color: 'wood',
-        position: [mesa.x, y + 0.07, mesa.z - depth * 0.45],
-        scale: [width * 0.92, 0.12, 0.16],
-      })
+function createOrganicMountains(group: THREE.Group): void {
+  for (let x = sceneryBounds.minX; x <= sceneryBounds.maxX; x += 2) {
+    for (let z = -2; z <= sceneryBounds.maxZ; z += 2) {
+      if (x >= worldBounds.minX && x <= worldBounds.maxX && z <= worldBounds.maxZ) continue
+      const height = mountainHeight(x, z)
+      if (height <= 0) continue
+      addOrganicColumn(group, x, z, height)
     }
+  }
+}
+
+function mountainHeight(x: number, z: number): number {
+  let height = 0
+  for (const peak of peaks) {
+    const dx = x - peak.x
+    const dz = z - peak.z
+    const distance = Math.sqrt(dx * dx + dz * dz)
+    const falloff = Math.max(0, 1 - distance / peak.radius)
+    const ridgeNoise = 0.74 + hash(Math.round(x / 4), Math.round(z / 4)) * 0.42
+    height = Math.max(height, Math.pow(falloff, 1.7) * peak.height * ridgeNoise)
+  }
+  const backRamp = Math.max(0, (z - worldBounds.maxZ + 10) / 24)
+  const sideRamp = Math.max(0, Math.max(worldBounds.minX - x, x - worldBounds.maxX) / 18)
+  height += Math.min(2.5, backRamp * 1.4 + sideRamp * 1.1)
+  return Math.floor(height)
+}
+
+function addOrganicColumn(group: THREE.Group, x: number, z: number, height: number): void {
+  for (let level = 0; level < height; level += 1) {
+    const top = level >= height - 1
+    const exposedRock = hash(x + level * 3, z - level * 5) > 0.7 && level > height * 0.25
+    const color: PaletteKey = top ? (hash(x, z) > 0.4 ? 'leaf' : 'green') : exposedRock ? 'rock' : level < height * 0.3 ? 'earth' : 'green'
+    const width = 1.85 + hash(x + level, z) * 0.35
+    const depth = 1.85 + hash(x, z + level) * 0.35
+    addBlock(group, {
+      color,
+      position: [x + (hash(x, level) - 0.5) * 0.35, 0.16 + level * 0.42, z + (hash(z, level) - 0.5) * 0.35],
+      scale: [width, 0.44, depth],
+    })
+  }
+
+  if (height > 4 && hash(x, z) > 0.88) {
+    addBlock(group, { color: 'trunk', position: [x, height * 0.42 + 0.45, z], scale: [0.28, 0.9, 0.28] })
+    addBlock(group, { color: 'leaf', position: [x, height * 0.42 + 1.1, z], scale: [1.25, 0.8, 1.25] })
   }
 }
 
@@ -86,9 +109,10 @@ function addVoxelTree(group: THREE.Group, spot: TreeSpot): void {
     return
   }
 
-  addBlock(group, { color: 'trunk', position: [spot.x, 0.65, spot.z], scale: [0.35, 1.25, 0.35] })
-  addBlock(group, { color: 'leaf', position: [spot.x, 1.55, spot.z], scale: [1.45, 0.9, 1.45] })
-  addBlock(group, { color: 'palm', position: [spot.x, 2.15, spot.z], scale: [1.05, 0.75, 1.05] })
+  const baseHeight = Math.max(0, mountainHeight(spot.x, spot.z) * 0.42)
+  addBlock(group, { color: 'trunk', position: [spot.x, baseHeight + 0.65, spot.z], scale: [0.35, 1.25, 0.35] })
+  addBlock(group, { color: 'leaf', position: [spot.x, baseHeight + 1.55, spot.z], scale: [1.45, 0.9, 1.45] })
+  addBlock(group, { color: 'palm', position: [spot.x, baseHeight + 2.15, spot.z], scale: [1.05, 0.75, 1.05] })
 }
 
 function addPlayableRoadsidePosts(group: THREE.Group): void {
@@ -100,4 +124,9 @@ function addPlayableRoadsidePosts(group: THREE.Group): void {
       addBlock(group, { color: 'wood', position: [x, 0.5, z], scale: [0.18, 0.9, 0.18] })
     }
   }
+}
+
+function hash(x: number, z: number): number {
+  const value = Math.sin(x * 12.9898 + z * 78.233) * 43758.5453
+  return value - Math.floor(value)
 }
