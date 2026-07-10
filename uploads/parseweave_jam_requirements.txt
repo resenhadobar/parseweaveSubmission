@@ -1,0 +1,75 @@
+All that you need to know about Parsewave Game Jam 2026
+Parsewave Game Jam
+Parsewave Game Jam is a 24-hour solo online hackathon for developers who can build browser-playable games using AI agents and modern AI tools.
+
+Participants will build a web game within the hackathon window and submit the deployed game, public source code, README, and AI-agent traces. The goal is to evaluate both the final game and the way it was built.
+
+Format
+Solo participation only. No teams.
+
+24-hour online hackathon.
+
+Registration window: July 8, 2026, 10:00 PM IST to July 10, 2026, 10:00 PM IST.
+
+Build window: July 10, 2026, 10:00 PM IST to July 11, 2026, 10:00 PM IST.
+
+Review: July 12, 2026.
+
+Open theme. Participants may build any browser-playable game.
+
+Prizes
+1st place: $500
+
+2nd place: $300
+
+3rd place: $200
+
+Total prize pool: $1,000
+
+Eligibility
+Open worldwide.
+
+Students, graduates, and working professionals may participate.
+
+Participants must submit individually.
+
+Any AI tool is allowed, including paid tools, coding agents, chat assistants, asset-generation tools, and local tools.
+
+Submission Requirements
+Participants must submit:
+
+A deployed browser-playable game URL.
+
+A public source code repository.
+
+A README explaining the game, how to play it, what was built during the 24-hour window, which AI tools were used, and any prior work or external resources used.
+
+One zip file containing AI-agent traces, chats, prompts, logs, or tool outputs from the build process.
+
+Credits/disclosures for any pre-existing code, templates, assets, open-source projects, tutorials, engines, or prior experiments used.
+
+Browser and Input Requirements
+The game must run in a browser. Desktop and mobile browser games are both allowed. Any aspect ratio or input style is acceptable, including keyboard, mouse, touch, portrait, landscape, or fixed-canvas games.
+
+Originality and Prior Work
+Participants may use game engines, frameworks, public libraries, tutorials, starter templates, AI-generated assets, and credited prior experiments. However, all such usage must be disclosed clearly in the README.
+
+Submitting an unchanged or lightly rebranded existing game is not allowed. Participants must clearly show what they built during the hackathon window.
+
+Judging Criteria
+Submissions will be judged on:
+
+Game quality: how compelling, polished, playable, and complete the game feels.
+
+Technical execution: code quality, structure, reliability, performance, and deployment.
+
+AI workflow: how effectively the participant used AI agents to plan, build, debug, and improve the game.
+
+Original contribution: how much meaningful design, engineering, integration, and polish happened during the hackathon window.
+
+Review Process
+Judges may inspect the deployed game, public repository, README, commit history, credits, disclosures, and AI-agent traces to understand how the game was made.
+
+After the Jam
+Parsewave may reach out to selected candidates for further opportunities or full-time roles if we see a strong fit.
+
