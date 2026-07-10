@@ -21,9 +21,11 @@ export function createBeachHouse(options: HouseOptions): THREE.Group {
   const group = new THREE.Group()
   group.name = options.id ?? 'beach-house'
   const stories = options.stories ?? 2
-  addBlock(group, { color: options.body, position: [0, 0.9, 0], scale: [4.8, 1.8 * stories, 3.4] })
-  addBlock(group, { color: options.roof, position: [0, 2 + stories * 0.85, 0], scale: [5.35, 0.55, 3.9] })
-  addBlock(group, { color: options.roof, position: [0, 2.4 + stories * 0.85, -0.45], scale: [4.35, 0.45, 2.3] })
+  const bodyHeight = 1.8 * stories
+  const roofY = bodyHeight + 0.28
+  addBlock(group, { color: options.body, position: [0, bodyHeight / 2, 0], scale: [4.8, bodyHeight, 3.4] })
+  addBlock(group, { color: options.roof, position: [0, roofY, 0], scale: [5.35, 0.56, 3.9] })
+  addBlock(group, { color: options.roof, position: [0, roofY + 0.44, -0.45], scale: [4.35, 0.4, 2.3] })
   addBlock(group, { color: options.trim ?? 'white', position: [0, 1.05, -1.74], scale: [1.05, 1.55, 0.12] })
   addBlock(group, { color: 'darkGlass', position: [0, 1.2, -1.82], scale: [0.55, 0.95, 0.08] })
   addWindowGrid(group, -1.55, 1.4, -1.82, 2, stories)
@@ -33,8 +35,8 @@ export function createBeachHouse(options: HouseOptions): THREE.Group {
     addBlock(group, { color: 'white', position: [-2 + i, 0.82, -2.72], scale: [0.12, 0.85, 0.12] })
   }
   if (options.shop) {
-    addStripedAwning(group, [0, 2.1, -1.96], 6, ['teal', 'white'])
-    addSign(group, ['blue', 'yellow', 'red', 'teal'], [0, 2.75, -2.04])
+    addStripedAwning(group, [0, Math.min(2.1, bodyHeight - 0.45), -1.96], 6, ['teal', 'white'])
+    addSign(group, ['blue', 'yellow', 'red', 'teal'], [0, bodyHeight + 0.95, -2.04])
   }
   return group
 }
@@ -42,22 +44,28 @@ export function createBeachHouse(options: HouseOptions): THREE.Group {
 export function createPalmTree(): THREE.Group {
   const group = new THREE.Group()
   group.name = 'palm-tree'
-  for (let i = 0; i < 5; i += 1) {
-    addBlock(group, { color: 'trunk', position: [Math.sin(i * 0.55) * 0.18, 0.45 + i * 0.7, 0], scale: [0.45, 0.72, 0.45] })
+  for (let i = 0; i < 6; i += 1) {
+    addBlock(group, { color: 'trunk', position: [Math.sin(i * 0.48) * 0.2, 0.36 + i * 0.68, 0], scale: [0.46, 0.72, 0.46] })
   }
   const crownY = 4.25
-  const leafData: Array<[number, number, number, number, number, number]> = [
-    [0, crownY, -1.05, 0.75, 0.22, 2.15],
-    [0, crownY, 1.05, 0.75, 0.22, 2.15],
-    [-1.05, crownY, 0, 2.15, 0.22, 0.75],
-    [1.05, crownY, 0, 2.15, 0.22, 0.75],
-    [-0.8, crownY - 0.25, -0.8, 1.45, 0.2, 1.45],
-    [0.8, crownY - 0.25, -0.8, 1.45, 0.2, 1.45],
-    [-0.8, crownY - 0.25, 0.8, 1.45, 0.2, 1.45],
-    [0.8, crownY - 0.25, 0.8, 1.45, 0.2, 1.45],
+  const fronds: Array<[number, number, number, number, number, number, number]> = [
+    [0, 0, -1, 0, 0.2, 1.1, 1.75],
+    [0, 0, 1, 0, 0.2, 1.1, 1.75],
+    [-1, 0, 0, 0, 1.75, 1.1, 0.2],
+    [1, 0, 0, 0, 1.75, 1.1, 0.2],
+    [-0.7, 0, -0.7, -0.15, 1.35, 0.95, 1.35],
+    [0.7, 0, -0.7, -0.15, 1.35, 0.95, 1.35],
+    [-0.7, 0, 0.7, -0.15, 1.35, 0.95, 1.35],
+    [0.7, 0, 0.7, -0.15, 1.35, 0.95, 1.35],
   ]
-  leafData.forEach(([x, y, z, sx, sy, sz]) => addBlock(group, { color: 'palm', position: [x, y, z], scale: [sx, sy, sz] }))
-  addBlock(group, { color: 'trunk', position: [0, crownY - 0.15, 0], scale: [0.5, 0.42, 0.5] })
+  addBlock(group, { color: 'palm', position: [0, crownY + 0.12, 0], scale: [1.1, 0.34, 1.1] })
+  fronds.forEach(([x, y, z, drop, sx, sy, sz]) => {
+    addBlock(group, { color: 'palm', position: [x, crownY + y + drop, z], scale: [sx, sy, sz] })
+    addBlock(group, { color: 'leaf', position: [x * 1.75, crownY - 0.28 + drop, z * 1.75], scale: [Math.max(0.55, sx * 0.7), 0.18, Math.max(0.55, sz * 0.7)] })
+  })
+  addBlock(group, { color: 'trunk', position: [0.14, crownY - 0.12, 0], scale: [0.54, 0.42, 0.54] })
+  addBlock(group, { color: 'wood', position: [-0.28, crownY - 0.28, -0.18], scale: [0.2, 0.2, 0.2] })
+  addBlock(group, { color: 'wood', position: [0.25, crownY - 0.32, 0.24], scale: [0.2, 0.2, 0.2] })
   return group
 }
 
