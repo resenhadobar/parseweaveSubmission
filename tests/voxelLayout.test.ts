@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { containsPoint, isRoad, isSidewalk, lotBounds, lots, roads, sceneryBounds, vehicles, worldBounds } from '../src/voxel/layout'
+import { sampleMountainHeight } from '../src/voxel/scenery'
 
 function boxesOverlap(a: ReturnType<typeof lotBounds>, b: { minX: number; maxX: number; minZ: number; maxZ: number }): boolean {
   return a.minX < b.maxX && a.maxX > b.minX && a.minZ < b.maxZ && a.maxZ > b.minZ
@@ -76,5 +77,11 @@ describe('voxel neighborhood layout', () => {
   it('includes a high-rise skyline behind the neighborhood', () => {
     const highRises = lots.filter((lot) => lot.kind === 'large' && lot.stories >= 8 && lot.z > 35)
     expect(highRises.length).toBeGreaterThanOrEqual(3)
+  })
+
+  it('forms a taller horseshoe mountain range into beach and water edges', () => {
+    expect(sampleMountainHeight(0, sceneryBounds.maxZ - 4)).toBeGreaterThanOrEqual(14)
+    expect(sampleMountainHeight(worldBounds.minX - 4, worldBounds.beachEndZ - 12)).toBeGreaterThanOrEqual(4)
+    expect(sampleMountainHeight(worldBounds.maxX + 4, worldBounds.beachEndZ - 12)).toBeGreaterThanOrEqual(4)
   })
 })
