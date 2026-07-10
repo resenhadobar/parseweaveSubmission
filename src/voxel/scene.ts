@@ -119,16 +119,19 @@ function createSmallBuilding(lot: Lot): THREE.Group {
 
 function createLargeBuilding(lot: Lot): THREE.Group {
   const group = new THREE.Group()
-  const floorHeight = 2.3
+  const isSkyscraper = lot.stories >= 8
+  const floorHeight = isSkyscraper ? 2 : 2.3
   const height = lot.stories * floorHeight
   addBlock(group, { color: lot.body, position: [0, height / 2, 0], scale: [lot.width, height, lot.depth] })
-  addBlock(group, { color: lot.roof, position: [0, height + 0.33, 0], scale: [lot.width + 0.8, 0.66, lot.depth + 0.8] })
+  addBlock(group, { color: lot.roof, position: [0, height + 0.25, 0], scale: [lot.width + 0.8, isSkyscraper ? 0.34 : 0.66, lot.depth + 0.8] })
   addBlock(group, { color: 'darkGlass', position: [0, 1.18, -lot.depth / 2 - 0.04], scale: [0.9, 1.72, 0.08] })
   for (let floor = 0; floor < lot.stories; floor += 1) {
     for (let col = 0; col < Math.floor(lot.width / 2.4); col += 1) {
-      addBlock(group, { color: 'glass', position: [-lot.width / 2 + 1.3 + col * 2.2, 1.75 + floor * floorHeight, -lot.depth / 2 - 0.05], scale: [0.72, 0.62, 0.08] })
+      addBlock(group, { color: 'glass', position: [-lot.width / 2 + 1.3 + col * 2.2, 1.55 + floor * floorHeight, -lot.depth / 2 - 0.05], scale: [0.72, 0.58, 0.08] })
     }
+    if (isSkyscraper) addBlock(group, { color: 'darkGlass', position: [lot.width / 2 + 0.05, 1.55 + floor * floorHeight, 0], scale: [0.08, 0.5, lot.depth * 0.65] })
   }
+  if (isSkyscraper) addBlock(group, { color: 'metal', position: [0, height + 1.05, 0], scale: [0.28, 1.6, 0.28] })
   return group
 }
 
