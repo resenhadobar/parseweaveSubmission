@@ -18,7 +18,7 @@ export const roads: Road[] = [
 ]
 
 export const lots: Lot[] = [
-  { id: 'surf-shop', x: -51, z: 0, width: 7, depth: 6, kind: 'shop', body: 'cream', roof: 'teal', rotation: 0, stories: 1 },
+  { id: 'surf-shop', x: -48, z: 0, width: 8, depth: 6, kind: 'shop', body: 'cream', roof: 'teal', rotation: 0, stories: 2 },
   { id: 'coral-house', x: -24, z: 0, width: 7, depth: 6, kind: 'house', body: 'coral', roof: 'navy', rotation: 0, stories: 2 },
   { id: 'blue-house', x: 14, z: 0, width: 7, depth: 6, kind: 'house', body: 'blue', roof: 'orange', rotation: 0, stories: 2 },
   { id: 'teal-house', x: 50, z: 0, width: 7, depth: 6, kind: 'house', body: 'teal', roof: 'red', rotation: 0, stories: 2 },
@@ -33,10 +33,12 @@ export const lots: Lot[] = [
   { id: 'back-mid-right-blocker', x: 14, z: 45, width: 13, depth: 8, kind: 'large', body: 'pink', roof: 'red', rotation: Math.PI, stories: 4 },
   { id: 'back-right-blocker', x: 49, z: 45, width: 13, depth: 8, kind: 'large', body: 'cream', roof: 'teal', rotation: Math.PI, stories: 5 },
 
-  { id: 'left-edge-a', x: -56, z: 18, width: 8, depth: 10, kind: 'large', body: 'blue', roof: 'navy', rotation: Math.PI / 2, stories: 3 },
-  { id: 'left-edge-b', x: -56, z: 36, width: 8, depth: 10, kind: 'large', body: 'coral', roof: 'orange', rotation: Math.PI / 2, stories: 4 },
-  { id: 'right-edge-a', x: 56, z: 18, width: 8, depth: 10, kind: 'large', body: 'yellow', roof: 'red', rotation: -Math.PI / 2, stories: 3 },
-  { id: 'right-edge-b', x: 56, z: 36, width: 8, depth: 10, kind: 'large', body: 'teal', roof: 'navy', rotation: -Math.PI / 2, stories: 4 },
+  { id: 'left-edge-a', x: -56, z: 3, width: 5, depth: 8, kind: 'large', body: 'blue', roof: 'navy', rotation: Math.PI / 2, stories: 3 },
+  { id: 'left-edge-b', x: -56, z: 22, width: 5, depth: 8, kind: 'large', body: 'coral', roof: 'orange', rotation: Math.PI / 2, stories: 4 },
+  { id: 'left-edge-c', x: -56, z: 42, width: 5, depth: 8, kind: 'large', body: 'cream', roof: 'red', rotation: Math.PI / 2, stories: 4 },
+  { id: 'right-edge-a', x: 56, z: 3, width: 5, depth: 8, kind: 'large', body: 'yellow', roof: 'red', rotation: -Math.PI / 2, stories: 3 },
+  { id: 'right-edge-b', x: 56, z: 22, width: 5, depth: 8, kind: 'large', body: 'teal', roof: 'navy', rotation: -Math.PI / 2, stories: 4 },
+  { id: 'right-edge-c', x: 56, z: 42, width: 5, depth: 8, kind: 'large', body: 'coral', roof: 'orange', rotation: -Math.PI / 2, stories: 4 },
 ]
 
 export const vehicles: Vehicle[] = [
@@ -51,7 +53,7 @@ export const vehicles: Vehicle[] = [
   { x: 17, z: 10.2, color: 'yellow', rotation: 0, roadId: 'seabreeze-street' },
   { x: 48, z: 12.8, color: 'teal', rotation: Math.PI, roadId: 'seabreeze-street' },
 
-  { x: -35.5, z: 22, color: 'teal', rotation: Math.PI / 2, roadId: 'west-boardwalk-road' },
+  { x: -35.5, z: 22, color: 'teal', rotation: -Math.PI / 2, roadId: 'west-boardwalk-road' },
   { x: 0.5, z: 19, color: 'blue', rotation: -Math.PI / 2, roadId: 'central-avenue' },
   { x: 35.5, z: 39, color: 'red', rotation: Math.PI / 2, roadId: 'east-palm-drive' },
 ]
