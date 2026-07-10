@@ -30,6 +30,7 @@ export class VoxelBeachApp {
     this.viewer = new AssetViewer(this.scene)
     this.controller = new OrbitCameraController(this.camera, this.renderer.domElement)
     this.controller.setTarget([0, 1.4, 10], 92)
+    this.controller.setAngles(-0.18, 0.74)
     this.bindEvents()
     this.resize()
     console.info('[VoxelBeach] App initialized. Press V for asset viewer, B for beach block, [/] to cycle assets.')
@@ -68,7 +69,10 @@ export class VoxelBeachApp {
     this.beachBlock.visible = mode === 'scene'
     this.viewer.setVisible(mode === 'viewer')
     if (mode === 'viewer') this.controller.setTarget([0, 1.8, 0], 12)
-    else this.controller.setTarget([0, 1.4, 10], 92)
+    else {
+      this.controller.setTarget([0, 1.4, 10], 92)
+      this.controller.setAngles(-0.18, 0.74)
+    }
     document.body.dataset.mode = mode
   }
 
