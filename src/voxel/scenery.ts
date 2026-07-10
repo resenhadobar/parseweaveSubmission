@@ -8,12 +8,16 @@ type Peak = { x: number; z: number; radius: number; height: number }
 type TreeSpot = { x: number; z: number; palm?: boolean }
 
 const peaks: Peak[] = [
-  { x: -78, z: 35, radius: 18, height: 7 },
-  { x: -62, z: 61, radius: 24, height: 11 },
-  { x: -28, z: 66, radius: 25, height: 13 },
-  { x: 8, z: 67, radius: 27, height: 12 },
-  { x: 42, z: 64, radius: 23, height: 11 },
-  { x: 72, z: 42, radius: 19, height: 8 },
+  { x: -78, z: -38, radius: 24, height: 12 },
+  { x: -82, z: -10, radius: 25, height: 15 },
+  { x: -80, z: 24, radius: 27, height: 18 },
+  { x: -65, z: 58, radius: 30, height: 22 },
+  { x: -28, z: 68, radius: 31, height: 25 },
+  { x: 8, z: 69, radius: 34, height: 24 },
+  { x: 43, z: 66, radius: 30, height: 22 },
+  { x: 76, z: 29, radius: 27, height: 18 },
+  { x: 81, z: -8, radius: 25, height: 15 },
+  { x: 78, z: -39, radius: 23, height: 12 },
 ]
 
 const treeSpots: TreeSpot[] = [
@@ -33,22 +37,26 @@ const treeSpots: TreeSpot[] = [
 
 export function createPerimeterScenery(): THREE.Group {
   const group = new THREE.Group()
-  group.name = 'rio-inspired-organic-perimeter'
+  group.name = 'rio-inspired-rock-horseshoe-perimeter'
 
   createFlatBoardExtension(group)
   createOrganicMountains(group)
   treeSpots.forEach((spot) => addVoxelTree(group, spot))
   addPlayableRoadsidePosts(group)
 
-  console.info('[VoxelBeach] Added Rio-inspired organic green/rock mountain perimeter and edge trees')
+  console.info('[VoxelBeach] Added tall Rio-style rock-dominant horseshoe mountains wrapping into beach and water')
   return group
+}
+
+export function sampleMountainHeight(x: number, z: number): number {
+  return mountainHeight(x, z)
 }
 
 function createFlatBoardExtension(group: THREE.Group): void {
   for (let x = sceneryBounds.minX; x <= sceneryBounds.maxX; x += 2) {
     for (let z = sceneryBounds.minZ; z <= sceneryBounds.maxZ; z += 2) {
       if (x >= worldBounds.minX && x <= worldBounds.maxX && z >= worldBounds.minZ && z <= worldBounds.maxZ) continue
-      const color: PaletteKey = z <= worldBounds.beachEndZ ? 'sand' : (hash(x, z) > 0.84 ? 'leaf' : 'green')
+      const color: PaletteKey = z <= worldBounds.beachEndZ ? 'sand' : hash(x, z) > 0.9 ? 'leaf' : 'green'
       addBlock(group, { color, position: [x, -0.04, z], scale: [2, 0.14, 2] })
     }
   }
@@ -56,13 +64,19 @@ function createFlatBoardExtension(group: THREE.Group): void {
 
 function createOrganicMountains(group: THREE.Group): void {
   for (let x = sceneryBounds.minX; x <= sceneryBounds.maxX; x += 2) {
-    for (let z = -2; z <= sceneryBounds.maxZ; z += 2) {
-      if (x >= worldBounds.minX && x <= worldBounds.maxX && z <= worldBounds.maxZ) continue
+    for (let z = sceneryBounds.minZ; z <= sceneryBounds.maxZ; z += 2) {
+      if (!isMountainAllowed(x, z)) continue
       const height = mountainHeight(x, z)
       if (height <= 0) continue
       addOrganicColumn(group, x, z, height)
     }
   }
+}
+
+function isMountainAllowed(x: number, z: number): boolean {
+  const outsidePlayable = x < worldBounds.minX || x > worldBounds.maxX || z > worldBounds.maxZ
+  const beachWaterHorseshoe = z < worldBounds.beachEndZ && (x < worldBounds.minX + 11 || x > worldBounds.maxX - 11)
+  return outsidePlayable || beachWaterHorseshoe
 }
 
 function mountainHeight(x: number, z: number): number {
@@ -72,32 +86,33 @@ function mountainHeight(x: number, z: number): number {
     const dz = z - peak.z
     const distance = Math.sqrt(dx * dx + dz * dz)
     const falloff = Math.max(0, 1 - distance / peak.radius)
-    const ridgeNoise = 0.74 + hash(Math.round(x / 4), Math.round(z / 4)) * 0.42
-    height = Math.max(height, Math.pow(falloff, 1.7) * peak.height * ridgeNoise)
+    const ridgeNoise = 0.82 + hash(Math.round(x / 4), Math.round(z / 4)) * 0.38
+    height = Math.max(height, Math.pow(falloff, 1.35) * peak.height * ridgeNoise)
   }
-  const backRamp = Math.max(0, (z - worldBounds.maxZ + 10) / 24)
-  const sideRamp = Math.max(0, Math.max(worldBounds.minX - x, x - worldBounds.maxX) / 18)
-  height += Math.min(2.5, backRamp * 1.4 + sideRamp * 1.1)
+  const backRamp = Math.max(0, (z - worldBounds.maxZ + 12) / 20)
+  const sideRamp = Math.max(0, Math.max(worldBounds.minX - x, x - worldBounds.maxX) / 13)
+  const waterRamp = z < worldBounds.beachEndZ ? Math.max(0, (Math.abs(x) - 51) / 12) * 2.4 : 0
+  height += Math.min(5.5, backRamp * 2.2 + sideRamp * 2.4 + waterRamp)
   return Math.floor(height)
 }
 
 function addOrganicColumn(group: THREE.Group, x: number, z: number, height: number): void {
   for (let level = 0; level < height; level += 1) {
-    const top = level >= height - 1
-    const exposedRock = hash(x + level * 3, z - level * 5) > 0.7 && level > height * 0.25
-    const color: PaletteKey = top ? (hash(x, z) > 0.4 ? 'leaf' : 'green') : exposedRock ? 'rock' : level < height * 0.3 ? 'earth' : 'green'
-    const width = 1.85 + hash(x + level, z) * 0.35
-    const depth = 1.85 + hash(x, z + level) * 0.35
+    const greenPatch = hash(Math.floor(x / 4) + level * 2, Math.floor(z / 4) - level) > 0.78
+    const lowSoil = level < height * 0.16 && hash(x + level, z) > 0.45
+    const color: PaletteKey = greenPatch ? (hash(x, z + level) > 0.5 ? 'leaf' : 'green') : lowSoil ? 'earth' : 'rock'
+    const width = 1.82 + hash(x + level, z) * 0.42
+    const depth = 1.82 + hash(x, z + level) * 0.42
     addBlock(group, {
       color,
-      position: [x + (hash(x, level) - 0.5) * 0.35, 0.16 + level * 0.42, z + (hash(z, level) - 0.5) * 0.35],
-      scale: [width, 0.44, depth],
+      position: [x + (hash(x, level) - 0.5) * 0.45, 0.16 + level * 0.44, z + (hash(z, level) - 0.5) * 0.45],
+      scale: [width, 0.46, depth],
     })
   }
 
-  if (height > 4 && hash(x, z) > 0.88) {
-    addBlock(group, { color: 'trunk', position: [x, height * 0.42 + 0.45, z], scale: [0.28, 0.9, 0.28] })
-    addBlock(group, { color: 'leaf', position: [x, height * 0.42 + 1.1, z], scale: [1.25, 0.8, 1.25] })
+  if (height > 7 && hash(x, z) > 0.91) {
+    addBlock(group, { color: 'trunk', position: [x, height * 0.44 + 0.45, z], scale: [0.28, 0.9, 0.28] })
+    addBlock(group, { color: 'leaf', position: [x, height * 0.44 + 1.1, z], scale: [1.25, 0.8, 1.25] })
   }
 }
 
@@ -109,7 +124,7 @@ function addVoxelTree(group: THREE.Group, spot: TreeSpot): void {
     return
   }
 
-  const baseHeight = Math.max(0, mountainHeight(spot.x, spot.z) * 0.42)
+  const baseHeight = Math.max(0, mountainHeight(spot.x, spot.z) * 0.44)
   addBlock(group, { color: 'trunk', position: [spot.x, baseHeight + 0.65, spot.z], scale: [0.35, 1.25, 0.35] })
   addBlock(group, { color: 'leaf', position: [spot.x, baseHeight + 1.55, spot.z], scale: [1.45, 0.9, 1.45] })
   addBlock(group, { color: 'palm', position: [spot.x, baseHeight + 2.15, spot.z], scale: [1.05, 0.75, 1.05] })
