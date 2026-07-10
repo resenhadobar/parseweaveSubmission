@@ -19,7 +19,7 @@ export function createBeachBlockScene(): THREE.Group {
   world.add(createPerimeterScenery())
   world.add(createOcean())
 
-  console.info('[VoxelBeach] Rendered dense playable neighborhood plus unplayable mountain perimeter')
+  console.info('[VoxelBeach] Rendered reference-style beach-front voxel city board with terraced perimeter')
   return world
 }
 
@@ -29,7 +29,8 @@ function createGround(world: THREE.Group): void {
       addBlock(world, { color: getGroundColor(x, z), position: [x, 0, z], scale: [1, 0.18, 1] })
     }
   }
-  addGrid(world, 'wood', worldBounds.minX, worldBounds.beachEndZ - 1, worldBounds.maxX - worldBounds.minX + 1, 2, 0.04)
+  addGrid(world, 'wood', worldBounds.minX, worldBounds.beachEndZ - 1, worldBounds.maxX - worldBounds.minX + 1, 1, 0.04)
+  addGrid(world, 'sidewalk', worldBounds.minX, worldBounds.beachEndZ, worldBounds.maxX - worldBounds.minX + 1, 1, 0.05)
 }
 
 function getGroundColor(x: number, z: number): PaletteKey {
@@ -40,6 +41,10 @@ function getGroundColor(x: number, z: number): PaletteKey {
 }
 
 function createBeachDetails(world: THREE.Group): void {
+  for (let x = -58; x <= 58; x += 4) {
+    addBlock(world, { color: (x / 4) % 2 === 0 ? 'sand' : 'sandDark', position: [x, 0.12, -28], scale: [2.2, 0.08, 1.6] })
+  }
+
   for (let x = -56; x <= 56; x += 7) {
     addBlock(world, { color: 'sandDark', position: [x, 0.14, -27], scale: [3.6, 0.22, 1.2] })
     addBlock(world, { color: 'white', position: [x + 1.25, 0.26, -23], scale: [0.45, 0.14, 0.28] })
