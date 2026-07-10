@@ -25,7 +25,7 @@ export class OrbitCameraController {
 
   update(): void {
     this.pitch = THREE.MathUtils.clamp(this.pitch, 0.18, 1.42)
-    this.distance = THREE.MathUtils.clamp(this.distance, 5, 70)
+    this.distance = THREE.MathUtils.clamp(this.distance, 5, 140)
     const radiusXZ = Math.cos(this.pitch) * this.distance
     this.camera.position.set(
       this.target.x + Math.sin(this.yaw) * radiusXZ,
