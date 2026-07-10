@@ -23,6 +23,9 @@ export type PaletteKey =
   | 'darkGlass'
   | 'black'
   | 'gray'
+  | 'rock'
+  | 'earth'
+  | 'snow'
   | 'metal'
   | 'skin'
   | 'pink'
@@ -50,6 +53,9 @@ const colors: Record<PaletteKey, string> = {
   darkGlass: '#315b75',
   black: '#15171d',
   gray: '#8f98a3',
+  rock: '#65707a',
+  earth: '#7b5a3a',
+  snow: '#eef6ff',
   metal: '#bcc6cf',
   skin: '#d99b72',
   pink: '#ff94c2',
