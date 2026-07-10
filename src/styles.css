@@ -1,19 +1,18 @@
 :root {
-  color: #f6eef0;
-  background:
-    radial-gradient(circle at top, rgba(199, 58, 78, 0.26), transparent 34%),
-    radial-gradient(circle at 18% 18%, rgba(255, 126, 146, 0.12), transparent 28%),
-    linear-gradient(160deg, #1b0f13 0%, #12090d 58%, #090507 100%);
+  color: #f8fbff;
+  background: #8edcff;
   font-family:
-    'Avenir Next',
-    Avenir,
-    'Trebuchet MS',
+    Inter,
+    ui-sans-serif,
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
+    'Segoe UI',
     sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
@@ -24,148 +23,81 @@ html,
 body,
 #app {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   margin: 0;
-}
-
-body {
-  min-height: 100vh;
-}
-
-.app-shell {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 32px;
-  position: relative;
   overflow: hidden;
 }
 
-.app-shell::before,
-.app-shell::after {
-  content: '';
-  position: absolute;
-  border-radius: 999px;
-  filter: blur(12px);
-  opacity: 0.5;
+body {
+  min-width: 320px;
+  min-height: 100vh;
 }
 
-.app-shell::before {
-  width: 280px;
-  height: 280px;
-  top: 10%;
-  right: -80px;
-  background: radial-gradient(circle, rgba(196, 46, 72, 0.34), transparent 68%);
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
 }
 
-.app-shell::after {
-  width: 360px;
-  height: 360px;
-  bottom: -120px;
-  left: -80px;
-  background: radial-gradient(circle, rgba(126, 32, 51, 0.32), transparent 70%);
+canvas:active {
+  cursor: grabbing;
 }
 
-.hero-card {
-  width: min(720px, 100%);
-  padding: 40px;
-  border: 1px solid rgba(222, 124, 142, 0.18);
-  border-radius: 28px;
-  background:
-    linear-gradient(180deg, rgba(46, 19, 26, 0.94), rgba(24, 11, 15, 0.97)), rgba(20, 11, 14, 0.94);
-  box-shadow:
-    0 24px 80px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 226, 232, 0.05);
-  backdrop-filter: blur(18px);
-  position: relative;
-  z-index: 1;
-}
-
-.eyebrow {
-  margin: 0 0 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.24em;
-  color: #f06a82;
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-h1 {
-  margin: 0 0 18px;
-  font-size: clamp(2.6rem, 7vw, 4.75rem);
-  line-height: 0.92;
-  letter-spacing: -0.04em;
-}
-
-p {
-  margin: 0;
-  color: #ddc5cb;
-}
-
-.lead {
-  max-width: 42rem;
-  font-size: 1.05rem;
-  color: #ccb2ba;
-}
-
-.signal {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 0 22px;
-}
-
-.signal span {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #ff96aa, #c73658);
-  box-shadow: 0 0 18px rgba(220, 63, 95, 0.42);
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-.signal span:nth-child(2) {
-  animation-delay: 0.18s;
-}
-
-.signal span:nth-child(3) {
-  animation-delay: 0.36s;
-}
-
-.status-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 28px;
-}
-
-.status-pill {
+body::before {
+  content: 'Voxel Beach Block';
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 2;
   padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 999px;
-  border: 1px solid rgba(222, 124, 142, 0.16);
-  background: rgba(255, 240, 244, 0.04);
-  color: #f2d3da;
-  font-size: 0.92rem;
+  background: rgba(18, 60, 84, 0.35);
+  color: white;
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 38px rgba(11, 60, 90, 0.22);
+  pointer-events: none;
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    transform: translateY(0) scale(0.9);
-    opacity: 0.42;
-  }
-  50% {
-    transform: translateY(-2px) scale(1);
-    opacity: 1;
-  }
+body::after {
+  content: 'Drag orbit • Wheel zoom • V inspect assets • B beach block • [ ] cycle';
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2;
+  max-width: min(560px, calc(100vw - 36px));
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 16px;
+  background: rgba(10, 38, 54, 0.42);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.9rem;
+  line-height: 1.35;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 38px rgba(11, 60, 90, 0.22);
+  pointer-events: none;
+}
+
+body[data-mode='viewer']::before {
+  content: 'Individual Voxel Asset Viewer';
 }
 
 @media (max-width: 640px) {
-  .hero-card {
-    padding: 28px;
+  body::before {
+    top: 12px;
+    left: 12px;
+    font-size: 0.72rem;
   }
 
-  .lead {
-    font-size: 1rem;
+  body::after {
+    right: 12px;
+    bottom: 12px;
+    font-size: 0.78rem;
   }
 }
