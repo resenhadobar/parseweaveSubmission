@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { containsPoint, isRoad, isSidewalk, lotBounds, lots, roads, vehicles, worldBounds } from '../src/voxel/layout'
+import { containsPoint, isRoad, isSidewalk, lotBounds, lots, roads, sceneryBounds, vehicles, worldBounds } from '../src/voxel/layout'
 
 function boxesOverlap(a: ReturnType<typeof lotBounds>, b: { minX: number; maxX: number; minZ: number; maxZ: number }): boolean {
   return a.minX < b.maxX && a.maxX > b.minX && a.minZ < b.maxZ && a.maxZ > b.minZ
@@ -56,11 +56,20 @@ describe('voxel neighborhood layout', () => {
 
   it('uses coherent car, person, and building scale ratios', () => {
     const carLength = 2.6
-    const personHeight = 1.9
+    const personHeight = 1.58
+    const floorHeight = 2.3
     for (const lot of lots) {
       expect(lot.width / carLength, `${lot.id} too narrow for cars`).toBeGreaterThanOrEqual(2.6)
       expect(lot.depth / carLength, `${lot.id} too shallow for cars`).toBeGreaterThanOrEqual(2.2)
-      expect(lot.stories * 1.8, `${lot.id} height too close to person height`).toBeGreaterThan(personHeight * 1.8)
+      expect(floorHeight, `${lot.id} story cannot fit a person`).toBeGreaterThan(personHeight * 1.35)
+      expect(lot.stories * floorHeight, `${lot.id} height too close to person height`).toBeGreaterThan(personHeight * 2.5)
     }
+  })
+
+  it('keeps scenery outside but surrounding the playable block', () => {
+    expect(sceneryBounds.minX).toBeLessThan(worldBounds.minX)
+    expect(sceneryBounds.maxX).toBeGreaterThan(worldBounds.maxX)
+    expect(sceneryBounds.minZ).toBeLessThan(worldBounds.minZ)
+    expect(sceneryBounds.maxZ).toBeGreaterThan(worldBounds.maxZ)
   })
 })
