@@ -17,7 +17,7 @@ export class VoxelBeachApp {
 
   constructor(private readonly mount: HTMLElement) {
     this.scene.background = new THREE.Color('#b7ecff')
-    this.scene.fog = new THREE.Fog('#b7ecff', 42, 120)
+    this.scene.fog = new THREE.Fog('#b7ecff', 70, 170)
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.renderer.shadowMap.enabled = true
@@ -29,7 +29,7 @@ export class VoxelBeachApp {
     this.ocean = this.beachBlock.getObjectByName('animated-ocean-shader')
     this.viewer = new AssetViewer(this.scene)
     this.controller = new OrbitCameraController(this.camera, this.renderer.domElement)
-    this.controller.setTarget([0, 1.2, -1.5], 38)
+    this.controller.setTarget([0, 1.4, 3], 58)
     this.bindEvents()
     this.resize()
     console.info('[VoxelBeach] App initialized. Press V for asset viewer, B for beach block, [/] to cycle assets.')
@@ -44,10 +44,10 @@ export class VoxelBeachApp {
     sun.position.set(-16, 28, 14)
     sun.castShadow = true
     sun.shadow.mapSize.set(2048, 2048)
-    sun.shadow.camera.left = -36
-    sun.shadow.camera.right = 36
-    sun.shadow.camera.top = 36
-    sun.shadow.camera.bottom = -36
+    sun.shadow.camera.left = -56
+    sun.shadow.camera.right = 56
+    sun.shadow.camera.top = 56
+    sun.shadow.camera.bottom = -56
     this.scene.add(sun)
     this.scene.add(new THREE.HemisphereLight('#dff8ff', '#d9a86d', 1.55))
   }
@@ -68,7 +68,7 @@ export class VoxelBeachApp {
     this.beachBlock.visible = mode === 'scene'
     this.viewer.setVisible(mode === 'viewer')
     if (mode === 'viewer') this.controller.setTarget([0, 1.8, 0], 12)
-    else this.controller.setTarget([0, 1.2, -1.5], 38)
+    else this.controller.setTarget([0, 1.4, 3], 58)
     document.body.dataset.mode = mode
   }
 
