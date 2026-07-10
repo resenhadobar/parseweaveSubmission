@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { addBlock, addGrid } from './blocks'
 import { createBeachHouse, createBeachUmbrella, createCar, createLifeguardTower, createPalmTree, createVoxelPerson } from './assets'
 import { createOcean } from './ocean'
+import { createPerimeterScenery } from './scenery'
 import { isRoad, isSidewalk, lots, people, roads, vehicles, worldBounds, type Lot } from './layout'
 import type { PaletteKey } from './materials'
 
@@ -15,9 +16,10 @@ export function createBeachBlockScene(): THREE.Group {
   createBuildings(world)
   createLandscape(world)
   createPeople(world)
+  world.add(createPerimeterScenery())
   world.add(createOcean())
 
-  console.info('[VoxelBeach] Rendered scene from validated layout: roads, lots, vehicles, people, and scale constraints')
+  console.info('[VoxelBeach] Rendered dense playable neighborhood plus unplayable mountain perimeter')
   return world
 }
 
@@ -112,13 +114,14 @@ function createSmallBuilding(lot: Lot): THREE.Group {
 
 function createLargeBuilding(lot: Lot): THREE.Group {
   const group = new THREE.Group()
-  const height = lot.stories * 1.8
+  const floorHeight = 2.3
+  const height = lot.stories * floorHeight
   addBlock(group, { color: lot.body, position: [0, height / 2, 0], scale: [lot.width, height, lot.depth] })
   addBlock(group, { color: lot.roof, position: [0, height + 0.33, 0], scale: [lot.width + 0.8, 0.66, lot.depth + 0.8] })
-  addBlock(group, { color: 'darkGlass', position: [0, 1.7, -lot.depth / 2 - 0.04], scale: [1.1, 1.6, 0.08] })
+  addBlock(group, { color: 'darkGlass', position: [0, 1.18, -lot.depth / 2 - 0.04], scale: [0.9, 1.72, 0.08] })
   for (let floor = 0; floor < lot.stories; floor += 1) {
     for (let col = 0; col < Math.floor(lot.width / 2.4); col += 1) {
-      addBlock(group, { color: 'glass', position: [-lot.width / 2 + 1.3 + col * 2.2, 2.8 + floor * 1.25, -lot.depth / 2 - 0.05], scale: [0.72, 0.54, 0.08] })
+      addBlock(group, { color: 'glass', position: [-lot.width / 2 + 1.3 + col * 2.2, 1.75 + floor * floorHeight, -lot.depth / 2 - 0.05], scale: [0.72, 0.62, 0.08] })
     }
   }
   return group
