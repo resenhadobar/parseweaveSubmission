@@ -21,15 +21,16 @@ export function createBeachHouse(options: HouseOptions): THREE.Group {
   const group = new THREE.Group()
   group.name = options.id ?? 'beach-house'
   const stories = options.stories ?? 2
-  const bodyHeight = 1.8 * stories
+  const floorHeight = 2.3
+  const bodyHeight = floorHeight * stories
   const roofY = bodyHeight + 0.28
-  addBlock(group, { color: options.body, position: [0, bodyHeight / 2, 0], scale: [4.8, bodyHeight, 3.4] })
-  addBlock(group, { color: options.roof, position: [0, roofY, 0], scale: [5.35, 0.56, 3.9] })
-  addBlock(group, { color: options.roof, position: [0, roofY + 0.44, -0.45], scale: [4.35, 0.4, 2.3] })
-  addBlock(group, { color: options.trim ?? 'white', position: [0, 1.05, -1.74], scale: [1.05, 1.55, 0.12] })
-  addBlock(group, { color: 'darkGlass', position: [0, 1.2, -1.82], scale: [0.55, 0.95, 0.08] })
-  addWindowGrid(group, -1.55, 1.4, -1.82, 2, stories)
-  addWindowGrid(group, 1.05, 1.4, -1.82, 2, stories)
+  addBlock(group, { color: options.body, position: [0, bodyHeight / 2, 0], scale: [5.4, bodyHeight, 3.9] })
+  addBlock(group, { color: options.roof, position: [0, roofY, 0], scale: [6.05, 0.56, 4.45] })
+  addBlock(group, { color: options.roof, position: [0, roofY + 0.44, -0.45], scale: [4.95, 0.4, 2.55] })
+  addBlock(group, { color: options.trim ?? 'white', position: [0, 1.05, -2.02], scale: [1.1, 1.7, 0.12] })
+  addBlock(group, { color: 'darkGlass', position: [0, 1.18, -2.1], scale: [0.6, 1.05, 0.08] })
+  addWindowGrid(group, -1.75, 1.7, -2.1, 2, stories)
+  addWindowGrid(group, 1.25, 1.7, -2.1, 2, stories)
   addBlock(group, { color: 'wood', position: [0, 0.24, -2.25], scale: [5.6, 0.26, 1.45] })
   for (let i = 0; i < 5; i += 1) {
     addBlock(group, { color: 'white', position: [-2 + i, 0.82, -2.72], scale: [0.12, 0.85, 0.12] })
@@ -90,13 +91,13 @@ export function createCar(color: PaletteKey = 'red'): THREE.Group {
 export function createVoxelPerson(shirt: PaletteKey = 'teal'): THREE.Group {
   const group = new THREE.Group()
   group.name = `${shirt}-beach-person`
-  addBlock(group, { color: 'skin', position: [0, 1.65, 0], scale: [0.48, 0.48, 0.48] })
-  addBlock(group, { color: shirt, position: [0, 1.05, 0], scale: [0.58, 0.72, 0.38] })
-  addBlock(group, { color: 'skin', position: [-0.42, 1.05, 0], scale: [0.16, 0.62, 0.18] })
-  addBlock(group, { color: 'skin', position: [0.42, 1.05, 0], scale: [0.16, 0.62, 0.18] })
-  addBlock(group, { color: 'navy', position: [-0.18, 0.42, 0], scale: [0.18, 0.72, 0.22] })
-  addBlock(group, { color: 'navy', position: [0.18, 0.42, 0], scale: [0.18, 0.72, 0.22] })
-  addBlock(group, { color: 'black', position: [0, 1.94, -0.02], scale: [0.54, 0.16, 0.54] })
+  addBlock(group, { color: 'skin', position: [0, 1.38, 0], scale: [0.34, 0.34, 0.34] })
+  addBlock(group, { color: shirt, position: [0, 0.88, 0], scale: [0.42, 0.6, 0.28] })
+  addBlock(group, { color: 'skin', position: [-0.31, 0.88, 0], scale: [0.11, 0.48, 0.12] })
+  addBlock(group, { color: 'skin', position: [0.31, 0.88, 0], scale: [0.11, 0.48, 0.12] })
+  addBlock(group, { color: 'navy', position: [-0.13, 0.34, 0], scale: [0.13, 0.62, 0.16] })
+  addBlock(group, { color: 'navy', position: [0.13, 0.34, 0], scale: [0.13, 0.62, 0.16] })
+  addBlock(group, { color: 'black', position: [0, 1.58, -0.02], scale: [0.38, 0.12, 0.38] })
   return group
 }
 
@@ -145,6 +146,7 @@ export function createViewerAssets(): VoxelAsset[] {
   return [
     { id: 'beach-house', label: 'Pastel Beach House', create: () => centerGroup(createBeachHouse({ body: 'coral', roof: 'navy' })) },
     { id: 'surf-shop', label: 'Surf Shop', create: () => centerGroup(createSurfShop()) },
+    { id: 'small-apartment', label: 'Small Apartment', create: () => centerGroup(createBeachHouse({ body: 'blue', roof: 'red', stories: 3 })) },
     { id: 'palm-tree', label: 'Voxel Palm Tree', create: () => centerGroup(createPalmTree()) },
     { id: 'lifeguard', label: 'Lifeguard Tower', create: () => centerGroup(createLifeguardTower()) },
     { id: 'car', label: 'Ocean Avenue Car', create: () => centerGroup(createCar('yellow')) },
