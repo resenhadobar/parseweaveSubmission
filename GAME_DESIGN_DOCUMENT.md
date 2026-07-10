@@ -2,7 +2,7 @@
 
 ## Concept
 
-**Voxel Beach Block** is a browser-playable 3D voxel diorama created for the Parsewave Game Jam 2026 requirements. The prototype presents a detailed oceanfront neighborhood block with a beach, animated ocean shader, Ocean Avenue road, beachfront buildings, props, cars, palm trees, and voxel people.
+**Voxel Beach Block** is a browser-playable 3D voxel diorama created for the Parsewave Game Jam 2026 requirements. The prototype presents a contained oceanfront neighborhood with a beach, improved ocean shader, Ocean Avenue, internal streets, visible borders, beachfront buildings, props, cars, palm trees, and voxel people.
 
 ## Design Pillars
 
@@ -42,9 +42,10 @@ This is a showcase/exploration prototype rather than a score-based game.
 
 The scene is a sunny coastal neighborhood with:
 
-- Animated ocean water and foam bands.
+- Animated ocean water and foam bands placed beyond the beach edge so it does not sink through or cover sand tiles.
 - Voxel sand beach with towels, umbrellas, shells, dunes, volleyball net, and lifeguard tower.
 - Ocean Avenue with asphalt, lane markings, crosswalks, sidewalks, parked cars, benches, and streetlights.
+- A larger contained neighborhood grid with visible perimeter borders and multiple internal streets.
 - Beachfront homes, surf shop, apartment/hotel-style building, fences, and porches.
 - Palm trees, decorations, people, and small environmental storytelling props.
 
@@ -53,7 +54,7 @@ The scene is a sunny coastal neighborhood with:
 - Bright stylized voxel art.
 - Clean block silhouettes with smaller decorative cubes for windows, signs, railings, awnings, wheels, lights, and props.
 - Warm sun lighting, soft shadows, sky-blue fog, saturated beach palette.
-- Ocean uses a custom animated shader for wave motion, shallow/deep color blending, foam lines, and shimmer.
+- Ocean uses a custom animated shader for shallow/deep color blending, foam bands, ripples, and shimmer while remaining outside the sand footprint.
 
 ## Technical Architecture
 
@@ -74,10 +75,10 @@ Rules:
 ### Implemented
 
 - Full 3D voxel beach block scene.
-- Animated ocean shader.
-- Ocean Avenue with road details and cars.
+- Improved animated ocean shader positioned beyond the sand line.
+- Larger contained neighborhood with Ocean Avenue, internal streets, visible borders, road details, and cars.
 - Beach props, lifeguard tower, towels, umbrellas, volleyball net, palm trees, benches, people.
-- Multiple buildings including beach houses and surf shop.
+- Multiple grounded buildings including beach houses and surf shop, with roofs attached to walls.
 - Separate individual asset viewer.
 - Responsive camera and canvas.
 
