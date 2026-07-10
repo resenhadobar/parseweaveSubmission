@@ -1,0 +1,26 @@
+{
+  "name": "jabali-web-project",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "lint": "oxlint --fix",
+    "lint:check": "oxlint",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "jsdom": "^27.0.0",
+    "oxfmt": "^0.51.0",
+    "oxlint": "^1.66.0",
+    "three": "^0.184.0",
+    "typescript": "^5.5.0",
+    "vite": "^8.0.14",
+    "vitest": "^4.1.7"
+  }
+}

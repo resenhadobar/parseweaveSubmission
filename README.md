@@ -1,3 +1,19 @@
-# 35902fc1-8034-41bb-ace5-85a9fc1346a6
+# Jabali Web Base
 
-Repository for game 35902fc1-8034-41bb-ace5-85a9fc1346a6 created by user a0d7c6b8-7b43-41f4-bae6-2c8f4c0c69f1
+This project uses Vite and TypeScript.
+
+## Scripts
+
+- `npm run dev` starts the local preview server.
+- `npm run build` creates a production build in `dist/`.
+- `npm run preview` serves the production build locally.
+- `npm run test` runs unit tests using Vitest.
+
+## Assets
+
+- Put opaque static files in `public/`.
+- Import source-managed assets from `src/`.
+
+## Frameworks
+
+This base template can be extended with React, Phaser, Three.js, React Three Fiber, Babylon.js, or PlayCanvas.
