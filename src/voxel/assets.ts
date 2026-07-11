@@ -495,12 +495,3 @@ export function createLifeguardTower(): THREE.Group {
   return group
 }
 
-export function createSurfShop(): THREE.Group {
-  return createBeachHouse({
-    id: 'viewer-surf-shop',
-    body: 'cream',
-    roof: 'teal',
-    stories: 2,
-    shop: true,
-  })
-}
