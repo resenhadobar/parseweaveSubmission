@@ -3,6 +3,7 @@ import { OrbitCameraController } from './camera/orbitCamera'
 import { AssetViewer } from './viewer/assetViewer'
 import { createBeachBlockScene } from './voxel/scene'
 import { updateOcean } from './voxel/ocean'
+import { TrafficController } from './voxel/traffic'
 
 export class VoxelBeachApp {
   private readonly scene = new THREE.Scene()
@@ -13,6 +14,7 @@ export class VoxelBeachApp {
   private readonly controller: OrbitCameraController
   private readonly viewer: AssetViewer
   private readonly ocean: THREE.Object3D | undefined
+  private readonly traffic: TrafficController
   private mode: 'scene' | 'viewer' = 'scene'
 
   constructor(private readonly mount: HTMLElement) {
@@ -27,6 +29,7 @@ export class VoxelBeachApp {
     this.addLights()
     this.scene.add(this.beachBlock)
     this.ocean = this.beachBlock.getObjectByName('animated-ocean-shader')
+    this.traffic = new TrafficController(this.beachBlock)
     this.viewer = new AssetViewer(this.scene)
     this.controller = new OrbitCameraController(this.camera, this.renderer.domElement)
     this.controller.setTarget([0, 1.4, 10], 92)
@@ -88,6 +91,7 @@ export class VoxelBeachApp {
     this.lastFrameSeconds = now
     const elapsed = now
     if (this.ocean) updateOcean(this.ocean, elapsed)
+    if (this.mode === 'scene') this.traffic.update(delta)
     this.viewer.update(delta)
     this.renderer.render(this.scene, this.camera)
   }
