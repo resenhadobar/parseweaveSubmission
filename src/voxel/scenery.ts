@@ -3,6 +3,7 @@ import { addBlock, createBlockBatch } from './blocks'
 import { createPalmTree } from './assets'
 import { sceneryBounds, worldBounds } from './layout'
 import type { PaletteKey } from './materials'
+import { registerPalmForWind } from './palmWind'
 
 type Peak = { x: number; z: number; radius: number; height: number }
 type TreeSpot = { x: number; z: number; palm?: boolean }
@@ -138,6 +139,7 @@ function addVoxelTree(group: THREE.Group, spot: TreeSpot): void {
   if (spot.palm) {
     const palm = createPalmTree()
     palm.position.set(spot.x, 0.08, spot.z)
+    registerPalmForWind(palm)
     group.add(palm)
     return
   }
