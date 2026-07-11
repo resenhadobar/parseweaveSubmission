@@ -9,8 +9,8 @@ import { OverShoulderCameraController } from './camera/overShoulderCamera'
 import { DeliveryController } from './delivery/deliveryController'
 import { DeliveryHud } from './delivery/deliveryHud'
 import { BeachAudioController } from './audio/beachAudio'
-import skyboxUrl from './assets/sky/beach_skybox.png'
 import { updatePalmWind } from './voxel/palmWind'
+import { createSkyDome } from './render/skyDome'
 
 export class VoxelBeachApp {
   private readonly scene = new THREE.Scene()
@@ -30,12 +30,7 @@ export class VoxelBeachApp {
   private mode: 'scene' | 'viewer' = 'scene'
 
   constructor(private readonly mount: HTMLElement) {
-    new THREE.TextureLoader().load(skyboxUrl, (texture) => {
-      texture.mapping = THREE.EquirectangularReflectionMapping
-      texture.colorSpace = THREE.SRGBColorSpace
-      this.scene.background = texture
-      console.info('[VoxelBeach] Beach skybox loaded')
-    })
+    this.scene.background = new THREE.Color('#7fd7ff')
     this.scene.fog = new THREE.Fog('#b7ecff', 110, 240)
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     this.renderer.setSize(window.innerWidth, window.innerHeight)
@@ -44,6 +39,7 @@ export class VoxelBeachApp {
     this.mount.replaceChildren(this.renderer.domElement)
 
     this.addLights()
+    this.scene.add(createSkyDome())
     this.scene.add(this.beachBlock)
     this.ocean = this.beachBlock.getObjectByName('animated-ocean-shader')
     this.traffic = new TrafficController(this.beachBlock)
