@@ -16,6 +16,7 @@ export class VoxelBeachApp {
   private readonly scene = new THREE.Scene()
   private readonly camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 180)
   private readonly renderer = new THREE.WebGLRenderer({ antialias: true })
+  private readonly skyDome = createSkyDome()
   private lastFrameSeconds = performance.now() / 1000
   private readonly beachBlock = createBeachBlockScene()
   private readonly cameraController: OverShoulderCameraController
@@ -32,6 +33,8 @@ export class VoxelBeachApp {
   constructor(private readonly mount: HTMLElement) {
     this.scene.background = new THREE.Color('#7fd7ff')
     this.scene.fog = new THREE.Fog('#b7ecff', 110, 240)
+    this.camera.far = 900
+    this.camera.updateProjectionMatrix()
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.renderer.shadowMap.enabled = true
@@ -39,7 +42,7 @@ export class VoxelBeachApp {
     this.mount.replaceChildren(this.renderer.domElement)
 
     this.addLights()
-    this.scene.add(createSkyDome())
+    this.scene.add(this.skyDome)
     this.scene.add(this.beachBlock)
     this.ocean = this.beachBlock.getObjectByName('animated-ocean-shader')
     this.traffic = new TrafficController(this.beachBlock)
@@ -109,6 +112,7 @@ export class VoxelBeachApp {
     const elapsed = now
     if (this.ocean) updateOcean(this.ocean, elapsed)
     updatePalmWind(elapsed)
+    this.skyDome.position.copy(this.camera.position)
     if (this.mode === 'scene') {
       this.traffic.update(delta)
       this.player.update(delta, [...this.traffic.getCarObjects(), ...this.traffic.getPedestrianObjects()])
