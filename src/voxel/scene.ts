@@ -5,6 +5,7 @@ import { createOcean } from './ocean'
 import { createPerimeterScenery } from './scenery'
 import { isRoad, isSidewalk, lots, roads, worldBounds, type Lot } from './layout'
 import type { PaletteKey } from './materials'
+import { registerPalmForWind } from './palmWind'
 
 export function createBeachBlockScene(): THREE.Group {
   const world = new THREE.Group()
@@ -195,6 +196,7 @@ function createLandscape(world: THREE.Group): void {
     const palm = createPalmTree(index % 3)
     palm.position.set(x, 0.08, z)
     palm.rotation.y = index * 0.55
+    registerPalmForWind(palm)
     world.add(palm)
   })
 
