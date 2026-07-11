@@ -16,7 +16,7 @@ export class OverShoulderCameraController {
     const height = mounted ? 3.2 : 2.6
     this.yaw = lerpAngle(this.yaw, focus.rotation.y, 1 - Math.pow(0.0008, deltaSeconds))
     this.target.copy(focus.position).add(new THREE.Vector3(0, mounted ? 1.25 : 1.45, 0))
-    const behind = new THREE.Vector3(Math.sin(this.yaw) * distance, height, Math.cos(this.yaw) * distance)
+    const behind = new THREE.Vector3(-Math.sin(this.yaw) * distance, height, -Math.cos(this.yaw) * distance)
     this.desired.copy(this.target).add(behind)
     this.camera.position.lerp(this.desired, 1 - Math.pow(0.001, deltaSeconds))
     const lookTarget = this.target.clone().add(new THREE.Vector3(0, this.pitch * 3, 0))
