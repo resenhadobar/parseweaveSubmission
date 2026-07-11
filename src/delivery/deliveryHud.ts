@@ -7,6 +7,7 @@ type HudSnapshot = {
   active: boolean
   pickups: HudPoint[]
   target?: HudPoint
+  cash: number
 }
 
 export class DeliveryHud {
@@ -15,18 +16,24 @@ export class DeliveryHud {
   private readonly playerDot = document.createElement('div')
   private readonly pickupDots: HTMLDivElement[] = []
   private readonly targetDot = document.createElement('div')
+  private readonly cashCounter = document.createElement('div')
+  private readonly radText = document.createElement('div')
   private readonly arrowScene = new THREE.Scene()
   private readonly arrowCamera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 20)
   private readonly arrow = createHudArrow()
+  private radTimer = 0
 
   constructor(private readonly mount: HTMLElement) {
     this.root.className = 'delivery-hud'
     this.map.className = 'delivery-map'
     this.playerDot.className = 'map-dot map-player'
     this.targetDot.className = 'map-dot map-target'
+    this.cashCounter.className = 'cash-counter'
+    this.radText.className = 'rad-text'
+    this.radText.textContent = 'RAD!'
     this.addMapBackdrop()
     this.map.append(this.playerDot, this.targetDot)
-    this.root.append(this.map)
+    this.root.append(this.cashCounter, this.radText, this.map)
     this.mount.append(this.root)
     this.arrowScene.add(this.arrow)
     this.arrowCamera.position.set(0, 0, 6)
@@ -35,6 +42,7 @@ export class DeliveryHud {
 
   update(snapshot: HudSnapshot, player: THREE.Object3D): void {
     this.syncPickupDots(snapshot.pickups)
+    this.cashCounter.textContent = `$${snapshot.cash}`
     this.placeDot(this.playerDot, { x: player.position.x, z: player.position.z })
     snapshot.pickups.forEach((point, index) => this.placeDot(this.pickupDots[index], point))
     this.targetDot.style.display = snapshot.target ? 'block' : 'none'
@@ -44,8 +52,17 @@ export class DeliveryHud {
     if (snapshot.target) {
       const dx = snapshot.target.x - player.position.x
       const dz = snapshot.target.z - player.position.z
-      this.arrow.rotation.z = -Math.atan2(dx, dz)
+      this.arrow.rotation.z = Math.atan2(dx, dz)
+      this.arrow.rotation.x = -0.55
+      this.arrow.rotation.y = 0.35
     }
+
+    this.radTimer = Math.max(0, this.radTimer - 1 / 60)
+    this.radText.style.opacity = this.radTimer > 0 ? '1' : '0'
+  }
+
+  showRad(): void {
+    this.radTimer = 0.9
   }
 
   render(renderer: THREE.WebGLRenderer): void {
@@ -117,21 +134,19 @@ export class DeliveryHud {
 
 function createHudArrow(): THREE.Group {
   const group = new THREE.Group()
-  const shape = new THREE.Shape()
-  shape.moveTo(0, 1.05)
-  shape.lineTo(0.72, 0.18)
-  shape.lineTo(0.32, 0.18)
-  shape.lineTo(0.32, -1.05)
-  shape.lineTo(-0.32, -1.05)
-  shape.lineTo(-0.32, 0.18)
-  shape.lineTo(-0.72, 0.18)
-  shape.lineTo(0, 1.05)
-  const outline = new THREE.Mesh(new THREE.ShapeGeometry(shape), new THREE.MeshBasicMaterial({ color: '#fff1c2', side: THREE.DoubleSide }))
-  const fill = new THREE.Mesh(new THREE.ShapeGeometry(shape), new THREE.MeshBasicMaterial({ color: '#e0453f', side: THREE.DoubleSide }))
-  outline.scale.setScalar(1.12)
-  fill.position.z = 0.015
-  group.add(outline, fill)
-  group.rotation.x = -0.1
-  group.add(new THREE.DirectionalLight('#ffffff', 2.2))
+  const red = new THREE.MeshStandardMaterial({ color: '#e0453f', emissive: '#5a100d', emissiveIntensity: 0.25, roughness: 0.36 })
+  const cream = new THREE.MeshStandardMaterial({ color: '#fff1c2', roughness: 0.42 })
+  const body = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.3, 0.24), red)
+  const head = new THREE.Mesh(new THREE.ConeGeometry(0.56, 0.72, 4), red)
+  const trim = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.04, 8, 4), cream)
+  body.position.y = -0.18
+  head.position.y = 0.72
+  head.rotation.y = Math.PI / 4
+  trim.position.y = -0.86
+  trim.scale.y = 0.55
+  group.add(body, head, trim)
+  const light = new THREE.DirectionalLight('#ffffff', 2.4)
+  light.position.set(2, 3, 4)
+  group.add(light)
   return group
 }
