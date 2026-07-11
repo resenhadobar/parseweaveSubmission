@@ -45,8 +45,8 @@ export const lots: Lot[] = [
   { id: 'back-small-teal', x: -9, z: 42, width: 6.8, depth: 5.8, kind: 'large', body: 'teal', roof: 'red', rotation: Math.PI, stories: 2 },
   { id: 'back-small-orange', x: 25, z: 42, width: 6.8, depth: 5.8, kind: 'large', body: 'orange', roof: 'navy', rotation: Math.PI, stories: 2 },
 
-  { id: 'left-edge-a', x: -56, z: 3, width: 6.4, depth: 6.4, kind: 'large', body: 'blue', roof: 'navy', rotation: Math.PI / 2, stories: 3 },
-  { id: 'right-edge-a', x: 56, z: 3, width: 6.4, depth: 6.4, kind: 'large', body: 'yellow', roof: 'red', rotation: -Math.PI / 2, stories: 3 },
+  { id: 'left-edge-a', x: -56, z: 3, width: 6.8, depth: 6.8, kind: 'large', body: 'blue', roof: 'navy', rotation: Math.PI / 2, stories: 3 },
+  { id: 'right-edge-a', x: 56, z: 3, width: 6.8, depth: 6.8, kind: 'large', body: 'yellow', roof: 'red', rotation: -Math.PI / 2, stories: 3 },
 ]
 
 export const vehicles: Vehicle[] = [
