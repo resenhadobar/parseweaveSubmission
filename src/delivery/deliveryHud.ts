@@ -143,14 +143,13 @@ export class DeliveryHud {
     card.className = 'tutorial-card'
     card.innerHTML = `
       <h1>Welcome to VOXEL BEACH</h1>
-      <p>You will earn cash making deliveries around the beach block. Skate fast, avoid traffic and buildings, and reach the red dropoff aura before time runs out.</p>
+      <p>Earn cash by taking delivery jobs while skating through Voxel Beach. Find green NPC markers on sidewalks, slow down near one to accept the job, then race to the red dropoff aura before the timer runs out.</p>
       <ul>
         <li><strong>WASD / Arrows</strong> move and steer.</li>
         <li><strong>E</strong> toggles your skateboard.</li>
-        <li><strong>Space</strong> kickflips while skating. During a delivery, kickflips are RAD and increase the payout.</li>
-        <li>Stop near green NPC markers on sidewalks to accept delivery jobs.</li>
-        <li>Follow the red 3D arrow and red ground aura to deliver fast for more cash.</li>
-        <li><strong>V</strong> opens the asset viewer, <strong>B</strong> returns to the beach.</li>
+        <li><strong>Space</strong> kickflips. Kickflips during deliveries are RAD and increase payout.</li>
+        <li>Follow the red 3D arrow and red ground aura. Faster deliveries pay more cash.</li>
+        <li>Avoid cars, people, buildings, and trees or you will bail and lose time.</li>
       </ul>
       <button type="button">Start Deliveries</button>
     `
