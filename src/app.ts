@@ -5,6 +5,7 @@ import { updateOcean } from './voxel/ocean'
 import { TrafficController } from './voxel/traffic'
 import { PlayerController } from './player/playerController'
 import { VisibilityCullingController } from './render/visibilityCulling'
+import { CartoonPostProcessing } from './render/cartoonPostProcessing'
 import { OverShoulderCameraController } from './camera/overShoulderCamera'
 import { DeliveryController } from './delivery/deliveryController'
 import { DeliveryEffects } from './delivery/deliveryEffects'
@@ -35,6 +36,7 @@ export class VoxelBeachApp {
   private readonly deliveryHud: DeliveryHud
   private readonly audio: BeachAudioController
   private readonly culling: VisibilityCullingController
+  private readonly postProcessing: CartoonPostProcessing
   private mode: 'scene' | 'viewer' = 'scene'
 
   constructor(private readonly mount: HTMLElement) {
@@ -62,6 +64,7 @@ export class VoxelBeachApp {
     this.culling = new VisibilityCullingController(this.beachBlock)
     this.viewer = new AssetViewer(this.scene)
     this.cameraController = new OverShoulderCameraController(this.camera, this.renderer.domElement)
+    this.postProcessing = new CartoonPostProcessing(this.renderer, this.scene, this.camera)
     this.bindEvents()
     this.resize()
     console.info(
@@ -114,6 +117,7 @@ export class VoxelBeachApp {
     this.camera.aspect = window.innerWidth / window.innerHeight
     this.camera.updateProjectionMatrix()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
+    this.postProcessing.resize(window.innerWidth, window.innerHeight)
     this.deliveryHud.resize()
   }
 
@@ -132,8 +136,10 @@ export class VoxelBeachApp {
         ...this.traffic.getPedestrianObjects(),
       ])
       if (this.player.consumeFallPenalty()) this.delivery.applyFallPenalty()
-      if (this.player.consumeKickflip() && this.delivery.recordKickflip())
+      if (this.player.consumeKickflip() && this.delivery.recordKickflip()) {
         this.deliveryHud.showRad()
+        this.audio.playRad()
+      }
       this.delivery.update(
         delta,
         this.player.object,
@@ -144,6 +150,7 @@ export class VoxelBeachApp {
       if (completion) {
         this.deliveryHud.showPayout(completion.payout)
         this.deliveryEffects.burst(completion.position)
+        this.audio.playCash()
         this.audio.playDeliveryYeah()
       }
       this.deliveryHud.update(this.delivery.getHudSnapshot(), this.player.object)
@@ -153,7 +160,7 @@ export class VoxelBeachApp {
       this.culling.update(this.camera, delta)
     }
     this.viewer.update(delta)
-    this.renderer.render(this.scene, this.camera)
+    this.postProcessing.render()
     if (this.mode === 'scene') this.deliveryHud.render(this.renderer)
   }
 }
