@@ -9,6 +9,7 @@
 - **Polished voxel density:** layered silhouettes and purposeful props instead of sparse placeholder boxes or noisy tiny detail.
 - **Beach-town identity:** sand, surf shop, lifeguard tower, umbrellas, towels, palm trees, beach houses, and ocean avenue.
 - **Readable scale:** people, cars, doors, story heights, and buildings should imply that characters could walk inside buildings.
+- **Responsive exploration:** player movement should feel solid, with collisions preventing walking through major buildings and props.
 - **Contained playable area:** the neighborhood is the active inspectable/playable area, with mountains and trees used as non-playable surrounding scenery.
 - **Inspectable assets:** individual voxel structures can be isolated in a separate viewer.
 - **Browser-first reliability:** Vite + TypeScript + Three.js with responsive canvas rendering.
@@ -70,6 +71,8 @@ The scene is a sunny coastal neighborhood with:
 - `src/camera/orbitCamera.ts` contains the orbit camera controller.
 - `src/viewer/assetViewer.ts` contains the standalone asset inspection mode.
 - `src/player/playerController.ts` contains isometric player walking and camera-follow target behavior.
+- `src/player/collisions.ts` contains lightweight player collision bounds for buildings, trees, towers, umbrellas, benches, and major props.
+- `src/render/visibilityCulling.ts` contains camera-frustum visibility culling for static world sections.
 - `src/voxel/` contains voxel block helpers, instanced voxel batching, materials, layout data, procedural asset factories, perimeter scenery, shared character animation, traffic, the beach block scene, and ocean shader.
 - `tests/voxelLayout.test.ts` validates road/lot placement, vehicle lanes, scale ratios, and the surrounding scenery bounds.
 
@@ -94,6 +97,9 @@ Rules:
 - Latest architecture pass reworked beach houses, surf shop, apartments/hotels, palm trees, tropical trees, and beach props for stronger personality while batching the dense playable ground tiles for performance.
 - Latest street-life pass adds deterministic animated cars on separated road routes with a preferential flow car to avoid permanent gridlock, walking pedestrians on sidewalk loops, denser planting in empty green lawn areas, tunnel portals at side/far mountain exits, and shared voxel walk cycles.
 - Isometric player walking with WASD/arrow keys, camera follow, and player walk animation.
+- Player collision resolution against buildings and major props.
+- Simplified fewer-car traffic with signal timing and tunnel recycling so cars do not permanently jam.
+- Camera-frustum culling of static scene sections outside the current camera view.
 - Separate individual asset viewer.
 - Responsive camera and canvas.
 
