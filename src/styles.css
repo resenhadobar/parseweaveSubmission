@@ -97,6 +97,21 @@ canvas:active {
   transition: opacity 0.12s ease;
 }
 
+.payout-text {
+  position: absolute;
+  right: 28px;
+  top: 68px;
+  color: #8cff8f;
+  font-size: clamp(30px, 5vw, 54px);
+  font-weight: 1000;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  text-shadow:
+    0 4px 0 rgba(20, 70, 32, 0.78),
+    0 8px 18px rgba(0, 0, 0, 0.32);
+  transition: opacity 0.12s ease;
+}
+
 .timer-counter {
   position: absolute;
   top: 18px;
