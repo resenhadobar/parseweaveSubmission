@@ -6,7 +6,7 @@ type CullEntry = {
   radius: number
 }
 
-const dynamicNames = new Set(['animated-ocean-shader', 'moving-car', 'walking-person', 'player-character'])
+const dynamicNames = new Set(['animated-ocean-shader', 'moving-car', 'walking-person', 'player-character', 'delivery-pointers'])
 
 export class VisibilityCullingController {
   private readonly entries: CullEntry[] = []
