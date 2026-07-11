@@ -1,9 +1,9 @@
 import * as THREE from 'three'
 import { addBlock, addGrid, createBlockBatch } from './blocks'
-import { createBeachHouse, createBeachUmbrella, createCar, createLifeguardTower, createPalmTree, createTropicalTree, createVoxelPerson } from './assets'
+import { createBeachHouse, createBeachUmbrella, createLifeguardTower, createPalmTree, createTropicalTree } from './assets'
 import { createOcean } from './ocean'
 import { createPerimeterScenery } from './scenery'
-import { isRoad, isSidewalk, lots, people, roads, vehicles, worldBounds, type Lot } from './layout'
+import { isRoad, isSidewalk, lots, roads, worldBounds, type Lot } from './layout'
 import type { PaletteKey } from './materials'
 
 export function createBeachBlockScene(): THREE.Group {
@@ -15,11 +15,10 @@ export function createBeachBlockScene(): THREE.Group {
   createRoadDetails(world)
   createBuildings(world)
   createLandscape(world)
-  createPeople(world)
   world.add(createPerimeterScenery())
   world.add(createOcean())
 
-  console.info('[VoxelBeach] Applied realistic palette, narrower streets, larger lawns, and tightened roof footprints')
+  console.info('[VoxelBeach] Applied Malibu roofs, fuller lawn planting, and animated traffic-ready scene props')
   return world
 }
 
@@ -111,13 +110,6 @@ function createRoadDetails(world: THREE.Group): void {
       addCrosswalk(world, (vertical.minX + vertical.maxX) / 2, (horizontal.minZ + horizontal.maxZ) / 2, 'vertical')
     }
   }
-
-  vehicles.forEach((vehicle) => {
-    const car = createCar(vehicle.color)
-    car.position.set(vehicle.x, 0.24, vehicle.z)
-    car.rotation.y = vehicle.rotation
-    world.add(car)
-  })
 }
 
 function createBuildings(world: THREE.Group): void {
@@ -141,7 +133,10 @@ function createLargeBuilding(lot: Lot): THREE.Group {
   const height = lot.stories * floorHeight
   addBlock(group, { color: lot.body, position: [0, height / 2, 0], scale: [lot.width, height, lot.depth] })
   addBlock(group, { color: lot.body, position: [-lot.width / 2 + 1.05, Math.min(3.4, height / 2), -0.55], scale: [1.7, Math.min(6, height * 0.62), lot.depth + 0.2] })
-  addBlock(group, { color: lot.roof, position: [0, height + 0.18, 0], scale: [lot.width + 0.35, isHotel ? 0.26 : 0.34, lot.depth + 0.32] })
+  addBlock(group, { color: 'wood', position: [0, height + 0.08, 0], scale: [lot.width + 0.55, 0.14, lot.depth + 0.45] })
+  addBlock(group, { color: lot.roof, position: [0, height + 0.22, 0], scale: [lot.width + 0.28, isHotel ? 0.18 : 0.24, lot.depth + 0.24] })
+  addBlock(group, { color: lot.roof, position: [0, height + 0.44, 0], scale: [lot.width - 1.05, 0.16, lot.depth - 0.68] })
+  addBlock(group, { color: 'white', position: [0, height + 0.52, -lot.depth / 2 + 0.48], scale: [lot.width - 1.1, 0.1, 0.12] })
   addStreetFacingDoor(group, lot)
   addLargeBuildingWindows(group, lot, floorHeight, isHotel)
   addStackedBalconies(group, lot, floorHeight)
@@ -194,7 +189,7 @@ function addRooftopPersonality(group: THREE.Group, lot: Lot, height: number, isH
 }
 
 function createLandscape(world: THREE.Group): void {
-  const palms = [[-56, -13], [-44, -13], [-28, -13], [-8, -13], [8, -13], [28, -13], [44, -13], [56, -13], [-20, 16], [20, 16], [-45, 36], [24, 36]] as const
+  const palms = [[-56, -13], [-44, -13], [-28, -13], [-8, -13], [8, -13], [28, -13], [44, -13], [56, -13], [-57, 7], [-43, 7], [-20, 16], [20, 16], [43, 8], [56, 8], [-45, 36], [-28, 36], [24, 36], [44, 37]] as const
   palms.forEach(([x, z], index) => {
     const palm = createPalmTree(index % 3)
     palm.position.set(x, 0.08, z)
@@ -202,22 +197,13 @@ function createLandscape(world: THREE.Group): void {
     world.add(palm)
   })
 
-  for (const [x, z] of [[-50, 17], [-14, 17], [14, 17], [50, 17], [-48, 40], [48, 40]] as const) {
+  for (const [x, z] of [[-50, 17], [-42, 20], [-31, 7], [-14, 17], [-5, 7], [14, 17], [27, 7], [50, 17], [-54, 38], [-48, 40], [-35, 39], [-16, 37], [6, 38], [31, 39], [48, 40], [55, 35]] as const) {
     const tree = createTropicalTree((x + z) % 3)
     tree.position.set(x, 0.08, z)
     world.add(tree)
   }
 
   for (const [x, z] of [[-18, 6], [18, 6], [-20, 25], [18, 25], [-51, 26], [51, 26]] as const) addBench(world, x, z)
-}
-
-function createPeople(world: THREE.Group): void {
-  people.forEach((data) => {
-    const person = createVoxelPerson(data.shirt)
-    person.position.set(data.x, 0.1, data.z)
-    person.rotation.y = data.rotation
-    world.add(person)
-  })
 }
 
 function addCrosswalk(world: THREE.Group, x: number, z: number, direction: 'horizontal' | 'vertical'): void {
