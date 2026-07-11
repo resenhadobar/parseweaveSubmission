@@ -1,0 +1,403 @@
+Skill: Voxel Beach City Architecture
+Goal
+
+Create a voxel beach city that feels believable, varied, and visually interesting while remaining simple enough for efficient asset production.
+
+The city should read as a place people actually live and visit—not as a collection of colored cubes.
+
+Core Philosophy
+
+A good voxel building is remembered by its silhouette, not its window texture.
+
+Favor:
+
+recognizable shapes
+layered volumes
+strong rooflines
+clear purpose
+modular construction
+
+Avoid adding tiny voxel noise simply to increase detail.
+
+Architectural Language
+
+Every building should be assembled from reusable modules.
+
+Core modules:
+
+base volume
+secondary volume
+roof
+balcony
+porch
+awning
+pillars
+trim
+stairs
+rooftop props
+storefront
+
+A building should combine 3–8 of these modules.
+
+Never use only a single rectangular prism.
+
+Shape Language
+
+Instead of
+
+██████
+██████
+██████
+
+Build
+
+  roof
+
+████████
+
+██████
+
+███
+
+porch
+
+Buildings should step in and out.
+
+Typical variation:
+
+recessed entrance
+balcony offset
+roof overhang
+attached garage
+side extension
+rooftop room
+Silhouette First
+
+A player should recognize the building from a distance before seeing colors or windows.
+
+Good silhouettes:
+
+beach house
+hotel
+surf shop
+lighthouse
+lifeguard tower
+apartment
+café
+marina office
+
+Bad silhouettes:
+
+identical cubes
+identical rectangles
+equal roof heights
+Building Identity
+
+Every building exists for a reason.
+
+Examples:
+
+Beach House
+
+Features:
+
+porch
+stairs
+balcony
+sloped roof
+small yard
+
+Surf Shop
+
+Features:
+
+striped awning
+wide storefront
+surfboards outside
+outdoor racks
+
+Ice Cream Shop
+
+Features:
+
+colorful roof
+large sign
+outdoor seating
+umbrellas
+
+Beach Bar
+
+Features:
+
+wooden deck
+pergola
+string lights
+open walls
+
+Apartment
+
+Features:
+
+stacked balconies
+rooftop terrace
+AC units
+repeating structure
+
+Hotel
+
+Features:
+
+lobby
+entrance canopy
+rooftop pool
+many balconies
+Roof Design
+
+Never use paper-thin roofs.
+
+Include:
+
+thickness
+overhang
+trim
+
+Roof variations:
+
+flat
+sloped
+stepped
+tiled
+rooftop garden
+rooftop bar
+pergola
+
+Roofs should contribute heavily to silhouette.
+
+Windows
+
+Never place windows on a perfect grid unless intentionally modern.
+
+Instead vary:
+
+width
+spacing
+height
+grouping
+
+Examples:
+
+[]
+
+[][]
+
+[] []
+
+████ window wall
+
+storefront glass
+
+Ground floors should usually differ from upper floors.
+
+Color Palette
+
+Use controlled palettes.
+
+Typical palette:
+
+Walls
+
+cream
+white
+pastel blue
+pastel pink
+mint
+beige
+
+Roofs
+
+terracotta
+teal
+coral
+navy
+
+Trim
+
+white
+wood
+
+Accent
+
+shutters
+awnings
+doors
+
+Do not assign every building a random saturated color.
+
+Neighborhoods should feel cohesive.
+
+Trees
+
+Avoid cubes on sticks.
+
+Use silhouette.
+
+Types:
+
+palm
+tropical broadleaf
+trimmed park tree
+bushes
+flower planters
+
+Each tree type should have 3–5 variations.
+
+Rotate and mirror them.
+
+Beach Props
+
+Use props to create life.
+
+Examples:
+
+umbrellas
+lounge chairs
+bicycles
+surfboards
+food carts
+benches
+trash bins
+beach showers
+lifebuoys
+docks
+fishing nets
+boats
+
+Props often make scenes feel richer than adding geometry to buildings.
+
+Streets
+
+Mix road widths.
+
+Include:
+
+bike lanes
+palm medians
+parking lots
+boardwalks
+crosswalks
+beach access paths
+
+Avoid endless straight roads.
+
+Vertical Variation
+
+A beach town shouldn't have one height.
+
+Example:
+
+1 floor cottage
+
+2 floor house
+
+4 floor apartment
+
+8 floor hotel
+
+lighthouse
+
+ferris wheel
+
+Create a skyline.
+
+Neighborhoods
+
+Separate districts.
+
+Residential
+
+cottages
+duplexes
+apartments
+
+Tourist
+
+hotels
+cafés
+restaurants
+bars
+
+Beachfront
+
+lifeguards
+umbrellas
+kiosks
+
+Downtown
+
+offices
+stores
+pharmacy
+supermarkets
+
+Harbor
+
+marina
+warehouses
+fish market
+Repetition with Variation
+
+Never duplicate buildings exactly.
+
+Instead randomize:
+
+roof color
+wall color
+balcony
+awning
+porch
+rooftop props
+windows
+signs
+
+One building blueprint should generate 10–20 believable variants.
+
+Asset Priority
+
+Build in this order:
+
+Core buildings
+Roof modules
+Balconies
+Storefronts
+Trees
+Props
+Street furniture
+Landmark buildings
+
+Landmarks define the city.
+
+Examples:
+
+lighthouse
+ferris wheel
+beach pier
+marina
+water tower
+clock tower
+Evaluation Checklist
+
+A finished voxel beach city should satisfy the following:
+
+✓ Every building has a unique silhouette.
+✓ Buildings clearly communicate their function.
+✓ Roofs have thickness and overhangs.
+✓ Windows vary by building type.
+✓ Heights create an interesting skyline.
+✓ Streets include props and vegetation.
+✓ Trees have multiple silhouettes.
+✓ Neighborhoods have distinct identities.
+✓ Color palettes are cohesive rather than random.
+✓ Most visual richness comes from layered forms and modular details, not excessive voxel density.
+Guiding Principle
+
+A memorable voxel city is built from simple, readable forms with purposeful variation. The goal is not to maximize detail, but to maximize character through silhouette, modular composition, and environmental storytelling.
