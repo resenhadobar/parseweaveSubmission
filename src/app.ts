@@ -5,6 +5,7 @@ import { createBeachBlockScene } from './voxel/scene'
 import { updateOcean } from './voxel/ocean'
 import { TrafficController } from './voxel/traffic'
 import { PlayerController } from './player/playerController'
+import { VisibilityCullingController } from './render/visibilityCulling'
 
 export class VoxelBeachApp {
   private readonly scene = new THREE.Scene()
@@ -17,6 +18,7 @@ export class VoxelBeachApp {
   private readonly ocean: THREE.Object3D | undefined
   private readonly traffic: TrafficController
   private readonly player: PlayerController
+  private readonly culling: VisibilityCullingController
   private mode: 'scene' | 'viewer' = 'scene'
 
   constructor(private readonly mount: HTMLElement) {
@@ -34,6 +36,7 @@ export class VoxelBeachApp {
     this.traffic = new TrafficController(this.beachBlock)
     this.player = new PlayerController(this.camera)
     this.beachBlock.add(this.player.object)
+    this.culling = new VisibilityCullingController(this.beachBlock)
     this.viewer = new AssetViewer(this.scene)
     this.controller = new OrbitCameraController(this.camera, this.renderer.domElement)
     this.controller.setTarget([0, 1.4, 10], 92)
@@ -99,6 +102,7 @@ export class VoxelBeachApp {
       this.traffic.update(delta)
       this.player.update(delta)
       this.controller.followTarget([this.player.object.position.x, 1.4, this.player.object.position.z])
+      this.culling.update(this.camera, delta)
     }
     this.viewer.update(delta)
     this.renderer.render(this.scene, this.camera)
