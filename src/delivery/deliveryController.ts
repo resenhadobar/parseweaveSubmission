@@ -8,13 +8,7 @@ type DeliveryPoint = { x: number; z: number }
 type DeliveryState = 'waiting' | 'active'
 
 const pickupPoints: DeliveryPoint[] = createSidewalkPoints(931, 5)
-
-const dropoffPoints: DeliveryPoint[] = [
-  { x: 48, z: -12.5 },
-  { x: -28, z: 26.9 },
-  { x: 12, z: 34.8 },
-  { x: -52, z: -12.4 },
-]
+const dropoffPoints: DeliveryPoint[] = createSidewalkPoints(1937, 5)
 
 export class DeliveryController {
   private readonly group = new THREE.Group()
@@ -25,6 +19,7 @@ export class DeliveryController {
   private state: DeliveryState = 'waiting'
   private activePickup = 0
   private activeDropoff = 0
+  private randomSeed = 42069
   private timer = 0
   private completed = 0
   private cash = 0
@@ -96,7 +91,7 @@ export class DeliveryController {
     const index = pickupPoints.findIndex((point) => distanceTo(player, point) < 3.2)
     if (index < 0) return
     this.activePickup = index
-    this.activeDropoff = (index + this.completed + 1) % dropoffPoints.length
+    this.activeDropoff = this.rollPoint(dropoffPoints, player.position)
     this.state = 'active'
     this.timer = 55
     this.radBonus = 0
@@ -121,6 +116,8 @@ export class DeliveryController {
       this.state = 'waiting'
       this.targetArrow.visible = false
       this.targetAura.visible = false
+      this.rerollPickup(this.activePickup, player.position)
+      this.rerollDropoff(this.activeDropoff, player.position)
       console.info(`[VoxelBeach] Delivery complete: payout $${score.payout} (base $${score.baseValue}, speed $${score.speedBonus}, RAD $${score.radBonus}), cash $${this.cash}, completed runs ${this.completed}`)
       return
     }
@@ -128,6 +125,8 @@ export class DeliveryController {
       this.state = 'waiting'
       this.targetArrow.visible = false
       this.targetAura.visible = false
+      this.rerollPickup(this.activePickup, player.position)
+      this.rerollDropoff(this.activeDropoff, player.position)
       console.info('[VoxelBeach] Delivery failed: timer expired')
     }
   }
@@ -139,6 +138,45 @@ export class DeliveryController {
       arrow.position.y = 2.5 + Math.sin(performance.now() * 0.004 + index) * 0.12
     })
     this.targetArrow.rotation.y += spin * 1.8
+  }
+
+  private rerollPickup(index: number, avoid: THREE.Vector3): void {
+    const point = this.rollSidewalkPoint(avoid, pickupPoints, dropoffPoints)
+    pickupPoints[index] = point
+    this.offerNpcs[index].position.set(point.x, 0.12, point.z)
+    this.pickupArrows[index].position.set(point.x, 2.65, point.z)
+    console.info(`[VoxelBeach] Delivery NPC ${index + 1} moved to sidewalk ${point.x}, ${point.z}`)
+  }
+
+  private rerollDropoff(index: number, avoid: THREE.Vector3): void {
+    dropoffPoints[index] = this.rollSidewalkPoint(avoid, pickupPoints, dropoffPoints)
+  }
+
+  private rollPoint(points: DeliveryPoint[], avoid: THREE.Vector3): number {
+    let best = Math.floor(this.nextRandom() * points.length)
+    for (let i = 0; i < points.length; i += 1) {
+      const candidate = Math.floor(this.nextRandom() * points.length)
+      if (Math.hypot(points[candidate].x - avoid.x, points[candidate].z - avoid.z) > 18) return candidate
+      best = candidate
+    }
+    return best
+  }
+
+  private rollSidewalkPoint(avoid: THREE.Vector3, ...occupiedGroups: DeliveryPoint[][]): DeliveryPoint {
+    for (let attempts = 0; attempts < 180; attempts += 1) {
+      const x = Math.round(-56 + this.nextRandom() * 112)
+      const z = Math.round(-12 + this.nextRandom() * 58)
+      if (!isSidewalk(x, z)) continue
+      if (Math.hypot(x - avoid.x, z - avoid.z) < 14) continue
+      if (occupiedGroups.flat().some((point) => Math.hypot(point.x - x, point.z - z) < 9)) continue
+      return { x, z }
+    }
+    return { x: -54 + this.nextRandom() * 108, z: -4 + this.nextRandom() * 38 }
+  }
+
+  private nextRandom(): number {
+    this.randomSeed = (this.randomSeed * 1664525 + 1013904223) >>> 0
+    return this.randomSeed / 4294967295
   }
 }
 
