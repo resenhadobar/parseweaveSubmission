@@ -87,6 +87,7 @@ export class DeliveryController {
   }
 
   private updateActive(deltaSeconds: number, player: THREE.Object3D, speed: number): void {
+    this.offerNpcs.forEach((npc) => (npc.visible = true))
     this.timer -= deltaSeconds * (speed > 14 ? 0.82 : 1)
     const target = dropoffPoints[this.activeDropoff]
     this.targetArrow.position.set(target.x, 3.1 + Math.sin(performance.now() * 0.006) * 0.35, target.z)
