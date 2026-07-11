@@ -1,17 +1,13 @@
 import * as THREE from 'three'
 import { createVoxelPerson } from '../voxel/assets'
+import { isSidewalk } from '../voxel/layout'
 import { calculateDeliveryScore } from './scoring'
 
 type DeliveryPoint = { x: number; z: number }
 
 type DeliveryState = 'waiting' | 'active'
 
-const pickupPoints: DeliveryPoint[] = [
-  { x: -54, z: 7.2 },
-  { x: -8, z: 7.3 },
-  { x: 29, z: 15.6 },
-  { x: 52, z: 27.1 },
-]
+const pickupPoints: DeliveryPoint[] = createSidewalkPoints(931, 5)
 
 const dropoffPoints: DeliveryPoint[] = [
   { x: 48, z: -12.5 },
@@ -25,6 +21,7 @@ export class DeliveryController {
   private readonly pickupArrows: THREE.Group[] = []
   private readonly offerNpcs: THREE.Group[] = []
   private readonly targetArrow = createArrow('red')
+  private readonly targetAura = createTargetAura()
   private state: DeliveryState = 'waiting'
   private activePickup = 0
   private activeDropoff = 0
@@ -49,7 +46,9 @@ export class DeliveryController {
       this.group.add(arrow)
     })
     this.targetArrow.visible = false
+    this.targetAura.visible = false
     this.group.add(this.targetArrow)
+    this.group.add(this.targetAura)
     world.add(this.group)
     console.info('[VoxelBeach] Skate delivery offers active: stop near green arrows to accept a run')
   }
@@ -76,12 +75,13 @@ export class DeliveryController {
     return true
   }
 
-  getHudSnapshot(): { active: boolean; pickups: DeliveryPoint[]; target?: DeliveryPoint; cash: number } {
+  getHudSnapshot(): { active: boolean; pickups: DeliveryPoint[]; target?: DeliveryPoint; cash: number; timer: number } {
     return {
       active: this.state === 'active',
       pickups: pickupPoints,
       target: this.state === 'active' ? dropoffPoints[this.activeDropoff] : undefined,
       cash: this.cash,
+      timer: this.state === 'active' ? this.timer : 0,
     }
   }
 
@@ -102,6 +102,7 @@ export class DeliveryController {
     this.radBonus = 0
     this.pickupArrows.forEach((arrow) => (arrow.visible = false))
     this.targetArrow.visible = true
+    this.targetAura.visible = true
     console.info(`[VoxelBeach] Delivery started: ${this.timer}s to reach the red arrow`)
   }
 
@@ -111,18 +112,22 @@ export class DeliveryController {
     const target = dropoffPoints[this.activeDropoff]
     this.targetArrow.position.set(target.x, 2.9 + Math.sin(performance.now() * 0.006) * 0.22, target.z)
     this.targetArrow.lookAt(player.position.x, this.targetArrow.position.y, player.position.z)
+    this.targetAura.position.set(target.x, 0.13, target.z)
+    this.targetAura.scale.setScalar(1 + Math.sin(performance.now() * 0.005) * 0.08)
     if (distanceTo(player, target) < 3.4) {
       this.completed += 1
       const score = calculateDeliveryScore(this.timer, speed, this.radBonus)
       this.cash += score.payout
       this.state = 'waiting'
       this.targetArrow.visible = false
+      this.targetAura.visible = false
       console.info(`[VoxelBeach] Delivery complete: payout $${score.payout} (base $${score.baseValue}, speed $${score.speedBonus}, RAD $${score.radBonus}), cash $${this.cash}, completed runs ${this.completed}`)
       return
     }
     if (this.timer <= 0) {
       this.state = 'waiting'
       this.targetArrow.visible = false
+      this.targetAura.visible = false
       console.info('[VoxelBeach] Delivery failed: timer expired')
     }
   }
