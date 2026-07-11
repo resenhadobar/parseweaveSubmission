@@ -67,6 +67,14 @@ export class DeliveryController {
     console.info(`[VoxelBeach] Delivery crash penalty: -5 seconds, ${Math.ceil(this.timer)} seconds left`)
   }
 
+  getHudSnapshot(): { active: boolean; pickups: DeliveryPoint[]; target?: DeliveryPoint } {
+    return {
+      active: this.state === 'active',
+      pickups: this.state === 'waiting' ? pickupPoints : [],
+      target: this.state === 'active' ? dropoffPoints[this.activeDropoff] : undefined,
+    }
+  }
+
   private updateWaiting(player: THREE.Object3D, skating: boolean, speed: number): void {
     this.pickupArrows.forEach((arrow) => (arrow.visible = skating))
     this.offerNpcs.forEach((npc, index) => {
