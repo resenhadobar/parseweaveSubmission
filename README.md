@@ -2,6 +2,9 @@
 
 A browser-playable 3D voxel beach neighborhood prototype built with Vite, TypeScript, and Three.js.
 
+## Play here
+https://resenhadobar.itch.io/voxel-beach
+
 ## AI tools used
 
 This game was entirely built with AI using Jabali Studio (jabali.ai), music, sounds, assets (proceduraly generated threeJS geometry) were all built using GPT 5.5 within the Studio.
