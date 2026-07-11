@@ -4,6 +4,7 @@ import type { PaletteKey } from './materials'
 
 type RoutePoint = [number, number]
 type MovingActor = {
+  id: number
   object: THREE.Object3D
   route: RoutePoint[]
   speed: number
@@ -17,18 +18,19 @@ type MovingActor = {
 type CarSpec = { color: PaletteKey; route: RoutePoint[]; delay: number; speed: number }
 type PersonSpec = { shirt: PaletteKey; route: RoutePoint[]; offset: number; speed: number }
 
+const intersections: RoutePoint[] = [-36, 0, 36].flatMap((x) => [-8, 11.5, 30.5].map((z) => [x, z] as RoutePoint))
+
 const carRoutes: RoutePoint[][] = [
   [[-61.5, -8.72], [61.5, -8.72]],
   [[61.5, -7.28], [-61.5, -7.28]],
   [[-61.5, 10.78], [61.5, 10.78]],
   [[61.5, 12.22], [-61.5, 12.22]],
   [[-61.5, 29.78], [61.5, 29.78]],
-  [[-36.72, -11.5], [-36.72, 51.5]],
-  [[-35.28, 51.5], [-35.28, -11.5]],
-  [[-0.72, -11.5], [-0.72, 51.5]],
-  [[0.72, 51.5], [0.72, -11.5]],
-  [[35.28, -11.5], [35.28, 51.5]],
-  [[36.72, 51.5], [36.72, -11.5]],
+  [[-36.72, 51.5], [-36.72, -8.72], [-61.5, -8.72]],
+  [[-61.5, 12.22], [-35.28, 12.22], [-35.28, 51.5]],
+  [[-0.72, 51.5], [-0.72, 29.78], [61.5, 29.78]],
+  [[61.5, 10.78], [35.28, 10.78], [35.28, 51.5]],
+  [[0.72, 51.5], [0.72, -7.28], [61.5, -7.28]],
 ]
 
 const pedestrianRoutes: RoutePoint[][] = [
@@ -68,42 +70,66 @@ const walkers: PersonSpec[] = [
 
 export class TrafficController {
   private readonly actors: MovingActor[] = []
+  private readonly carActors: MovingActor[] = []
 
   constructor(world: THREE.Group) {
-    cars.forEach((spec) => this.addCar(world, spec))
-    walkers.forEach((spec) => this.addWalker(world, spec))
-    console.info(`[VoxelBeach] Traffic active: ${cars.length} tunnel-to-tunnel cars and ${walkers.length} sidewalk pedestrians`)
+    cars.forEach((spec, index) => this.addCar(world, spec, index))
+    walkers.forEach((spec, index) => this.addWalker(world, spec, cars.length + index))
+    console.info(`[VoxelBeach] Traffic active: ${cars.length} cars yielding at intersections and ${walkers.length} sidewalk pedestrians`)
   }
 
   update(deltaSeconds: number): void {
     const delta = Math.min(deltaSeconds, 0.05)
     this.actors.forEach((actor) => {
-      actor.distance += actor.speed * delta
+      const nextDistance = actor.distance + actor.speed * delta
+      if (actor.rotationMode !== 'car' || !shouldYield(actor, nextDistance, this.carActors)) actor.distance = nextDistance
       updateActor(actor)
     })
   }
 
-  private addCar(world: THREE.Group, spec: CarSpec): void {
+  private addCar(world: THREE.Group, spec: CarSpec, id: number): void {
     const car = createCar(spec.color)
     car.name = 'moving-car'
     world.add(car)
-    const actor = createActor(car, spec.route, spec.speed, -spec.delay, 0.24, 0.9, 18, 'car')
+    const actor = createActor(id, car, spec.route, spec.speed, -spec.delay, 0.24, 0.9, 18, 'car')
     this.actors.push(actor)
+    this.carActors.push(actor)
     updateActor(actor)
   }
 
-  private addWalker(world: THREE.Group, spec: PersonSpec): void {
+  private addWalker(world: THREE.Group, spec: PersonSpec, id: number): void {
     const person = createVoxelPerson(spec.shirt)
     person.name = 'walking-person'
     world.add(person)
-    const actor = createActor(person, spec.route, spec.speed, spec.offset, 0.1, 0.25, 0, 'person')
+    const actor = createActor(id, person, spec.route, spec.speed, spec.offset, 0.1, 0.25, 0, 'person')
     this.actors.push(actor)
     updateActor(actor)
   }
 }
 
-function createActor(object: THREE.Object3D, route: RoutePoint[], speed: number, distance: number, height: number, lookAhead: number, recycleGap: number, rotationMode: 'car' | 'person'): MovingActor {
-  return { object, route, speed, distance, height, lookAhead, recycleGap, rotationMode }
+function createActor(id: number, object: THREE.Object3D, route: RoutePoint[], speed: number, distance: number, height: number, lookAhead: number, recycleGap: number, rotationMode: 'car' | 'person'): MovingActor {
+  return { id, object, route, speed, distance, height, lookAhead, recycleGap, rotationMode }
+}
+
+function shouldYield(actor: MovingActor, nextDistance: number, carsInOrder: MovingActor[]): boolean {
+  const point = nearestIntersection(sampleRoute(actor.route, Math.max(0, nextDistance)))
+  if (!point) return false
+
+  return carsInOrder.some((other) => {
+    if (other === actor || !other.object.visible) return false
+    const otherPoint = nearestIntersection(other.object.position.toArray() as RoutePoint)
+    if (!otherPoint || otherPoint[0] !== point[0] || otherPoint[1] !== point[1]) return false
+    if (actor.id < other.id && distance2d(actor.object.position, other.object.position) > 2.4) return false
+    return distance2d(actor.object.position, other.object.position) < 6.2
+  })
+}
+
+function nearestIntersection(point: RoutePoint): RoutePoint | undefined {
+  return intersections.find(([x, z]) => Math.abs(point[0] - x) < 3.4 && Math.abs(point[1] - z) < 3.4)
+}
+
+function distance2d(a: THREE.Vector3, b: THREE.Vector3): number {
+  return Math.hypot(a.x - b.x, a.z - b.z)
 }
 
 function updateActor(actor: MovingActor): void {
