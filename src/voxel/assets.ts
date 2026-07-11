@@ -201,12 +201,22 @@ export function createCar(color: PaletteKey = 'red'): THREE.Group {
 export function createVoxelPerson(shirt: PaletteKey = 'teal'): THREE.Group {
   const group = new THREE.Group()
   group.name = 'voxel-person'
-  addBlock(group, { color: 'skin', name: 'head', position: [0, 1.35, 0], scale: [0.38, 0.38, 0.38] })
-  addBlock(group, { color: shirt, name: 'body', position: [0, 0.88, 0], scale: [0.42, 0.58, 0.28] })
-  addBlock(group, { color: 'navy', name: 'left-leg', position: [-0.12, 0.36, 0], scale: [0.14, 0.52, 0.16] })
-  addBlock(group, { color: 'navy', name: 'right-leg', position: [0.12, 0.36, 0], scale: [0.14, 0.52, 0.16] })
-  addBlock(group, { color: 'skin', name: 'left-arm', position: [-0.34, 0.88, 0], scale: [0.12, 0.48, 0.12] })
-  addBlock(group, { color: 'skin', name: 'right-arm', position: [0.34, 0.88, 0], scale: [0.12, 0.48, 0.12] })
+  addBlock(group, { color: 'skin', name: 'head', position: [0, 1.42, 0], scale: [0.4, 0.42, 0.38] })
+  addBlock(group, { color: 'black', name: 'hair', position: [0, 1.68, 0.02], scale: [0.43, 0.16, 0.42] })
+  addBlock(group, { color: 'black', position: [-0.1, 1.45, -0.21], scale: [0.05, 0.05, 0.04] })
+  addBlock(group, { color: 'black', position: [0.1, 1.45, -0.21], scale: [0.05, 0.05, 0.04] })
+  addBlock(group, { color: 'coral', position: [0, 1.32, -0.22], scale: [0.13, 0.04, 0.04] })
+  addBlock(group, { color: shirt, name: 'body', position: [0, 0.9, 0], scale: [0.5, 0.62, 0.32] })
+  addBlock(group, { color: 'white', position: [0, 1.12, -0.18], scale: [0.34, 0.12, 0.04] })
+  addBlock(group, { color: 'wood', position: [0, 0.58, -0.18], scale: [0.48, 0.08, 0.05] })
+  addBlock(group, { color: 'navy', name: 'left-leg', position: [-0.14, 0.36, 0], scale: [0.16, 0.54, 0.18] })
+  addBlock(group, { color: 'navy', name: 'right-leg', position: [0.14, 0.36, 0], scale: [0.16, 0.54, 0.18] })
+  addBlock(group, { color: 'black', position: [-0.14, 0.08, -0.04], scale: [0.2, 0.1, 0.24] })
+  addBlock(group, { color: 'black', position: [0.14, 0.08, -0.04], scale: [0.2, 0.1, 0.24] })
+  addBlock(group, { color: shirt, name: 'left-arm', position: [-0.38, 0.92, 0], scale: [0.13, 0.46, 0.14] })
+  addBlock(group, { color: shirt, name: 'right-arm', position: [0.38, 0.92, 0], scale: [0.13, 0.46, 0.14] })
+  addBlock(group, { color: 'skin', position: [-0.38, 0.62, -0.01], scale: [0.14, 0.14, 0.14] })
+  addBlock(group, { color: 'skin', position: [0.38, 0.62, -0.01], scale: [0.14, 0.14, 0.14] })
   return group
 }
 
