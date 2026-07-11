@@ -2,7 +2,7 @@
 
 ## Concept
 
-**Voxel Beach Block** is a browser-playable 3D voxel diorama created for the Parsewave Game Jam 2026 requirements. The prototype presents a contained playable oceanfront neighborhood with a beach, improved ocean shader, Ocean Avenue, internal streets, visible borders, denser mixed housing blocks, personality-rich props, animated cars, varied trees, and walking voxel people. The playable block is surrounded by an unplayable scenic perimeter with voxel mountains and trees inspired by `assets/conceptArt.png`.
+**Voxel Beach Block** is a browser-playable 3D voxel diorama created for the Parsewave Game Jam 2026 requirements. The prototype presents a contained walkable oceanfront neighborhood with a beach, improved ocean shader, Ocean Avenue, internal streets, visible borders, denser mixed housing blocks, personality-rich props, animated cars, varied trees, walking voxel people, and a controllable player character. The playable block is surrounded by an unplayable scenic perimeter with voxel mountains and trees inspired by `assets/conceptArt.png`.
 
 ## Design Pillars
 
@@ -18,10 +18,11 @@
 This is a showcase/exploration prototype rather than a score-based game.
 
 1. Load into the full voxel beach block.
-2. Orbit and zoom the camera to inspect the neighborhood.
-3. Switch to the individual 3D viewer.
-4. Cycle through standalone voxel assets such as houses, cars, people, palm trees, beach props, and the lifeguard tower.
-5. Return to the full beach block.
+2. Walk the player character isometrically through the neighborhood while the camera follows.
+3. Orbit and zoom the camera to inspect the neighborhood.
+4. Switch to the individual 3D viewer.
+5. Cycle through standalone voxel assets such as houses, cars, people, palm trees, beach props, and the lifeguard tower.
+6. Return to the full beach block.
 
 ## Player Goals
 
@@ -33,6 +34,7 @@ This is a showcase/exploration prototype rather than a score-based game.
 
 | Action | Input |
 | --- | --- |
+| Walk player isometrically | `WASD` or Arrow Keys |
 | Orbit camera | Drag mouse/touch |
 | Zoom camera | Mouse wheel/trackpad |
 | Open individual asset viewer | `V` |
@@ -67,7 +69,8 @@ The scene is a sunny coastal neighborhood with:
 - `src/app.ts` owns Three.js renderer, camera, scene switching, input, resize handling, and animation loop.
 - `src/camera/orbitCamera.ts` contains the orbit camera controller.
 - `src/viewer/assetViewer.ts` contains the standalone asset inspection mode.
-- `src/voxel/` contains voxel block helpers, instanced voxel batching, materials, layout data, procedural asset factories, perimeter scenery, the beach block scene, and ocean shader.
+- `src/player/playerController.ts` contains isometric player walking and camera-follow target behavior.
+- `src/voxel/` contains voxel block helpers, instanced voxel batching, materials, layout data, procedural asset factories, perimeter scenery, shared character animation, traffic, the beach block scene, and ocean shader.
 - `tests/voxelLayout.test.ts` validates road/lot placement, vehicle lanes, scale ratios, and the surrounding scenery bounds.
 
 Rules:
@@ -89,7 +92,8 @@ Rules:
 - Unplayable mountain/tree perimeter surrounding the playable block.
 - Performance optimization pass for the tall mountain perimeter using instanced mountain/ground batches, coarser mountain sampling, reduced pixel ratio cap, and lower shadow-map budget to target 60fps.
 - Latest architecture pass reworked beach houses, surf shop, apartments/hotels, palm trees, tropical trees, and beach props for stronger personality while batching the dense playable ground tiles for performance.
-- Latest street-life pass adds deterministic animated cars on separated road loops, walking pedestrians on sidewalk loops, and denser planting in empty green lawn areas while preserving modular files under 500 lines.
+- Latest street-life pass adds deterministic animated cars on separated road routes with a preferential flow car to avoid permanent gridlock, walking pedestrians on sidewalk loops, denser planting in empty green lawn areas, tunnel portals at side/far mountain exits, and shared voxel walk cycles.
+- Isometric player walking with WASD/arrow keys, camera follow, and player walk animation.
 - Separate individual asset viewer.
 - Responsive camera and canvas.
 
