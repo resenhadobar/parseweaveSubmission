@@ -219,7 +219,7 @@ function addRoadEndTunnels(world: THREE.Group): void {
       addTunnelPortal(world, road.maxX + 0.65, z, 'horizontal')
     } else {
       const x = (road.minX + road.maxX) / 2
-      addTunnelPortal(world, x, road.maxZ + 0.65, 'vertical')
+      addTunnelPortal(world, x, road.maxZ - 1.15, 'vertical')
     }
   })
 }
