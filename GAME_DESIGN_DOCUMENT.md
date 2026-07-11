@@ -2,7 +2,7 @@
 
 ## Concept
 
-**Voxel Beach Block** is a browser-playable GTA-style voxel skate delivery game prototype. The player starts with a tutorial modal, explores a contained oceanfront neighborhood from an over-the-shoulder camera, toggles skate mode, kickflips, dodges traffic and obstacles, stops at green sidewalk NPC delivery offers, then follows a red Crazy Taxi-style 3D arrow and red ground aura to the dropoff before time runs out. Fast deliveries earn more cash, kickflips during active deliveries add RAD bonus value, and the playable block includes a seamless procedural beach sky dome, improved ocean shader, Ocean Avenue, internal streets, visible borders, denser mixed housing blocks, personality-rich props, animated cars, swaying palm trees, varied trees, walking voxel people, and a controllable skater. The playable block is surrounded by an unplayable scenic perimeter with voxel mountains and trees inspired by `assets/conceptArt.png`.
+**Voxel Beach Block** is a browser-playable GTA-style voxel skate delivery game prototype. The player starts with a tutorial modal, explores a contained oceanfront neighborhood from an over-the-shoulder camera, toggles skate mode, kickflips, dodges traffic and obstacles, stops at green sidewalk NPC delivery offers, then follows a red Crazy Taxi-style 3D arrow and red ground aura to the dropoff before time runs out. Fast deliveries earn more cash, kickflips during active deliveries add RAD bonus value, and the playable block includes cartoon post-processing, a seamless procedural beach sky dome, improved ocean shader, Ocean Avenue, internal streets, visible borders, denser mixed housing blocks, personality-rich props, animated cars, swaying palm trees, varied trees, walking voxel people, and a controllable skater. The playable block is surrounded by an unplayable scenic perimeter with voxel mountains and trees inspired by `assets/conceptArt.png`.
 
 ## Design Pillars
 
@@ -24,8 +24,8 @@ This is now a delivery-game prototype with score hooks logged through runtime me
 3. Toggle skate mode and push through the neighborhood.
 4. Stop near green sidewalk NPC arrows to accept delivery runs.
 5. Follow the red dropoff arrow and GTA-style red ground aura while dodging cars, pedestrians, buildings, trees, and props.
-6. Kickflip with Space during a delivery to trigger RAD! feedback and increase the current delivery value.
-7. Complete deliveries quickly to earn more cash; completion triggers a cash-gained popup, celebratory voxel particles, and a short “yeah!” sound effect, while crashes trigger a bail animation and time penalty.
+6. Kickflip with Space during a delivery to trigger RAD! text and voice feedback and increase the current delivery value.
+7. Complete deliveries quickly to earn more cash; completion triggers a cash-gained popup, cash sound, celebratory voxel particles, and a short “yeah!” sound effect, while crashes trigger a bail animation and time penalty.
 8. Switch to the individual 3D viewer when inspecting assets.
 
 ## Player Goals
@@ -66,6 +66,7 @@ The scene is a sunny coastal neighborhood with:
 - Architecture references: `assets/voxelBeachSkill.txt` and `assets/buildingReference.png`; current building direction favors memorable silhouettes, traditional Malibu-style low layered roofs with broad eaves, porches, balconies, storefronts, rooftop props, cohesive palettes, and clear building purpose.
 - Concept art reference: `assets/conceptArt.png`; current direction prioritizes a scenic, toy-like voxel block with mountains and dense neighborhood structures.
 - Warm sun lighting, soft shadows, sky-blue fog, saturated beach palette.
+- Cartoon post-processing posterizes colors, adds soft ink-like edge emphasis, and applies a light vignette for a more polished toy-like look.
 - Ocean uses a custom animated shader for shallow/deep color blending, foam bands, ripples, and shimmer while remaining outside the sand footprint.
 - Beach atmosphere uses a seamless procedural sky dome, coastal music, looping ocean surf, and speed-reactive riding wind.
 - Palm trees use connected crowns with drooping voxel fronds and subtle global wind sway.
@@ -83,6 +84,7 @@ The scene is a sunny coastal neighborhood with:
 - `src/delivery/deliveryHud.ts` contains the tutorial modal, delivery minimap, timer, cash counter, RAD text, and screen-space 3D destination arrow.
 - `src/delivery/scoring.ts` contains delivery payout calculation.
 - `src/audio/beachAudio.ts` contains music, ocean ambience, and speed-reactive riding wind playback.
+- `src/render/cartoonPostProcessing.ts` contains the post-processing composer and cartoon shader pass.
 - `src/render/skyDome.ts` contains the seamless procedural beach sky dome.
 - `src/voxel/palmWind.ts` contains the shared palm wind sway registry.
 - `src/player/collisions.ts` contains lightweight player collision bounds for buildings, trees, towers, umbrellas, benches, and major props.
@@ -109,7 +111,8 @@ Rules:
 - Unplayable mountain/tree perimeter surrounding the playable block.
 - Performance optimization pass for the tall mountain perimeter using instanced mountain/ground batches, coarser mountain sampling, reduced pixel ratio cap, and lower shadow-map budget to target 60fps.
 - Latest architecture pass reworked beach houses, surf shop, apartments/hotels, palm trees, tropical trees, and beach props for stronger personality while batching the dense playable ground tiles for performance.
-- Latest feedback pass adds proper minimap NPC markers, sidewalk-only quest NPC placement, a cash counter, delivery cash-gained popup, completion particle burst, delivery “yeah!” sound effect, delivery timer, startup tutorial modal, red GTA-style dropoff aura, RAD kickflip delivery bonuses, corrected 3D destination arrow, seamless procedural sky dome, coastal audio loops, connected drooping palm fronds, and subtle wind sway for palms.
+- Latest feedback pass adds proper minimap NPC markers, sidewalk-only quest NPC placement, a cash counter, delivery cash-gained popup, completion particle burst, delivery “yeah!” sound effect, cash reward sound, RAD voice, delivery timer, startup tutorial modal, red GTA-style dropoff aura, RAD kickflip delivery bonuses, corrected 3D destination arrow, seamless procedural sky dome, coastal audio loops, connected drooping palm fronds, and subtle wind sway for palms.
+- Cartoon post-processing pass for more saturated posterized colors, soft ink edges, and subtle vignette.
 - Latest street-life pass adds deterministic animated cars, walking pedestrians on sidewalk loops, denser planting in empty green lawn areas, tunnel portals at side/far mountain exits, and shared voxel walk cycles.
 - Automatic GTA-style over-the-shoulder camera, skate movement, delivery pickup/dropoff arrows, minimap indicators, top-center Crazy Taxi-style destination arrow, timed runs, kickflip animation, bail animation, and crash time penalties.
 - Fixed-point voxel limb pivots for clearer player and NPC walk animation.
