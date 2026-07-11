@@ -19,7 +19,7 @@ export function createBeachBlockScene(): THREE.Group {
   world.add(createPerimeterScenery())
   world.add(createOcean())
 
-  console.info('[VoxelBeach] Reworked beach block with layered voxel architecture, varied trees, and batched ground tiles')
+  console.info('[VoxelBeach] Applied realistic palette, narrower streets, larger lawns, and tightened roof footprints')
   return world
 }
 
@@ -96,12 +96,12 @@ function createRoadDetails(world: THREE.Group): void {
   for (const road of roads) {
     if (road.direction === 'horizontal') {
       const z = (road.minZ + road.maxZ) / 2
-      for (let x = road.minX + 4; x <= road.maxX - 4; x += 6) addBlock(world, { color: 'yellow', position: [x, 0.18, z], scale: [2.3, 0.05, 0.13] })
-      for (let x = road.minX + 8; x <= road.maxX - 8; x += 12) addStreetLight(world, x, road.minZ - 2.2)
+      for (let x = road.minX + 4; x <= road.maxX - 4; x += 7) addBlock(world, { color: 'yellow', position: [x, 0.18, z], scale: [1.55, 0.05, 0.11] })
+      for (let x = road.minX + 8; x <= road.maxX - 8; x += 12) addStreetLight(world, x, road.minZ - 1.55)
     } else {
       const x = (road.minX + road.maxX) / 2
-      for (let z = road.minZ + 4; z <= road.maxZ - 4; z += 6) addBlock(world, { color: 'yellow', position: [x, 0.18, z], scale: [0.13, 0.05, 2.3] })
-      for (let z = road.minZ + 8; z <= road.maxZ - 8; z += 12) addStreetLight(world, road.maxX + 2.2, z)
+      for (let z = road.minZ + 4; z <= road.maxZ - 4; z += 7) addBlock(world, { color: 'yellow', position: [x, 0.18, z], scale: [0.11, 0.05, 1.55] })
+      for (let z = road.minZ + 8; z <= road.maxZ - 8; z += 12) addStreetLight(world, road.maxX + 1.55, z)
     }
   }
 
@@ -140,8 +140,8 @@ function createLargeBuilding(lot: Lot): THREE.Group {
   const floorHeight = isHotel ? 2 : 2.3
   const height = lot.stories * floorHeight
   addBlock(group, { color: lot.body, position: [0, height / 2, 0], scale: [lot.width, height, lot.depth] })
-  addBlock(group, { color: lot.body, position: [-lot.width / 2 + 1.2, Math.min(3.4, height / 2), -0.9], scale: [2.1, Math.min(6, height * 0.62), lot.depth + 1.1] })
-  addBlock(group, { color: lot.roof, position: [0, height + 0.25, 0], scale: [lot.width + 0.9, isHotel ? 0.34 : 0.66, lot.depth + 0.9] })
+  addBlock(group, { color: lot.body, position: [-lot.width / 2 + 1.05, Math.min(3.4, height / 2), -0.55], scale: [1.7, Math.min(6, height * 0.62), lot.depth + 0.2] })
+  addBlock(group, { color: lot.roof, position: [0, height + 0.18, 0], scale: [lot.width + 0.35, isHotel ? 0.26 : 0.34, lot.depth + 0.32] })
   addStreetFacingDoor(group, lot)
   addLargeBuildingWindows(group, lot, floorHeight, isHotel)
   addStackedBalconies(group, lot, floorHeight)
@@ -179,18 +179,18 @@ function addStackedBalconies(group: THREE.Group, lot: Lot, floorHeight: number):
   for (let floor = 1; floor < Math.min(lot.stories, 6); floor += 1) {
     const y = 0.8 + floor * floorHeight
     for (const x of [-lot.width / 2 + 1.4, lot.width / 2 - 1.4]) {
-      addBlock(group, { color: 'wood', position: [x, y, -lot.depth / 2 - 0.55], scale: [1.65, 0.18, 0.85] })
-      addBlock(group, { color: 'white', position: [x, y + 0.35, -lot.depth / 2 - 0.92], scale: [1.65, 0.15, 0.12] })
+      addBlock(group, { color: 'wood', position: [x, y, -lot.depth / 2 - 0.32], scale: [1.38, 0.16, 0.52] })
+      addBlock(group, { color: 'white', position: [x, y + 0.32, -lot.depth / 2 - 0.58], scale: [1.38, 0.12, 0.1] })
     }
   }
 }
 
 function addRooftopPersonality(group: THREE.Group, lot: Lot, height: number, isHotel: boolean): void {
-  addBlock(group, { color: 'white', position: [-lot.width / 2 + 1.25, height + 0.78, 0], scale: [0.16, 0.58, lot.depth - 1.2] })
-  addBlock(group, { color: 'white', position: [lot.width / 2 - 1.25, height + 0.78, 0], scale: [0.16, 0.58, lot.depth - 1.2] })
-  addBlock(group, { color: 'metal', position: [lot.width / 2 - 1.7, height + 0.75, lot.depth / 2 - 1.3], scale: [1.2, 0.28, 0.8] })
-  addBlock(group, { color: isHotel ? 'glass' : 'teal', position: [-lot.width / 2 + 1.8, height + 0.75, lot.depth / 2 - 1.25], scale: [1.45, 0.16, 0.9] })
-  if (isHotel) addBlock(group, { color: lot.roof, position: [0, height + 0.95, -lot.depth / 2 + 1.25], scale: [2.8, 0.18, 1.05] })
+  addBlock(group, { color: 'white', position: [-lot.width / 2 + 1.05, height + 0.58, 0], scale: [0.12, 0.36, lot.depth - 1.05] })
+  addBlock(group, { color: 'white', position: [lot.width / 2 - 1.05, height + 0.58, 0], scale: [0.12, 0.36, lot.depth - 1.05] })
+  addBlock(group, { color: 'metal', position: [lot.width / 2 - 1.5, height + 0.48, lot.depth / 2 - 1.15], scale: [0.95, 0.2, 0.62] })
+  addBlock(group, { color: isHotel ? 'glass' : 'teal', position: [-lot.width / 2 + 1.55, height + 0.48, lot.depth / 2 - 1.1], scale: [1.05, 0.14, 0.62] })
+  if (isHotel) addBlock(group, { color: lot.roof, position: [0, height + 0.68, -lot.depth / 2 + 1.05], scale: [2.2, 0.14, 0.78] })
 }
 
 function createLandscape(world: THREE.Group): void {
@@ -221,7 +221,7 @@ function createPeople(world: THREE.Group): void {
 }
 
 function addCrosswalk(world: THREE.Group, x: number, z: number, direction: 'horizontal' | 'vertical'): void {
-  for (let i = -3; i <= 3; i += 1) addBlock(world, { color: 'white', position: direction === 'horizontal' ? [x, 0.2, z + i * 0.7] : [x + i * 0.7, 0.2, z], scale: direction === 'horizontal' ? [2.5, 0.05, 0.25] : [0.25, 0.05, 2.5] })
+  for (let i = -2; i <= 2; i += 1) addBlock(world, { color: 'white', position: direction === 'horizontal' ? [x, 0.2, z + i * 0.62] : [x + i * 0.62, 0.2, z], scale: direction === 'horizontal' ? [1.95, 0.05, 0.22] : [0.22, 0.05, 1.95] })
 }
 
 function addStreetLight(world: THREE.Group, x: number, z: number): void {
