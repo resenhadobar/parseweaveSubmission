@@ -4,7 +4,7 @@ A browser-playable 3D voxel beach neighborhood prototype built with Vite, TypeSc
 
 ## Overview
 
-Voxel Beach Block presents a polished walkable oceanfront diorama with a proper voxel beach, animated ocean shader, Ocean Avenue, denser playable neighborhood blocks, personality-rich layered houses and multi-building apartment blocks, animated cars, walking pedestrians, varied palm/tropical trees, lifeguard towers, umbrellas, towels, benches, signs, streetlights, and beach-life decorations. The playable neighborhood is surrounded by an unplayable voxel perimeter of mountains, trees, and border scenery inspired by `assets/conceptArt.png`.
+Voxel Beach Block is now a GTA-style over-the-shoulder voxel delivery game prototype set in a polished oceanfront neighborhood. Players move camera-relative, jump onto a delivery bike, dodge traffic and obstacles, and are rewarded for riding faster while staying safe. The scene still includes the beach, animated ocean shader, Ocean Avenue, dense neighborhood blocks, animated cars, walking pedestrians, varied palm/tropical trees, lifeguard towers, beach props, and mountain perimeter scenery.
 
 It also includes a separate individual 3D asset viewer so each voxel structure can be inspected outside the full neighborhood scene.
 
@@ -12,9 +12,11 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 
 | Action | Input |
 | --- | --- |
-| Walk player isometrically | `WASD` or Arrow Keys |
-| Orbit camera | Drag mouse/touch |
-| Zoom camera | Mouse wheel/trackpad |
+| Move camera-relative | `WASD` or Arrow Keys |
+| Mount/dismount delivery bike | `E` |
+| Sprint/boost | Hold `Space` |
+| Rotate over-the-shoulder camera | Drag mouse/touch |
+| Adjust camera pitch | Mouse wheel/trackpad |
 | Open individual asset viewer | `V` |
 | Return to beach block | `B` |
 | Next asset | `]` or Right Arrow |
@@ -30,7 +32,8 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 - Voxel people scaled so buildings read as walkable interiors compared to cars and doors.
 - Unplayable surrounding scenery with 2x-height rock-dominant Rio-style horseshoe mountains, outer terrain, tree line, and perimeter border.
 - 60fps-oriented rendering optimizations using instanced mountain/outer-ground voxel batches, reduced pixel ratio cap, and lower shadow-map budget.
-- Animated player character, voxel pedestrians, and cars, varied palm/tropical trees, surf racks, bicycles, food cart, beach shower, tiny boat, and other props.
+- Animated player/rider character, delivery bike, voxel pedestrians, and cars, varied palm/tropical trees, surf racks, bicycles, food cart, beach shower, tiny boat, and other props.
+- Delivery prototype scoring in runtime logs: faster safe bike riding increases payout, near misses grant bonuses, and clipping traffic applies a speed penalty.
 - Player collision against buildings, trees, towers, umbrellas, benches, and major beach props.
 - Fewer signal-timed cars that recycle through tunnel routes instead of forming permanent jams.
 - Camera-frustum visibility culling so static scene sections outside the camera view are hidden from rendering.
@@ -63,7 +66,8 @@ npm run typecheck
 
 - `src/main.ts` - app entry point.
 - `src/app.ts` - renderer, scene, camera, resize, input, and animation loop.
-- `src/camera/orbitCamera.ts` - orbit/zoom camera controls.
+- `src/camera/overShoulderCamera.ts` - GTA-style over-the-shoulder camera controls.
+- `src/camera/orbitCamera.ts` - legacy orbit/zoom camera controls retained for reference.
 - `src/viewer/assetViewer.ts` - individual voxel asset viewer.
 - `src/voxel/blocks.ts` - reusable voxel block helpers, including instanced voxel batching for dense scenery.
 - `src/voxel/materials.ts` - voxel color palette and materials.
@@ -71,7 +75,7 @@ npm run typecheck
 - `src/voxel/scenery.ts` - unplayable outer terrain, mountains, tree line, and playable border.
 - `src/voxel/scene.ts` - full beach block composition.
 - `src/voxel/traffic.ts` - deterministic moving cars and sidewalk pedestrian loops.
-- `src/player/playerController.ts` - isometric player walking and camera follow target.
+- `src/player/playerController.ts` - camera-relative walking, delivery-bike mounting, boost movement, near-miss scoring, and collision-aware riding.
 - `src/player/collisions.ts` - lightweight player collision bounds for buildings and props.
 - `src/render/visibilityCulling.ts` - camera-frustum culling for static scene sections.
 - `src/voxel/characterAnimation.ts` - shared voxel character walk-cycle animation.
