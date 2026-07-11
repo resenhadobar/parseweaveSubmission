@@ -6,7 +6,6 @@ import {
   createCar,
   createLifeguardTower,
   createPalmTree,
-  createSurfShop,
   createTropicalTree,
   createVoxelPerson,
 } from './assets'
@@ -14,6 +13,16 @@ import {
 export type VoxelAsset = {
   label: string
   create: () => THREE.Group
+}
+
+function createSurfShop(): THREE.Group {
+  return createBeachHouse({
+    id: 'viewer-surf-shop',
+    body: 'cream',
+    roof: 'teal',
+    stories: 2,
+    shop: true,
+  })
 }
 
 export function createViewerAssets(): VoxelAsset[] {
