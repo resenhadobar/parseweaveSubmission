@@ -19,6 +19,7 @@ export class PlayerController {
   private fallTimer = 0
   private elapsed = 0
   private fallPenaltyQueued = false
+  private kickflipQueued = false
 
   constructor(private readonly camera: THREE.PerspectiveCamera) {
     this.object.name = 'player-character'
@@ -72,6 +73,12 @@ export class PlayerController {
     return true
   }
 
+  consumeKickflip(): boolean {
+    if (!this.kickflipQueued) return false
+    this.kickflipQueued = false
+    return true
+  }
+
   private setSkateMode(enabled: boolean): void {
     this.skateMode = enabled
     this.skate.visible = enabled
@@ -84,6 +91,7 @@ export class PlayerController {
   private startKickflip(): void {
     this.jumpTimer = 0.72
     this.speed += 2.2
+    this.kickflipQueued = true
     console.info('[VoxelBeach] Kickflip started')
   }
 
