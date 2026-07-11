@@ -133,7 +133,7 @@ function updateActor(actor: Actor): void {
   actor.object.position.set(current[0], actor.height, current[1])
   const dx = next[0] - current[0]
   const dz = next[1] - current[1]
-  actor.object.rotation.y = actor.kind === 'car' ? -Math.atan2(dz, dx) : Math.atan2(dx, dz)
+  actor.object.rotation.y = actor.kind === 'car' ? -Math.atan2(dz, dx) : Math.atan2(-dx, -dz)
 }
 
 function sampleRoute(route: RoutePoint[], distance: number): RoutePoint {
