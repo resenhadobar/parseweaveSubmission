@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { createVoxelPerson } from '../voxel/assets'
+import { calculateDeliveryScore } from './scoring'
 
 type DeliveryPoint = { x: number; z: number }
 
@@ -29,6 +30,8 @@ export class DeliveryController {
   private activeDropoff = 0
   private timer = 0
   private completed = 0
+  private cash = 0
+  private radBonus = 0
 
   constructor(world: THREE.Group) {
     this.group.name = 'delivery-pointers'
@@ -66,11 +69,19 @@ export class DeliveryController {
     console.info(`[VoxelBeach] Delivery crash penalty: -5 seconds, ${Math.ceil(this.timer)} seconds left`)
   }
 
-  getHudSnapshot(): { active: boolean; pickups: DeliveryPoint[]; target?: DeliveryPoint } {
+  recordKickflip(): boolean {
+    if (this.state !== 'active') return false
+    this.radBonus += 8
+    console.info(`[VoxelBeach] RAD kickflip bonus added: delivery value +$8, current trick bonus $${this.radBonus}`)
+    return true
+  }
+
+  getHudSnapshot(): { active: boolean; pickups: DeliveryPoint[]; target?: DeliveryPoint; cash: number } {
     return {
       active: this.state === 'active',
-      pickups: this.state === 'waiting' ? pickupPoints : [],
+      pickups: pickupPoints,
       target: this.state === 'active' ? dropoffPoints[this.activeDropoff] : undefined,
+      cash: this.cash,
     }
   }
 
@@ -88,6 +99,7 @@ export class DeliveryController {
     this.activeDropoff = (index + this.completed + 1) % dropoffPoints.length
     this.state = 'active'
     this.timer = 55
+    this.radBonus = 0
     this.pickupArrows.forEach((arrow) => (arrow.visible = false))
     this.targetArrow.visible = true
     console.info(`[VoxelBeach] Delivery started: ${this.timer}s to reach the red arrow`)
@@ -101,10 +113,11 @@ export class DeliveryController {
     this.targetArrow.lookAt(player.position.x, this.targetArrow.position.y, player.position.z)
     if (distanceTo(player, target) < 3.4) {
       this.completed += 1
-      const payout = Math.max(10, Math.floor(this.timer + Math.abs(speed) * 2))
+      const score = calculateDeliveryScore(this.timer, speed, this.radBonus)
+      this.cash += score.payout
       this.state = 'waiting'
       this.targetArrow.visible = false
-      console.info(`[VoxelBeach] Delivery complete: payout ${payout}, completed runs ${this.completed}`)
+      console.info(`[VoxelBeach] Delivery complete: payout $${score.payout} (base $${score.baseValue}, speed $${score.speedBonus}, RAD $${score.radBonus}), cash $${this.cash}, completed runs ${this.completed}`)
       return
     }
     if (this.timer <= 0) {
@@ -130,14 +143,17 @@ function createArrow(color: 'green' | 'red'): THREE.Group {
   const glow = color === 'green' ? '#1b6d31' : '#66110e'
   const material = new THREE.MeshStandardMaterial({ color: fill, emissive: glow, emissiveIntensity: 0.35, roughness: 0.38 })
   const trim = new THREE.MeshStandardMaterial({ color: '#fff1c2', emissive: '#3b2d16', emissiveIntensity: 0.15, roughness: 0.42 })
-  const halo = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.035, 8, 24), trim)
-  const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.62, 12), material)
+  const halo = new THREE.Mesh(new THREE.TorusGeometry(0.48, 0.035, 8, 28), trim)
+  const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.58, 12), material)
   const head = new THREE.Mesh(new THREE.ConeGeometry(0.32, 0.48, 4), material)
-  stem.position.y = 0.26
-  head.position.y = -0.28
+  const cap = new THREE.Mesh(new THREE.ConeGeometry(0.38, 0.14, 4), trim)
+  stem.position.y = 0.18
+  head.position.y = -0.32
+  cap.position.y = -0.58
   head.rotation.x = Math.PI
+  cap.rotation.x = Math.PI
   halo.rotation.x = Math.PI / 2
-  group.add(halo, stem, head)
+  group.add(halo, stem, head, cap)
   return group
 }
 
