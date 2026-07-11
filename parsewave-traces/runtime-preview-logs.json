@@ -1,0 +1,219 @@
+[
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Inspecting asset: Layered Beach House"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Skate delivery game initialized. WASD/arrows steer and push, E toggles skate mode, Space kickflips, stop at green arrows to start deliveries."
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Tutorial modal dismissed"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Beach audio loops started"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Stepped onto delivery skateboard"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Delivery started: 55s to reach the red arrow"
+  },
+  {
+    "level": "debug",
+    "message": "[vite] connecting..."
+  },
+  {
+    "level": "debug",
+    "message": "[vite] connected."
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Optimized mountains into instanced batches from 10779 voxel transforms"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Added 2x-height optimized Rio rock horseshoe mountains with instanced voxel batches"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Applied Malibu roofs, fuller lawn planting, and animated traffic-ready scene props"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Traffic active: 3 signal-timed cars and 6 animated pedestrians; cars recycle instead of jamming"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Skater ready: WASD/arrows steer and push, E toggles skate mode, Space kickflips while skating"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Skate delivery offers active: stop near green arrows to accept a run"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Beach audio loops prepared; first input starts music, surf, and ride wind"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Camera culling registered 690 static scene sections"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Inspecting asset: Layered Beach House"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Skate delivery game initialized. WASD/arrows steer and push, E toggles skate mode, Space kickflips, stop at green arrows to start deliveries."
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Beach audio loops started"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Tutorial modal dismissed"
+  },
+  {
+    "level": "debug",
+    "message": "[vite] connecting..."
+  },
+  {
+    "level": "debug",
+    "message": "[vite] connected."
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Optimized mountains into instanced batches from 10779 voxel transforms"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Added 2x-height optimized Rio rock horseshoe mountains with instanced voxel batches"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Applied Malibu roofs, fuller lawn planting, and animated traffic-ready scene props"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Traffic active: 3 signal-timed cars and 6 animated pedestrians; cars recycle instead of jamming"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Skater ready: WASD/arrows steer and push, E toggles skate mode, Space kickflips while skating"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Skate delivery offers active: stop near green arrows to accept a run"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Beach audio loops prepared; first input starts music, surf, and ride wind"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Camera culling registered 690 static scene sections"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Inspecting asset: Layered Beach House"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Skate delivery game initialized. WASD/arrows steer and push, E toggles skate mode, Space kickflips, stop at green arrows to start deliveries."
+  },
+  {
+    "level": "debug",
+    "message": "[vite] connecting..."
+  },
+  {
+    "level": "debug",
+    "message": "[vite] connected."
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Optimized mountains into instanced batches from 10779 voxel transforms"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Added 2x-height optimized Rio rock horseshoe mountains with instanced voxel batches"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Applied Malibu roofs, fuller lawn planting, and animated traffic-ready scene props"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Traffic active: 3 signal-timed cars and 6 animated pedestrians; cars recycle instead of jamming"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Skater ready: WASD/arrows steer and push, E toggles skate mode, Space kickflips while skating"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Skate delivery offers active: stop near green arrows to accept a run"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Beach audio loops prepared; first input starts music, surf, and ride wind"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Camera culling registered 690 static scene sections"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Stepped off delivery skateboard"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Stepped onto delivery skateboard"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Delivery started: 55s to reach the red arrow"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Skater bailed: collision caused a time penalty"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Delivery crash penalty: -5 seconds, 44 seconds left"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Skater bailed: collision caused a time penalty"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Delivery crash penalty: -5 seconds, 38 seconds left"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Delivery NPC 5 moved to sidewalk 28, 33"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Delivery complete: payout $114 (base $35, speed $79, RAD $0), cash $114, completed runs 1"
+  },
+  {
+    "level": "error",
+    "message": "[runtime] Uncaught\nSyntaxError: The requested module '/35902fc1-8034-41bb-ace5-85a9fc1346a6/src/voxel/assets.ts?t=1783778363622' does not provide an export named 'createSurfShop'\n(http://127.0.0.1:4564/35902fc1-8034-41bb-ace5-85a9fc1346a6/src/voxel/viewerAssets.ts?t=1783778363622:2:98)"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Beach audio loops started"
+  },
+  {
+    "level": "info",
+    "message": "[VoxelBeach] Tutorial modal dismissed",
+    "count": 2
+  }
+]
