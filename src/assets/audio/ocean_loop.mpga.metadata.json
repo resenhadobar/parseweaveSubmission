@@ -1,0 +1,45 @@
+{
+  "name": "ElevenLabs",
+  "output": {
+    "location": [
+      "src\\assets\\audio\\ocean_loop.mpga"
+    ],
+    "metadata": {
+      "asset": {
+        "id": "dcc7c292-306e-4b17-810d-e15b45cf9552",
+        "asset_type": "audio",
+        "task": "sound_effect",
+        "model": "fal-ai/elevenlabs/sound-effects/v2",
+        "source": "ai_generated",
+        "created_at": "2026-07-11T13:28:43.866712Z",
+        "updated_at": "2026-07-11T13:28:43.866712Z",
+        "s3_key": "audio/e4fa04f6-c612-4c25-b25f-9580b4bb45ce.mp3",
+        "file_size_bytes": 353219,
+        "mime_type": "audio/mpeg",
+        "token_count": 550,
+        "metadata": {
+          "fal_request_id": "019f515d-9ae1-7940-9f44-33e7cc9ab10a",
+          "fal_model_id": "fal-ai/elevenlabs/sound-effects/v2",
+          "prompt": "Loop-friendly gentle ocean surf ambience, rolling waves washing onto sand, soft foam hiss, distant gull-like coastal air, clean natural background texture",
+          "duration": 22,
+          "loop": true,
+          "source_audio_url": "https://v3b.fal.media/files/b/0aa1d3b4/ymffGm0qVZGeE-Qf-Cm6y_sound_effect.mp3",
+          "source_audio_content_type": "audio/mpeg",
+          "source_audio_file_name": "sound_effect.mp3",
+          "source_audio_file_size": 353219
+        },
+        "cache_hit": false,
+        "cache_type": null
+      }
+    }
+  },
+  "arguments": {
+    "audio_request": {
+      "type": "effect",
+      "model": "elevenlabs-sound-effects",
+      "prompt": "Loop-friendly gentle ocean surf ambience, rolling waves washing onto sand, soft foam hiss, distant gull-like coastal air, clean natural background texture",
+      "duration": 22,
+      "loop": true
+    }
+  }
+}
