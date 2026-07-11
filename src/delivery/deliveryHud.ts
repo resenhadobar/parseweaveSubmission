@@ -52,7 +52,7 @@ export class DeliveryHud {
     if (snapshot.target) {
       const dx = snapshot.target.x - player.position.x
       const dz = snapshot.target.z - player.position.z
-      this.arrow.rotation.z = Math.atan2(dx, dz)
+      this.arrow.rotation.z = Math.atan2(dx, dz) + player.rotation.y + Math.PI
       this.arrow.rotation.x = -0.55
       this.arrow.rotation.y = 0.35
     }
