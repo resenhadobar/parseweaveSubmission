@@ -56,12 +56,32 @@ canvas:active {
   position: absolute;
   right: 18px;
   bottom: 18px;
-  width: 150px;
-  height: 150px;
+  width: 168px;
+  height: 156px;
   border: 2px solid rgba(255, 245, 220, 0.9);
   border-radius: 12px;
-  background: rgba(24, 34, 38, 0.52);
+  background: linear-gradient(to bottom, rgba(126, 205, 118, 0.82), rgba(104, 177, 103, 0.78));
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+}
+
+.map-zone {
+  position: absolute;
+}
+
+.map-beach {
+  background: rgba(238, 211, 139, 0.92);
+  border-top: 2px dotted rgba(255, 255, 255, 0.55);
+}
+
+.map-road {
+  background: rgba(53, 59, 62, 0.86);
+  border: 1px solid rgba(255, 244, 188, 0.25);
+}
+
+.map-block {
+  background: rgba(255, 238, 190, 0.42);
+  border: 1px solid rgba(94, 119, 82, 0.28);
 }
 
 .map-dot {
@@ -70,6 +90,7 @@ canvas:active {
   height: 10px;
   border-radius: 999px;
   transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
 .map-player {
