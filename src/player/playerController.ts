@@ -25,6 +25,7 @@ export class PlayerController {
     this.object.position.set(0, 0.12, 4)
     this.rider.name = 'player-rider'
     this.rider.scale.setScalar(1.15)
+    this.addBackpack()
     this.skate.position.set(0, 0.02, 0.1)
     this.skate.visible = false
     this.object.add(this.rider, this.skate)
@@ -127,6 +128,10 @@ export class PlayerController {
       return
     }
 
+    if (this.skate.rotation.y !== 0 || Math.abs(this.skate.rotation.z) > 0.01) {
+      this.skate.rotation.y = THREE.MathUtils.lerp(this.skate.rotation.y, 0, 0.28)
+      this.skate.rotation.z = THREE.MathUtils.lerp(this.skate.rotation.z, 0, 0.28)
+    }
     const jumpProgress = this.jumpTimer > 0 ? 1 - this.jumpTimer / 0.72 : 1
     if (this.jumpTimer > 0) this.jumpTimer = Math.max(0, this.jumpTimer - deltaSeconds)
     const jumpHeight = this.jumpTimer > 0 ? Math.sin(jumpProgress * Math.PI) * 1.25 : 0
@@ -135,6 +140,16 @@ export class PlayerController {
     this.skate.position.y = 0.02 + jumpHeight
     this.skate.rotation.z = this.jumpTimer > 0 ? jumpProgress * Math.PI * 2 : THREE.MathUtils.lerp(this.skate.rotation.z, 0, 0.2)
     updateVoxelWalkCycle(this.rider, this.elapsed, this.skateMode ? 0 : Math.abs(this.speed))
+  }
+
+  private addBackpack(): void {
+    const material = new THREE.MeshStandardMaterial({ color: '#d6aa55', roughness: 0.75 })
+    const bag = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.48, 0.16), material)
+    bag.name = 'yellow-delivery-backpack'
+    bag.position.set(0, 0.92, 0.24)
+    bag.castShadow = true
+    bag.receiveShadow = true
+    this.rider.add(bag)
   }
 
   private isOnRoadOrSidewalk(): boolean {
