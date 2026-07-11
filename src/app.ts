@@ -66,8 +66,8 @@ export class VoxelBeachApp {
     window.addEventListener('keydown', (event) => {
       if (event.key.toLowerCase() === 'v') this.setMode('viewer')
       if (event.key.toLowerCase() === 'b') this.setMode('scene')
-      if (event.key === ']' || event.key === 'ArrowRight') this.viewer.next()
-      if (event.key === '[' || event.key === 'ArrowLeft') this.viewer.previous()
+      if (this.mode === 'viewer' && (event.key === ']' || event.key === 'ArrowRight')) this.viewer.next()
+      if (this.mode === 'viewer' && (event.key === '[' || event.key === 'ArrowLeft')) this.viewer.previous()
     })
   }
 
@@ -76,7 +76,10 @@ export class VoxelBeachApp {
     this.mode = mode
     this.beachBlock.visible = mode === 'scene'
     this.viewer.setVisible(mode === 'viewer')
-    if (mode === 'viewer') this.camera.position.set(0, 6, 12)
+    if (mode === 'viewer') {
+      this.camera.position.set(0, 6, 12)
+      this.camera.lookAt(0, 1.6, 0)
+    }
     document.body.dataset.mode = mode
   }
 
