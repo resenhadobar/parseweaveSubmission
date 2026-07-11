@@ -2,7 +2,7 @@
 
 ## Concept
 
-**Voxel Beach Block** is a browser-playable 3D voxel diorama created for the Parsewave Game Jam 2026 requirements. The prototype presents a contained playable oceanfront neighborhood with a beach, improved ocean shader, Ocean Avenue, internal streets, visible borders, denser mixed housing blocks, personality-rich props, cars, varied trees, and realistically scaled voxel people. The playable block is surrounded by an unplayable scenic perimeter with voxel mountains and trees inspired by `assets/conceptArt.png`.
+**Voxel Beach Block** is a browser-playable 3D voxel diorama created for the Parsewave Game Jam 2026 requirements. The prototype presents a contained playable oceanfront neighborhood with a beach, improved ocean shader, Ocean Avenue, internal streets, visible borders, denser mixed housing blocks, personality-rich props, animated cars, varied trees, and walking voxel people. The playable block is surrounded by an unplayable scenic perimeter with voxel mountains and trees inspired by `assets/conceptArt.png`.
 
 ## Design Pillars
 
@@ -48,7 +48,7 @@ The scene is a sunny coastal neighborhood with:
 - Voxel sand beach with towels, umbrellas, shells, dunes, volleyball net, and lifeguard tower.
 - Ocean Avenue with asphalt, lane markings, crosswalks, sidewalks, parked cars, benches, and streetlights.
 - A larger contained neighborhood grid with visible perimeter borders and multiple internal streets.
-- Beachfront homes, surf shop, added cottages, smaller apartment clusters, fences, porches, balconies, rooftop terraces, awnings, planters, and street-facing identity details.
+- Beachfront homes, surf shop, added cottages, smaller apartment clusters, fences, porches, balconies, rooftop terraces, awnings, planters, street-facing identity details, and Malibu-inspired low layered rooflines.
 - An unplayable outer perimeter with tall rock-dominant Rio-style horseshoe mountains, sparse green patches, terrain, pines, palms, and border fencing to frame the playable area.
 - Palm trees, decorations, people, and small environmental storytelling props.
 
@@ -56,7 +56,7 @@ The scene is a sunny coastal neighborhood with:
 
 - Bright stylized voxel art.
 - Clean block silhouettes with smaller decorative cubes for windows, signs, railings, awnings, wheels, lights, and props.
-- Architecture references: `assets/voxelBeachSkill.txt` and `assets/buildingReference.png`; current building direction favors memorable silhouettes, thick rooflines, stepped volumes, porches, balconies, storefronts, rooftop props, cohesive palettes, and clear building purpose.
+- Architecture references: `assets/voxelBeachSkill.txt` and `assets/buildingReference.png`; current building direction favors memorable silhouettes, traditional Malibu-style low layered roofs with broad eaves, porches, balconies, storefronts, rooftop props, cohesive palettes, and clear building purpose.
 - Concept art reference: `assets/conceptArt.png`; current direction prioritizes a scenic, toy-like voxel block with mountains and dense neighborhood structures.
 - Warm sun lighting, soft shadows, sky-blue fog, saturated beach palette.
 - Ocean uses a custom animated shader for shallow/deep color blending, foam bands, ripples, and shimmer while remaining outside the sand footprint.
@@ -89,6 +89,7 @@ Rules:
 - Unplayable mountain/tree perimeter surrounding the playable block.
 - Performance optimization pass for the tall mountain perimeter using instanced mountain/ground batches, coarser mountain sampling, reduced pixel ratio cap, and lower shadow-map budget to target 60fps.
 - Latest architecture pass reworked beach houses, surf shop, apartments/hotels, palm trees, tropical trees, and beach props for stronger personality while batching the dense playable ground tiles for performance.
+- Latest street-life pass adds deterministic animated cars on separated road loops, walking pedestrians on sidewalk loops, and denser planting in empty green lawn areas while preserving modular files under 500 lines.
 - Separate individual asset viewer.
 - Responsive camera and canvas.
 
