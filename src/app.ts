@@ -8,6 +8,8 @@ import { VisibilityCullingController } from './render/visibilityCulling'
 import { OverShoulderCameraController } from './camera/overShoulderCamera'
 import { DeliveryController } from './delivery/deliveryController'
 import { DeliveryHud } from './delivery/deliveryHud'
+import { BeachAudioController } from './audio/beachAudio'
+import skyboxUrl from './assets/sky/beach_skybox.png'
 
 export class VoxelBeachApp {
   private readonly scene = new THREE.Scene()
@@ -22,11 +24,17 @@ export class VoxelBeachApp {
   private readonly player: PlayerController
   private readonly delivery: DeliveryController
   private readonly deliveryHud: DeliveryHud
+  private readonly audio: BeachAudioController
   private readonly culling: VisibilityCullingController
   private mode: 'scene' | 'viewer' = 'scene'
 
   constructor(private readonly mount: HTMLElement) {
-    this.scene.background = new THREE.Color('#b7ecff')
+    new THREE.TextureLoader().load(skyboxUrl, (texture) => {
+      texture.mapping = THREE.EquirectangularReflectionMapping
+      texture.colorSpace = THREE.SRGBColorSpace
+      this.scene.background = texture
+      console.info('[VoxelBeach] Beach skybox loaded')
+    })
     this.scene.fog = new THREE.Fog('#b7ecff', 110, 240)
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     this.renderer.setSize(window.innerWidth, window.innerHeight)
@@ -42,6 +50,7 @@ export class VoxelBeachApp {
     this.beachBlock.add(this.player.object)
     this.delivery = new DeliveryController(this.beachBlock)
     this.deliveryHud = new DeliveryHud(this.mount)
+    this.audio = new BeachAudioController()
     this.culling = new VisibilityCullingController(this.beachBlock)
     this.viewer = new AssetViewer(this.scene)
     this.cameraController = new OverShoulderCameraController(this.camera, this.renderer.domElement)
@@ -106,8 +115,10 @@ export class VoxelBeachApp {
       this.traffic.update(delta)
       this.player.update(delta, [...this.traffic.getCarObjects(), ...this.traffic.getPedestrianObjects()])
       if (this.player.consumeFallPenalty()) this.delivery.applyFallPenalty()
+      if (this.player.consumeKickflip() && this.delivery.recordKickflip()) this.deliveryHud.showRad()
       this.delivery.update(delta, this.player.object, this.player.isSkating(), this.player.getSpeed())
       this.deliveryHud.update(this.delivery.getHudSnapshot(), this.player.object)
+      this.audio.update(this.player.getSpeed(), this.player.isSkating())
       this.cameraController.update(this.player.object, delta, this.player.isBikeMounted())
       this.culling.update(this.camera, delta)
     }
