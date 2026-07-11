@@ -165,3 +165,33 @@ function createArrow(color: 'green' | 'red'): THREE.Group {
 function distanceTo(player: THREE.Object3D, point: DeliveryPoint): number {
   return Math.hypot(player.position.x - point.x, player.position.z - point.z)
 }
+
+function createTargetAura(): THREE.Mesh {
+  const geometry = new THREE.RingGeometry(1.9, 2.75, 40)
+  const material = new THREE.MeshBasicMaterial({ color: '#ff2f2f', transparent: true, opacity: 0.48, side: THREE.DoubleSide, depthWrite: false })
+  const aura = new THREE.Mesh(geometry, material)
+  aura.name = 'delivery-red-ground-aura'
+  aura.rotation.x = -Math.PI / 2
+  return aura
+}
+
+function createSidewalkPoints(seed: number, count: number): DeliveryPoint[] {
+  const points: DeliveryPoint[] = []
+  let value = seed
+  for (let attempts = 0; attempts < 220 && points.length < count; attempts += 1) {
+    value = (value * 1664525 + 1013904223) >>> 0
+    const x = Math.round(-56 + (value / 4294967295) * 112)
+    value = (value * 1664525 + 1013904223) >>> 0
+    const z = Math.round(-12 + (value / 4294967295) * 58)
+    if (!isSidewalk(x, z)) continue
+    if (points.some((point) => Math.hypot(point.x - x, point.z - z) < 12)) continue
+    points.push({ x, z })
+  }
+  return points.length >= count ? points : [
+    { x: -54, z: -4 },
+    { x: -8, z: 8 },
+    { x: 29, z: 14 },
+    { x: 52, z: 27 },
+    { x: -30, z: 34 },
+  ]
+}
