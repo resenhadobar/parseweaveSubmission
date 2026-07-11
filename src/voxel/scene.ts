@@ -19,7 +19,7 @@ export function createBeachBlockScene(): THREE.Group {
   world.add(createPerimeterScenery())
   world.add(createOcean())
 
-  console.info('[VoxelBeach] Rendered reference-style beach-front voxel city board with terraced perimeter')
+  console.info('[VoxelBeach] Rendered optimized beach-front voxel city board with 2x-height rock horseshoe mountains')
   return world
 }
 
