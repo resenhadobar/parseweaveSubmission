@@ -7,6 +7,7 @@ import { PlayerController } from './player/playerController'
 import { VisibilityCullingController } from './render/visibilityCulling'
 import { OverShoulderCameraController } from './camera/overShoulderCamera'
 import { DeliveryController } from './delivery/deliveryController'
+import { DeliveryEffects } from './delivery/deliveryEffects'
 import { DeliveryHud } from './delivery/deliveryHud'
 import { BeachAudioController } from './audio/beachAudio'
 import { updatePalmWind } from './voxel/palmWind'
@@ -30,6 +31,7 @@ export class VoxelBeachApp {
   private readonly traffic: TrafficController
   private readonly player: PlayerController
   private readonly delivery: DeliveryController
+  private readonly deliveryEffects: DeliveryEffects
   private readonly deliveryHud: DeliveryHud
   private readonly audio: BeachAudioController
   private readonly culling: VisibilityCullingController
@@ -54,6 +56,7 @@ export class VoxelBeachApp {
     this.player = new PlayerController(this.camera)
     this.beachBlock.add(this.player.object)
     this.delivery = new DeliveryController(this.beachBlock)
+    this.deliveryEffects = new DeliveryEffects(this.beachBlock)
     this.deliveryHud = new DeliveryHud(this.mount)
     this.audio = new BeachAudioController()
     this.culling = new VisibilityCullingController(this.beachBlock)
@@ -137,7 +140,14 @@ export class VoxelBeachApp {
         this.player.isSkating(),
         this.player.getSpeed()
       )
+      const completion = this.delivery.consumeCompletion()
+      if (completion) {
+        this.deliveryHud.showPayout(completion.payout)
+        this.deliveryEffects.burst(completion.position)
+        this.audio.playDeliveryYeah()
+      }
       this.deliveryHud.update(this.delivery.getHudSnapshot(), this.player.object)
+      this.deliveryEffects.update(delta)
       this.audio.update(this.player.getSpeed(), this.player.isSkating())
       this.cameraController.update(this.player.object, delta, this.player.isBikeMounted())
       this.culling.update(this.camera, delta)
