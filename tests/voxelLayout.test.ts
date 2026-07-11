@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { containsPoint, isRoad, isSidewalk, lotBounds, lots, roads, sceneryBounds, vehicles, worldBounds } from '../src/voxel/layout'
-import { sampleMountainHeight } from '../src/voxel/scenery'
+import { estimateMountainColumnCount, sampleMountainHeight } from '../src/voxel/scenery'
 
 function boxesOverlap(a: ReturnType<typeof lotBounds>, b: { minX: number; maxX: number; minZ: number; maxZ: number }): boolean {
   return a.minX < b.maxX && a.maxX > b.minX && a.minZ < b.maxZ && a.maxZ > b.minZ
@@ -80,8 +80,12 @@ describe('voxel neighborhood layout', () => {
   })
 
   it('forms a taller horseshoe mountain range into beach and water edges', () => {
-    expect(sampleMountainHeight(0, sceneryBounds.maxZ - 4)).toBeGreaterThanOrEqual(14)
-    expect(sampleMountainHeight(worldBounds.minX - 4, worldBounds.beachEndZ - 12)).toBeGreaterThanOrEqual(4)
-    expect(sampleMountainHeight(worldBounds.maxX + 4, worldBounds.beachEndZ - 12)).toBeGreaterThanOrEqual(4)
+    expect(sampleMountainHeight(0, sceneryBounds.maxZ - 4)).toBeGreaterThanOrEqual(28)
+    expect(sampleMountainHeight(worldBounds.minX - 4, worldBounds.beachEndZ - 12)).toBeGreaterThanOrEqual(8)
+    expect(sampleMountainHeight(worldBounds.maxX + 4, worldBounds.beachEndZ - 12)).toBeGreaterThanOrEqual(8)
+  })
+
+  it('keeps optimized mountain column count within the 60fps render budget', () => {
+    expect(estimateMountainColumnCount()).toBeLessThan(1250)
   })
 })
