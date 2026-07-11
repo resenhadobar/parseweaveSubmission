@@ -14,7 +14,12 @@ import { createSkyDome } from './render/skyDome'
 
 export class VoxelBeachApp {
   private readonly scene = new THREE.Scene()
-  private readonly camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 180)
+  private readonly camera = new THREE.PerspectiveCamera(
+    55,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    180
+  )
   private readonly renderer = new THREE.WebGLRenderer({ antialias: true })
   private readonly skyDome = createSkyDome()
   private lastFrameSeconds = performance.now() / 1000
@@ -56,7 +61,9 @@ export class VoxelBeachApp {
     this.cameraController = new OverShoulderCameraController(this.camera, this.renderer.domElement)
     this.bindEvents()
     this.resize()
-    console.info('[VoxelBeach] Skate delivery game initialized. WASD/arrows steer and push, E toggles skate mode, Space kickflips, stop at green arrows to start deliveries.')
+    console.info(
+      '[VoxelBeach] Skate delivery game initialized. WASD/arrows steer and push, E toggles skate mode, Space kickflips, stop at green arrows to start deliveries.'
+    )
   }
 
   start(): void {
@@ -81,8 +88,10 @@ export class VoxelBeachApp {
     window.addEventListener('keydown', (event) => {
       if (event.key.toLowerCase() === 'v') this.setMode('viewer')
       if (event.key.toLowerCase() === 'b') this.setMode('scene')
-      if (this.mode === 'viewer' && (event.key === ']' || event.key === 'ArrowRight')) this.viewer.next()
-      if (this.mode === 'viewer' && (event.key === '[' || event.key === 'ArrowLeft')) this.viewer.previous()
+      if (this.mode === 'viewer' && (event.key === ']' || event.key === 'ArrowRight'))
+        this.viewer.next()
+      if (this.mode === 'viewer' && (event.key === '[' || event.key === 'ArrowLeft'))
+        this.viewer.previous()
     })
   }
 
@@ -115,10 +124,19 @@ export class VoxelBeachApp {
     this.skyDome.position.copy(this.camera.position)
     if (this.mode === 'scene') {
       this.traffic.update(delta)
-      this.player.update(delta, [...this.traffic.getCarObjects(), ...this.traffic.getPedestrianObjects()])
+      this.player.update(delta, [
+        ...this.traffic.getCarObjects(),
+        ...this.traffic.getPedestrianObjects(),
+      ])
       if (this.player.consumeFallPenalty()) this.delivery.applyFallPenalty()
-      if (this.player.consumeKickflip() && this.delivery.recordKickflip()) this.deliveryHud.showRad()
-      this.delivery.update(delta, this.player.object, this.player.isSkating(), this.player.getSpeed())
+      if (this.player.consumeKickflip() && this.delivery.recordKickflip())
+        this.deliveryHud.showRad()
+      this.delivery.update(
+        delta,
+        this.player.object,
+        this.player.isSkating(),
+        this.player.getSpeed()
+      )
       this.deliveryHud.update(this.delivery.getHudSnapshot(), this.player.object)
       this.audio.update(this.player.getSpeed(), this.player.isSkating())
       this.cameraController.update(this.player.object, delta, this.player.isBikeMounted())

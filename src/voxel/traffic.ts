@@ -21,19 +21,73 @@ type PersonSpec = { shirt: PaletteKey; route: RoutePoint[]; offset: number; spee
 
 const signalCycle = 8
 const carRoutes: RoutePoint[][] = [
-  [[-61.5, -8.72], [-36, -8.72], [0, -8.72], [36, -8.72], [61.5, -8.72]],
-  [[61.5, 12.22], [36, 12.22], [0, 12.22], [-36, 12.22], [-61.5, 12.22]],
-  [[-36.72, 51.5], [-36.72, 30.5], [-36.72, 11.5], [-36.72, -8], [-61.5, -8]],
-  [[0.72, 51.5], [0.72, 30.5], [0.72, 11.5], [0.72, -7.28], [61.5, -7.28]],
+  [
+    [-61.5, -8.72],
+    [-36, -8.72],
+    [0, -8.72],
+    [36, -8.72],
+    [61.5, -8.72],
+  ],
+  [
+    [61.5, 12.22],
+    [36, 12.22],
+    [0, 12.22],
+    [-36, 12.22],
+    [-61.5, 12.22],
+  ],
+  [
+    [-36.72, 51.5],
+    [-36.72, 30.5],
+    [-36.72, 11.5],
+    [-36.72, -8],
+    [-61.5, -8],
+  ],
+  [
+    [0.72, 51.5],
+    [0.72, 30.5],
+    [0.72, 11.5],
+    [0.72, -7.28],
+    [61.5, -7.28],
+  ],
 ]
 
 const pedestrianRoutes: RoutePoint[][] = [
-  [[-58, -12.6], [-40, -12.6], [-40, 7.4], [-58, 7.4]],
-  [[-32, -12.6], [-5, -12.6], [-5, 7.4], [-32, 7.4]],
-  [[5, -12.6], [32, -12.6], [32, 7.4], [5, 7.4]],
-  [[40, -12.6], [58, -12.6], [58, 7.4], [40, 7.4]],
-  [[-4.6, -12.2], [-4.6, 49], [-6.4, 49], [-6.4, -12.2]],
-  [[4.6, -12.2], [4.6, 49], [6.4, 49], [6.4, -12.2]],
+  [
+    [-58, -12.6],
+    [-40, -12.6],
+    [-40, 7.4],
+    [-58, 7.4],
+  ],
+  [
+    [-32, -12.6],
+    [-5, -12.6],
+    [-5, 7.4],
+    [-32, 7.4],
+  ],
+  [
+    [5, -12.6],
+    [32, -12.6],
+    [32, 7.4],
+    [5, 7.4],
+  ],
+  [
+    [40, -12.6],
+    [58, -12.6],
+    [58, 7.4],
+    [40, 7.4],
+  ],
+  [
+    [-4.6, -12.2],
+    [-4.6, 49],
+    [-6.4, 49],
+    [-6.4, -12.2],
+  ],
+  [
+    [4.6, -12.2],
+    [4.6, 49],
+    [6.4, 49],
+    [6.4, -12.2],
+  ],
 ]
 
 const cars: CarSpec[] = [
@@ -60,7 +114,9 @@ export class TrafficController {
   constructor(world: THREE.Group) {
     cars.forEach((spec) => this.addCar(world, spec))
     walkers.forEach((spec) => this.addWalker(world, spec))
-    console.info(`[VoxelBeach] Traffic active: ${cars.length} signal-timed cars and ${walkers.length} animated pedestrians; cars recycle instead of jamming`)
+    console.info(
+      `[VoxelBeach] Traffic active: ${cars.length} signal-timed cars and ${walkers.length} animated pedestrians; cars recycle instead of jamming`
+    )
   }
 
   update(deltaSeconds: number): void {
@@ -71,7 +127,8 @@ export class TrafficController {
       actor.distance += movingSpeed * delta
       if (actor.distance > actor.length + 20) actor.distance = -actor.phaseOffset
       updateActor(actor)
-      if (actor.kind === 'person') updateVoxelWalkCycle(actor.object, this.elapsed + actor.phaseOffset, movingSpeed)
+      if (actor.kind === 'person')
+        updateVoxelWalkCycle(actor.object, this.elapsed + actor.phaseOffset, movingSpeed)
     })
   }
 
@@ -86,7 +143,13 @@ export class TrafficController {
   private canMove(actor: Actor): boolean {
     if (actor.kind !== 'car' || actor.distance < 0 || actor.distance > actor.length) return true
     if (!greenForActor(actor)) return false
-    return !this.cars.some((other) => other !== actor && other.object.visible && aheadDistance(actor, other) > 0 && aheadDistance(actor, other) < 7)
+    return !this.cars.some(
+      (other) =>
+        other !== actor &&
+        other.object.visible &&
+        aheadDistance(actor, other) > 0 &&
+        aheadDistance(actor, other) < 7
+    )
   }
 
   private addCar(world: THREE.Group, spec: CarSpec): void {
@@ -103,7 +166,16 @@ export class TrafficController {
     const person = createVoxelPerson(spec.shirt)
     person.name = 'walking-person'
     world.add(person)
-    const actor = makeActor(person, spec.route, spec.speed, spec.offset, 0.1, 0.25, 'person', spec.offset)
+    const actor = makeActor(
+      person,
+      spec.route,
+      spec.speed,
+      spec.offset,
+      0.1,
+      0.25,
+      'person',
+      spec.offset
+    )
     this.actors.push(actor)
     this.pedestrians.push(actor)
     updateActor(actor)
@@ -112,7 +184,9 @@ export class TrafficController {
 
 function greenForActor(actor: Actor): boolean {
   const position = sampleRoute(actor.route, actor.distance)
-  const nearIntersection = [-36, 0, 36].some((x) => Math.abs(position[0] - x) < 3.5) && [-8, 11.5, 30.5].some((z) => Math.abs(position[1] - z) < 3.5)
+  const nearIntersection =
+    [-36, 0, 36].some((x) => Math.abs(position[0] - x) < 3.5) &&
+    [-8, 11.5, 30.5].some((z) => Math.abs(position[1] - z) < 3.5)
   if (!nearIntersection) return true
   const movingMostlyHorizontal = Math.abs(Math.cos(actor.object.rotation.y)) > 0.45
   const cycle = (performance.now() / 1000) % signalCycle
@@ -124,8 +198,27 @@ function aheadDistance(actor: Actor, other: Actor): number {
   return other.distance - actor.distance
 }
 
-function makeActor(object: THREE.Object3D, route: RoutePoint[], speed: number, distance: number, height: number, lookAhead: number, kind: 'car' | 'person', phaseOffset: number): Actor {
-  return { object, route, speed, distance, length: routeLength(route), height, lookAhead, kind, phaseOffset }
+function makeActor(
+  object: THREE.Object3D,
+  route: RoutePoint[],
+  speed: number,
+  distance: number,
+  height: number,
+  lookAhead: number,
+  kind: 'car' | 'person',
+  phaseOffset: number
+): Actor {
+  return {
+    object,
+    route,
+    speed,
+    distance,
+    length: routeLength(route),
+    height,
+    lookAhead,
+    kind,
+    phaseOffset,
+  }
 }
 
 function updateActor(actor: Actor): void {

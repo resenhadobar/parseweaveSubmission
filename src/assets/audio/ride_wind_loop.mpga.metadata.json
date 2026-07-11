@@ -1,9 +1,7 @@
 {
   "name": "ElevenLabs",
   "output": {
-    "location": [
-      "src\\assets\\audio\\ride_wind_loop.mpga"
-    ],
+    "location": ["src\\assets\\audio\\ride_wind_loop.mpga"],
     "metadata": {
       "asset": {
         "id": "cf3a64f5-a90a-4f03-ac17-cf2147644d3a",

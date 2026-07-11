@@ -1,9 +1,7 @@
 {
   "name": "gpt-image-1.5",
   "output": {
-    "location": [
-      "src/assets/sky/beach_skybox.png"
-    ]
+    "location": ["src/assets/sky/beach_skybox.png"]
   },
   "arguments": {
     "image_request": {

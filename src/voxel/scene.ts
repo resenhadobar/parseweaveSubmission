@@ -488,4 +488,3 @@ function addTunnelPortal(
     scale: horizontal ? [0.48, 2.1, 0.5] : [0.5, 2.1, 0.48],
   })
 }
-

@@ -1,9 +1,7 @@
 {
   "name": "CassetteAI",
   "output": {
-    "location": [
-      "src/assets/audio/beach_groove_loop.wav"
-    ],
+    "location": ["src/assets/audio/beach_groove_loop.wav"],
     "metadata": {
       "asset": {
         "id": "536f0754-427d-42d0-b7f4-e394f1fb456b",

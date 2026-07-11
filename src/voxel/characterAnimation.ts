@@ -2,7 +2,11 @@ import * as THREE from 'three'
 
 const animatedLimbNames = ['left-leg', 'right-leg', 'left-arm', 'right-arm']
 
-export function updateVoxelWalkCycle(character: THREE.Object3D, elapsedSeconds: number, speed: number): void {
+export function updateVoxelWalkCycle(
+  character: THREE.Object3D,
+  elapsedSeconds: number,
+  speed: number
+): void {
   const moving = speed > 0.05
   const stride = Math.sin(elapsedSeconds * 9.5) * (moving ? Math.min(0.55, speed * 0.06) : 0)
   const bob = moving ? Math.abs(Math.sin(elapsedSeconds * 9.5)) * 0.045 : 0

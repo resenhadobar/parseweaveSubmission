@@ -23,7 +23,9 @@ export class BeachAudioController {
     this.wind.volume = 0
     window.addEventListener('pointerdown', () => this.unlock(), { once: true })
     window.addEventListener('keydown', () => this.unlock(), { once: true })
-    console.info('[VoxelBeach] Beach audio loops prepared; first input starts music, surf, and ride wind')
+    console.info(
+      '[VoxelBeach] Beach audio loops prepared; first input starts music, surf, and ride wind'
+    )
   }
 
   update(speed: number, skating: boolean): void {

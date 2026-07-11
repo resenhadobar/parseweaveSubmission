@@ -1,8 +1,26 @@
 import type { PaletteKey } from './materials'
 
 export type RoadDirection = 'horizontal' | 'vertical'
-export type Road = { id: string; direction: RoadDirection; minX: number; maxX: number; minZ: number; maxZ: number }
-export type Lot = { id: string; x: number; z: number; width: number; depth: number; kind: 'house' | 'shop' | 'large'; body: PaletteKey; roof: PaletteKey; rotation: number; stories: number }
+export type Road = {
+  id: string
+  direction: RoadDirection
+  minX: number
+  maxX: number
+  minZ: number
+  maxZ: number
+}
+export type Lot = {
+  id: string
+  x: number
+  z: number
+  width: number
+  depth: number
+  kind: 'house' | 'shop' | 'large'
+  body: PaletteKey
+  roof: PaletteKey
+  rotation: number
+  stories: number
+}
 export type Vehicle = { x: number; z: number; color: PaletteKey; rotation: number; roadId: string }
 export type Person = { x: number; z: number; shirt: PaletteKey; rotation: number }
 
@@ -19,34 +37,298 @@ export const roads: Road[] = [
 ]
 
 export const lots: Lot[] = [
-  { id: 'surf-shop', x: -48, z: 0, width: 7.4, depth: 5.8, kind: 'shop', body: 'cream', roof: 'wood', rotation: 0, stories: 2 },
-  { id: 'coral-house', x: -24, z: 0, width: 6.8, depth: 5.8, kind: 'house', body: 'coral', roof: 'navy', rotation: 0, stories: 2 },
-  { id: 'blue-house', x: 14, z: 0, width: 6.8, depth: 5.8, kind: 'house', body: 'blue', roof: 'wood', rotation: 0, stories: 2 },
-  { id: 'teal-house', x: 43, z: 0, width: 6.8, depth: 5.8, kind: 'house', body: 'teal', roof: 'red', rotation: 0, stories: 2 },
+  {
+    id: 'surf-shop',
+    x: -48,
+    z: 0,
+    width: 7.4,
+    depth: 5.8,
+    kind: 'shop',
+    body: 'cream',
+    roof: 'wood',
+    rotation: 0,
+    stories: 2,
+  },
+  {
+    id: 'coral-house',
+    x: -24,
+    z: 0,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'house',
+    body: 'coral',
+    roof: 'navy',
+    rotation: 0,
+    stories: 2,
+  },
+  {
+    id: 'blue-house',
+    x: 14,
+    z: 0,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'house',
+    body: 'blue',
+    roof: 'wood',
+    rotation: 0,
+    stories: 2,
+  },
+  {
+    id: 'teal-house',
+    x: 43,
+    z: 0,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'house',
+    body: 'teal',
+    roof: 'red',
+    rotation: 0,
+    stories: 2,
+  },
 
-  { id: 'west-cottage', x: -55, z: 18.5, width: 6.8, depth: 5.8, kind: 'house', body: 'yellow', roof: 'wood', rotation: Math.PI, stories: 2 },
-  { id: 'central-cottage', x: -28, z: 18.5, width: 6.8, depth: 5.8, kind: 'house', body: 'pink', roof: 'red', rotation: Math.PI, stories: 2 },
-  { id: 'east-cottage', x: 8, z: 18.5, width: 6.8, depth: 5.8, kind: 'house', body: 'cream', roof: 'navy', rotation: Math.PI, stories: 2 },
-  { id: 'palm-cottage', x: 44, z: 18.5, width: 6.8, depth: 5.8, kind: 'house', body: 'coral', roof: 'wood', rotation: Math.PI, stories: 2 },
-  { id: 'mini-blue', x: -12, z: 1, width: 6.8, depth: 5.8, kind: 'house', body: 'blue', roof: 'red', rotation: 0, stories: 2 },
-  { id: 'mini-yellow', x: 23, z: 1, width: 6.8, depth: 5.8, kind: 'house', body: 'yellow', roof: 'orange', rotation: 0, stories: 2 },
+  {
+    id: 'west-cottage',
+    x: -55,
+    z: 18.5,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'house',
+    body: 'yellow',
+    roof: 'wood',
+    rotation: Math.PI,
+    stories: 2,
+  },
+  {
+    id: 'central-cottage',
+    x: -28,
+    z: 18.5,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'house',
+    body: 'pink',
+    roof: 'red',
+    rotation: Math.PI,
+    stories: 2,
+  },
+  {
+    id: 'east-cottage',
+    x: 8,
+    z: 18.5,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'house',
+    body: 'cream',
+    roof: 'navy',
+    rotation: Math.PI,
+    stories: 2,
+  },
+  {
+    id: 'palm-cottage',
+    x: 44,
+    z: 18.5,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'house',
+    body: 'coral',
+    roof: 'wood',
+    rotation: Math.PI,
+    stories: 2,
+  },
+  {
+    id: 'mini-blue',
+    x: -12,
+    z: 1,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'house',
+    body: 'blue',
+    roof: 'red',
+    rotation: 0,
+    stories: 2,
+  },
+  {
+    id: 'mini-yellow',
+    x: 23,
+    z: 1,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'house',
+    body: 'yellow',
+    roof: 'orange',
+    rotation: 0,
+    stories: 2,
+  },
 
-  { id: 'west-apartments', x: -44, z: 24, width: 7.2, depth: 5.8, kind: 'large', body: 'coral', roof: 'navy', rotation: 0, stories: 3 },
-  { id: 'central-hotel', x: -17, z: 24, width: 7.2, depth: 5.8, kind: 'large', body: 'cream', roof: 'wood', rotation: 0, stories: 3 },
-  { id: 'central-row', x: -7, z: 24, width: 6.8, depth: 5.8, kind: 'large', body: 'teal', roof: 'navy', rotation: 0, stories: 2 },
-  { id: 'east-condos', x: 18, z: 24, width: 7.2, depth: 5.8, kind: 'large', body: 'blue', roof: 'red', rotation: 0, stories: 3 },
-  { id: 'east-row', x: 28, z: 18.5, width: 6.8, depth: 5.8, kind: 'large', body: 'yellow', roof: 'wood', rotation: 0, stories: 2 },
-  { id: 'palm-court', x: 54, z: 24, width: 7.2, depth: 5.8, kind: 'large', body: 'teal', roof: 'orange', rotation: 0, stories: 3 },
+  {
+    id: 'west-apartments',
+    x: -44,
+    z: 24,
+    width: 7.2,
+    depth: 5.8,
+    kind: 'large',
+    body: 'coral',
+    roof: 'navy',
+    rotation: 0,
+    stories: 3,
+  },
+  {
+    id: 'central-hotel',
+    x: -17,
+    z: 24,
+    width: 7.2,
+    depth: 5.8,
+    kind: 'large',
+    body: 'cream',
+    roof: 'wood',
+    rotation: 0,
+    stories: 3,
+  },
+  {
+    id: 'central-row',
+    x: -7,
+    z: 24,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'large',
+    body: 'teal',
+    roof: 'navy',
+    rotation: 0,
+    stories: 2,
+  },
+  {
+    id: 'east-condos',
+    x: 18,
+    z: 24,
+    width: 7.2,
+    depth: 5.8,
+    kind: 'large',
+    body: 'blue',
+    roof: 'red',
+    rotation: 0,
+    stories: 3,
+  },
+  {
+    id: 'east-row',
+    x: 28,
+    z: 18.5,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'large',
+    body: 'yellow',
+    roof: 'wood',
+    rotation: 0,
+    stories: 2,
+  },
+  {
+    id: 'palm-court',
+    x: 54,
+    z: 24,
+    width: 7.2,
+    depth: 5.8,
+    kind: 'large',
+    body: 'teal',
+    roof: 'orange',
+    rotation: 0,
+    stories: 3,
+  },
 
-  { id: 'back-left-blocker', x: -51, z: 45, width: 12, depth: 7, kind: 'large', body: 'yellow', roof: 'wood', rotation: Math.PI, stories: 4 },
-  { id: 'back-mid-left-blocker', x: -24, z: 45, width: 12, depth: 7, kind: 'large', body: 'teal', roof: 'navy', rotation: Math.PI, stories: 9 },
-  { id: 'back-mid-right-blocker', x: 14, z: 45, width: 12, depth: 7, kind: 'large', body: 'cream', roof: 'red', rotation: Math.PI, stories: 8 },
-  { id: 'back-right-blocker', x: 49, z: 45, width: 12, depth: 7, kind: 'large', body: 'cream', roof: 'wood', rotation: Math.PI, stories: 10 },
-  { id: 'back-small-teal', x: -9, z: 42, width: 6.8, depth: 5.8, kind: 'large', body: 'teal', roof: 'red', rotation: Math.PI, stories: 2 },
-  { id: 'back-small-orange', x: 25, z: 42, width: 6.8, depth: 5.8, kind: 'large', body: 'orange', roof: 'navy', rotation: Math.PI, stories: 2 },
+  {
+    id: 'back-left-blocker',
+    x: -51,
+    z: 45,
+    width: 12,
+    depth: 7,
+    kind: 'large',
+    body: 'yellow',
+    roof: 'wood',
+    rotation: Math.PI,
+    stories: 4,
+  },
+  {
+    id: 'back-mid-left-blocker',
+    x: -24,
+    z: 45,
+    width: 12,
+    depth: 7,
+    kind: 'large',
+    body: 'teal',
+    roof: 'navy',
+    rotation: Math.PI,
+    stories: 9,
+  },
+  {
+    id: 'back-mid-right-blocker',
+    x: 14,
+    z: 45,
+    width: 12,
+    depth: 7,
+    kind: 'large',
+    body: 'cream',
+    roof: 'red',
+    rotation: Math.PI,
+    stories: 8,
+  },
+  {
+    id: 'back-right-blocker',
+    x: 49,
+    z: 45,
+    width: 12,
+    depth: 7,
+    kind: 'large',
+    body: 'cream',
+    roof: 'wood',
+    rotation: Math.PI,
+    stories: 10,
+  },
+  {
+    id: 'back-small-teal',
+    x: -9,
+    z: 42,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'large',
+    body: 'teal',
+    roof: 'red',
+    rotation: Math.PI,
+    stories: 2,
+  },
+  {
+    id: 'back-small-orange',
+    x: 25,
+    z: 42,
+    width: 6.8,
+    depth: 5.8,
+    kind: 'large',
+    body: 'orange',
+    roof: 'navy',
+    rotation: Math.PI,
+    stories: 2,
+  },
 
-  { id: 'left-edge-a', x: -56, z: 3, width: 6.8, depth: 6.8, kind: 'large', body: 'blue', roof: 'navy', rotation: Math.PI / 2, stories: 3 },
-  { id: 'right-edge-a', x: 56, z: 3, width: 6.8, depth: 6.8, kind: 'large', body: 'yellow', roof: 'red', rotation: -Math.PI / 2, stories: 3 },
+  {
+    id: 'left-edge-a',
+    x: -56,
+    z: 3,
+    width: 6.8,
+    depth: 6.8,
+    kind: 'large',
+    body: 'blue',
+    roof: 'navy',
+    rotation: Math.PI / 2,
+    stories: 3,
+  },
+  {
+    id: 'right-edge-a',
+    x: 56,
+    z: 3,
+    width: 6.8,
+    depth: 6.8,
+    kind: 'large',
+    body: 'yellow',
+    roof: 'red',
+    rotation: -Math.PI / 2,
+    stories: 3,
+  },
 ]
 
 export const vehicles: Vehicle[] = [
@@ -87,11 +369,21 @@ export function isRoad(x: number, z: number): boolean {
 }
 
 export function isSidewalk(x: number, z: number): boolean {
-  return !isRoad(x, z) && roads.some((road) => x >= road.minX - 2 && x <= road.maxX + 2 && z >= road.minZ - 2 && z <= road.maxZ + 2)
+  return (
+    !isRoad(x, z) &&
+    roads.some(
+      (road) => x >= road.minX - 2 && x <= road.maxX + 2 && z >= road.minZ - 2 && z <= road.maxZ + 2
+    )
+  )
 }
 
 export function lotBounds(lot: Lot): { minX: number; maxX: number; minZ: number; maxZ: number } {
   const width = Math.abs(Math.sin(lot.rotation)) > 0.5 ? lot.depth : lot.width
   const depth = Math.abs(Math.sin(lot.rotation)) > 0.5 ? lot.width : lot.depth
-  return { minX: lot.x - width / 2, maxX: lot.x + width / 2, minZ: lot.z - depth / 2, maxZ: lot.z + depth / 2 }
+  return {
+    minX: lot.x - width / 2,
+    maxX: lot.x + width / 2,
+    minZ: lot.z - depth / 2,
+    maxZ: lot.z + depth / 2,
+  }
 }

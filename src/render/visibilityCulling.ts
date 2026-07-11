@@ -6,7 +6,13 @@ type CullEntry = {
   radius: number
 }
 
-const dynamicNames = new Set(['animated-ocean-shader', 'moving-car', 'walking-person', 'player-character', 'delivery-pointers'])
+const dynamicNames = new Set([
+  'animated-ocean-shader',
+  'moving-car',
+  'walking-person',
+  'player-character',
+  'delivery-pointers',
+])
 
 export class VisibilityCullingController {
   private readonly entries: CullEntry[] = []
@@ -16,7 +22,9 @@ export class VisibilityCullingController {
 
   constructor(root: THREE.Group) {
     root.children.forEach((child) => this.collect(child))
-    console.info(`[VoxelBeach] Camera culling registered ${this.entries.length} static scene sections`)
+    console.info(
+      `[VoxelBeach] Camera culling registered ${this.entries.length} static scene sections`
+    )
   }
 
   update(camera: THREE.PerspectiveCamera, deltaSeconds: number): void {
@@ -28,12 +36,19 @@ export class VisibilityCullingController {
     this.frustum.setFromProjectionMatrix(this.projectionView)
     this.entries.forEach((entry) => {
       const distance = camera.position.distanceTo(entry.center)
-      entry.object.visible = distance < 170 && this.frustum.intersectsSphere(new THREE.Sphere(entry.center, entry.radius + 10))
+      entry.object.visible =
+        distance < 170 &&
+        this.frustum.intersectsSphere(new THREE.Sphere(entry.center, entry.radius + 10))
     })
   }
 
   private collect(object: THREE.Object3D): void {
-    if (dynamicNames.has(object.name) || object.name.includes('moving-car') || object.name.includes('walking-person')) return
+    if (
+      dynamicNames.has(object.name) ||
+      object.name.includes('moving-car') ||
+      object.name.includes('walking-person')
+    )
+      return
     if (object.type === 'Group' && object.name !== '') {
       this.addEntry(object)
       return

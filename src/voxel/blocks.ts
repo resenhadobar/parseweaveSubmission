@@ -58,7 +58,9 @@ export function createBlockBatch(name: string): BlockBatch {
     },
     count() {
       let total = 0
-      transforms.forEach((matrices) => { total += matrices.length })
+      transforms.forEach((matrices) => {
+        total += matrices.length
+      })
       return total
     },
   }
@@ -71,7 +73,7 @@ export function addGrid(
   startZ: number,
   width: number,
   depth: number,
-  y = 0,
+  y = 0
 ): void {
   for (let x = 0; x < width; x += 1) {
     for (let z = 0; z < depth; z += 1) {
@@ -88,7 +90,7 @@ export function addStripedAwning(
   parent: THREE.Group,
   position: THREE.Vector3Tuple,
   width: number,
-  colors: PaletteKey[],
+  colors: PaletteKey[]
 ): void {
   const awning = new THREE.Group()
   awning.position.set(...position)
@@ -102,7 +104,14 @@ export function addStripedAwning(
   parent.add(awning)
 }
 
-export function addWindowGrid(parent: THREE.Group, x: number, y: number, z: number, cols: number, rows: number): void {
+export function addWindowGrid(
+  parent: THREE.Group,
+  x: number,
+  y: number,
+  z: number,
+  cols: number,
+  rows: number
+): void {
   for (let row = 0; row < rows; row += 1) {
     for (let col = 0; col < cols; col += 1) {
       addBlock(parent, {
@@ -114,12 +123,20 @@ export function addWindowGrid(parent: THREE.Group, x: number, y: number, z: numb
   }
 }
 
-export function addSign(parent: THREE.Group, labelBlocks: PaletteKey[], position: THREE.Vector3Tuple): void {
+export function addSign(
+  parent: THREE.Group,
+  labelBlocks: PaletteKey[],
+  position: THREE.Vector3Tuple
+): void {
   const sign = new THREE.Group()
   sign.position.set(...position)
   addBlock(sign, { color: 'wood', position: [0, 0, 0], scale: [2.5, 0.62, 0.16] })
   labelBlocks.forEach((color, index) => {
-    addBlock(sign, { color, position: [-0.88 + index * 0.44, 0.02, -0.12], scale: [0.22, 0.24, 0.08] })
+    addBlock(sign, {
+      color,
+      position: [-0.88 + index * 0.44, 0.02, -0.12],
+      scale: [0.22, 0.24, 0.08],
+    })
   })
   parent.add(sign)
 }

@@ -31,7 +31,9 @@ export class DeliveryController {
       const arrow = createArrow('green')
       arrow.position.set(point.x, 2.65, point.z)
       arrow.scale.setScalar(0.72)
-      const npc = createVoxelPerson(['yellow', 'teal', 'pink', 'coral'][index] as 'yellow' | 'teal' | 'pink' | 'coral')
+      const npc = createVoxelPerson(
+        ['yellow', 'teal', 'pink', 'coral'][index] as 'yellow' | 'teal' | 'pink' | 'coral'
+      )
       npc.name = 'delivery-offer-npc'
       npc.position.set(point.x, 0.12, point.z)
       npc.rotation.y = Math.PI
@@ -45,7 +47,9 @@ export class DeliveryController {
     this.group.add(this.targetArrow)
     this.group.add(this.targetAura)
     world.add(this.group)
-    console.info('[VoxelBeach] Skate delivery offers active: stop near green arrows to accept a run')
+    console.info(
+      '[VoxelBeach] Skate delivery offers active: stop near green arrows to accept a run'
+    )
   }
 
   update(deltaSeconds: number, player: THREE.Object3D, skating: boolean, speed: number): void {
@@ -60,17 +64,27 @@ export class DeliveryController {
   applyFallPenalty(): void {
     if (this.state !== 'active') return
     this.timer = Math.max(1, this.timer - 5)
-    console.info(`[VoxelBeach] Delivery crash penalty: -5 seconds, ${Math.ceil(this.timer)} seconds left`)
+    console.info(
+      `[VoxelBeach] Delivery crash penalty: -5 seconds, ${Math.ceil(this.timer)} seconds left`
+    )
   }
 
   recordKickflip(): boolean {
     if (this.state !== 'active') return false
     this.radBonus += 8
-    console.info(`[VoxelBeach] RAD kickflip bonus added: delivery value +$8, current trick bonus $${this.radBonus}`)
+    console.info(
+      `[VoxelBeach] RAD kickflip bonus added: delivery value +$8, current trick bonus $${this.radBonus}`
+    )
     return true
   }
 
-  getHudSnapshot(): { active: boolean; pickups: DeliveryPoint[]; target?: DeliveryPoint; cash: number; timer: number } {
+  getHudSnapshot(): {
+    active: boolean
+    pickups: DeliveryPoint[]
+    target?: DeliveryPoint
+    cash: number
+    timer: number
+  } {
     return {
       active: this.state === 'active',
       pickups: pickupPoints,
@@ -105,7 +119,11 @@ export class DeliveryController {
     this.offerNpcs.forEach((npc) => (npc.visible = true))
     this.timer -= deltaSeconds * (speed > 14 ? 0.82 : 1)
     const target = dropoffPoints[this.activeDropoff]
-    this.targetArrow.position.set(target.x, 2.9 + Math.sin(performance.now() * 0.006) * 0.22, target.z)
+    this.targetArrow.position.set(
+      target.x,
+      2.9 + Math.sin(performance.now() * 0.006) * 0.22,
+      target.z
+    )
     this.targetArrow.lookAt(player.position.x, this.targetArrow.position.y, player.position.z)
     this.targetAura.position.set(target.x, 0.13, target.z)
     this.targetAura.scale.setScalar(1 + Math.sin(performance.now() * 0.005) * 0.08)
@@ -118,7 +136,9 @@ export class DeliveryController {
       this.targetAura.visible = false
       this.rerollPickup(this.activePickup, player.position)
       this.rerollDropoff(this.activeDropoff, player.position)
-      console.info(`[VoxelBeach] Delivery complete: payout $${score.payout} (base $${score.baseValue}, speed $${score.speedBonus}, RAD $${score.radBonus}), cash $${this.cash}, completed runs ${this.completed}`)
+      console.info(
+        `[VoxelBeach] Delivery complete: payout $${score.payout} (base $${score.baseValue}, speed $${score.speedBonus}, RAD $${score.radBonus}), cash $${this.cash}, completed runs ${this.completed}`
+      )
       return
     }
     if (this.timer <= 0) {
@@ -156,13 +176,17 @@ export class DeliveryController {
     let best = Math.floor(this.nextRandom() * points.length)
     for (let i = 0; i < points.length; i += 1) {
       const candidate = Math.floor(this.nextRandom() * points.length)
-      if (Math.hypot(points[candidate].x - avoid.x, points[candidate].z - avoid.z) > 18) return candidate
+      if (Math.hypot(points[candidate].x - avoid.x, points[candidate].z - avoid.z) > 18)
+        return candidate
       best = candidate
     }
     return best
   }
 
-  private rollSidewalkPoint(avoid: THREE.Vector3, ...occupiedGroups: DeliveryPoint[][]): DeliveryPoint {
+  private rollSidewalkPoint(
+    avoid: THREE.Vector3,
+    ...occupiedGroups: DeliveryPoint[][]
+  ): DeliveryPoint {
     for (let attempts = 0; attempts < 180; attempts += 1) {
       const x = Math.round(-56 + this.nextRandom() * 112)
       const z = Math.round(-12 + this.nextRandom() * 58)
@@ -184,8 +208,18 @@ function createArrow(color: 'green' | 'red'): THREE.Group {
   const group = new THREE.Group()
   const fill = color === 'green' ? '#65d66e' : '#e0453f'
   const glow = color === 'green' ? '#1b6d31' : '#66110e'
-  const material = new THREE.MeshStandardMaterial({ color: fill, emissive: glow, emissiveIntensity: 0.35, roughness: 0.38 })
-  const trim = new THREE.MeshStandardMaterial({ color: '#fff1c2', emissive: '#3b2d16', emissiveIntensity: 0.15, roughness: 0.42 })
+  const material = new THREE.MeshStandardMaterial({
+    color: fill,
+    emissive: glow,
+    emissiveIntensity: 0.35,
+    roughness: 0.38,
+  })
+  const trim = new THREE.MeshStandardMaterial({
+    color: '#fff1c2',
+    emissive: '#3b2d16',
+    emissiveIntensity: 0.15,
+    roughness: 0.42,
+  })
   const halo = new THREE.Mesh(new THREE.TorusGeometry(0.48, 0.035, 8, 28), trim)
   const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.58, 12), material)
   const head = new THREE.Mesh(new THREE.ConeGeometry(0.32, 0.48, 4), material)
@@ -206,7 +240,13 @@ function distanceTo(player: THREE.Object3D, point: DeliveryPoint): number {
 
 function createTargetAura(): THREE.Mesh {
   const geometry = new THREE.RingGeometry(1.9, 2.75, 40)
-  const material = new THREE.MeshBasicMaterial({ color: '#ff2f2f', transparent: true, opacity: 0.48, side: THREE.DoubleSide, depthWrite: false })
+  const material = new THREE.MeshBasicMaterial({
+    color: '#ff2f2f',
+    transparent: true,
+    opacity: 0.48,
+    side: THREE.DoubleSide,
+    depthWrite: false,
+  })
   const aura = new THREE.Mesh(geometry, material)
   aura.name = 'delivery-red-ground-aura'
   aura.rotation.x = -Math.PI / 2
@@ -225,11 +265,13 @@ function createSidewalkPoints(seed: number, count: number): DeliveryPoint[] {
     if (points.some((point) => Math.hypot(point.x - x, point.z - z) < 12)) continue
     points.push({ x, z })
   }
-  return points.length >= count ? points : [
-    { x: -54, z: -4 },
-    { x: -8, z: 8 },
-    { x: 29, z: 14 },
-    { x: 52, z: 27 },
-    { x: -30, z: 34 },
-  ]
+  return points.length >= count
+    ? points
+    : [
+        { x: -54, z: -4 },
+        { x: -8, z: 8 },
+        { x: 29, z: 14 },
+        { x: 52, z: 27 },
+        { x: -30, z: 34 },
+      ]
 }

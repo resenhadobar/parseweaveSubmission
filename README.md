@@ -10,16 +10,16 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 
 ## How to Play / Inspect
 
-| Action | Input |
-| --- | --- |
-| Move camera-relative | `WASD` or Arrow Keys |
-| Toggle skate mode | `E` |
-| Kickflip while skating | `Space` |
-| Camera | Automatically stays behind the player/rider |
-| Open individual asset viewer | `V` |
-| Return to beach block | `B` |
-| Next asset | `]` or Right Arrow |
-| Previous asset | `[` or Left Arrow |
+| Action                       | Input                                       |
+| ---------------------------- | ------------------------------------------- |
+| Move camera-relative         | `WASD` or Arrow Keys                        |
+| Toggle skate mode            | `E`                                         |
+| Kickflip while skating       | `Space`                                     |
+| Camera                       | Automatically stays behind the player/rider |
+| Open individual asset viewer | `V`                                         |
+| Return to beach block        | `B`                                         |
+| Next asset                   | `]` or Right Arrow                          |
+| Previous asset               | `[` or Left Arrow                           |
 
 ## Features
 
@@ -98,14 +98,14 @@ npm run typecheck
 
 This repository is structured for the Parsewave Game Jam 2026 requirements:
 
-| Requirement | Status | Notes |
-| --- | --- | --- |
-| Deployed browser-playable game URL | Pending deployment | Build with `npm run build`, then deploy the generated `dist/` output. |
-| Public source code repository | Ready to publish | Source lives in `src/`, tests in `tests/`, docs in `README.md` and `GAME_DESIGN_DOCUMENT.md`. Do not publish `node_modules/`. |
-| README with game explanation and controls | Done | See Overview, How to Play, Features, Tech Stack, and Project Structure. |
-| README states what was built during the jam window | Documented below | See “Built During the Jam Window.” |
-| README discloses AI tools and workflow | Documented below | See “AI Tools and Workflow Disclosure.” |
-| README credits prior work/external resources | Documented below | See “Prior Work / External Resources.” |
+| Requirement                                         | Status                      | Notes                                                                                                                                                |
+| --------------------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Deployed browser-playable game URL                  | Pending deployment          | Build with `npm run build`, then deploy the generated `dist/` output.                                                                                |
+| Public source code repository                       | Ready to publish            | Source lives in `src/`, tests in `tests/`, docs in `README.md` and `GAME_DESIGN_DOCUMENT.md`. Do not publish `node_modules/`.                        |
+| README with game explanation and controls           | Done                        | See Overview, How to Play, Features, Tech Stack, and Project Structure.                                                                              |
+| README states what was built during the jam window  | Documented below            | See “Built During the Jam Window.”                                                                                                                   |
+| README discloses AI tools and workflow              | Documented below            | See “AI Tools and Workflow Disclosure.”                                                                                                              |
+| README credits prior work/external resources        | Documented below            | See “Prior Work / External Resources.”                                                                                                               |
 | AI-agent traces/chats/prompts/logs/tool outputs zip | Must be exported separately | Submit one zip of Jabali chat/tool traces and any supporting AI logs; this repo references the requirement but does not contain the final trace zip. |
 
 ## Built During the Jam Window

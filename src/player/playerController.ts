@@ -5,7 +5,18 @@ import { updateVoxelWalkCycle } from '../voxel/characterAnimation'
 import { resolvePlayerCollision } from './collisions'
 
 const keys = new Set<string>()
-const moveKeys = new Set(['w', 'a', 's', 'd', 'arrowup', 'arrowleft', 'arrowdown', 'arrowright', 'e', ' '])
+const moveKeys = new Set([
+  'w',
+  'a',
+  's',
+  'd',
+  'arrowup',
+  'arrowleft',
+  'arrowdown',
+  'arrowright',
+  'e',
+  ' ',
+])
 
 export class PlayerController {
   readonly object = new THREE.Group()
@@ -31,24 +42,31 @@ export class PlayerController {
     this.skate.visible = false
     this.object.add(this.rider, this.skate)
     bindKeyboard()
-    console.info('[VoxelBeach] Skater ready: WASD/arrows steer and push, E toggles skate mode, Space kickflips while skating')
+    console.info(
+      '[VoxelBeach] Skater ready: WASD/arrows steer and push, E toggles skate mode, Space kickflips while skating'
+    )
   }
 
   update(deltaSeconds: number, hazards: THREE.Object3D[] = []): void {
     this.elapsed += deltaSeconds
     if (consumeKey('e')) this.setSkateMode(!this.skateMode)
-    if (this.skateMode && consumeKey(' ') && this.jumpTimer <= 0 && this.fallTimer <= 0) this.startKickflip()
+    if (this.skateMode && consumeKey(' ') && this.jumpTimer <= 0 && this.fallTimer <= 0)
+      this.startKickflip()
 
     this.readMovement(deltaSeconds)
     const previous = this.object.position.clone()
-    const desired = previous.clone().add(this.velocity.copy(this.direction).multiplyScalar(this.speed * deltaSeconds))
+    const desired = previous
+      .clone()
+      .add(this.velocity.copy(this.direction).multiplyScalar(this.speed * deltaSeconds))
     const resolved = resolvePlayerCollision(previous, desired, this.skateMode ? 0.62 : 0.42)
     this.object.position.copy(resolved)
     this.clampToWorld()
 
     if (this.skateMode && this.fallTimer <= 0 && this.jumpTimer <= 0) {
       const hitStatic = desired.distanceTo(resolved) > 0.08 && this.speed > 6
-      const hitHazard = hazards.some((hazard) => hazard.visible && hazard.position.distanceTo(this.object.position) < 1.45)
+      const hitHazard = hazards.some(
+        (hazard) => hazard.visible && hazard.position.distanceTo(this.object.position) < 1.45
+      )
       if (hitStatic || hitHazard) this.startFall()
     }
 
@@ -103,8 +121,11 @@ export class PlayerController {
   }
 
   private readMovement(deltaSeconds: number): void {
-    const turn = Number(keys.has('d') || keys.has('arrowright')) - Number(keys.has('a') || keys.has('arrowleft'))
-    const push = Number(keys.has('w') || keys.has('arrowup')) - Number(keys.has('s') || keys.has('arrowdown'))
+    const turn =
+      Number(keys.has('d') || keys.has('arrowright')) -
+      Number(keys.has('a') || keys.has('arrowleft'))
+    const push =
+      Number(keys.has('w') || keys.has('arrowup')) - Number(keys.has('s') || keys.has('arrowdown'))
     if (this.fallTimer > 0) {
       this.direction.set(0, 0, 0)
       this.speed = 0
@@ -113,7 +134,11 @@ export class PlayerController {
 
     const turnRate = this.skateMode ? 2.35 : 3.8
     this.object.rotation.y -= turn * turnRate * deltaSeconds
-    const forward = new THREE.Vector3(-Math.sin(this.object.rotation.y), 0, -Math.cos(this.object.rotation.y))
+    const forward = new THREE.Vector3(
+      -Math.sin(this.object.rotation.y),
+      0,
+      -Math.cos(this.object.rotation.y)
+    )
     this.direction.copy(forward)
 
     if (this.skateMode) {
@@ -143,10 +168,21 @@ export class PlayerController {
     const jumpProgress = this.jumpTimer > 0 ? 1 - this.jumpTimer / 0.72 : 1
     if (this.jumpTimer > 0) this.jumpTimer = Math.max(0, this.jumpTimer - deltaSeconds)
     const jumpHeight = this.jumpTimer > 0 ? Math.sin(jumpProgress * Math.PI) * 1.25 : 0
-    this.rider.rotation.set(this.skateMode ? -THREE.MathUtils.clamp(Math.abs(this.speed) / 34, 0, 0.2) : 0, 0, 0)
-    this.rider.position.y = (this.skateMode ? 0.28 : 0) + jumpHeight + Math.abs(Math.sin(this.elapsed * 13)) * (this.skateMode && Math.abs(this.speed) > 2 ? 0.025 : 0)
+    this.rider.rotation.set(
+      this.skateMode ? -THREE.MathUtils.clamp(Math.abs(this.speed) / 34, 0, 0.2) : 0,
+      0,
+      0
+    )
+    this.rider.position.y =
+      (this.skateMode ? 0.28 : 0) +
+      jumpHeight +
+      Math.abs(Math.sin(this.elapsed * 13)) *
+        (this.skateMode && Math.abs(this.speed) > 2 ? 0.025 : 0)
     this.skate.position.y = 0.02 + jumpHeight
-    this.skate.rotation.z = this.jumpTimer > 0 ? jumpProgress * Math.PI * 2 : THREE.MathUtils.lerp(this.skate.rotation.z, 0, 0.2)
+    this.skate.rotation.z =
+      this.jumpTimer > 0
+        ? jumpProgress * Math.PI * 2
+        : THREE.MathUtils.lerp(this.skate.rotation.z, 0, 0.2)
     updateVoxelWalkCycle(this.rider, this.elapsed, this.skateMode ? 0 : Math.abs(this.speed))
   }
 
@@ -167,8 +203,16 @@ export class PlayerController {
   }
 
   private clampToWorld(): void {
-    this.object.position.x = THREE.MathUtils.clamp(this.object.position.x, worldBounds.minX + 1, worldBounds.maxX - 1)
-    this.object.position.z = THREE.MathUtils.clamp(this.object.position.z, worldBounds.minZ + 1, worldBounds.maxZ - 1)
+    this.object.position.x = THREE.MathUtils.clamp(
+      this.object.position.x,
+      worldBounds.minX + 1,
+      worldBounds.maxX - 1
+    )
+    this.object.position.z = THREE.MathUtils.clamp(
+      this.object.position.z,
+      worldBounds.minZ + 1,
+      worldBounds.maxZ - 1
+    )
   }
 }
 

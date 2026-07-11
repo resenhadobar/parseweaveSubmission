@@ -11,7 +11,7 @@ export class OrbitCameraController {
 
   constructor(
     private readonly camera: THREE.PerspectiveCamera,
-    private readonly canvas: HTMLCanvasElement,
+    private readonly canvas: HTMLCanvasElement
   ) {
     this.bindEvents()
     this.update()
@@ -41,7 +41,7 @@ export class OrbitCameraController {
     this.camera.position.set(
       this.target.x + Math.sin(this.yaw) * radiusXZ,
       this.target.y + Math.sin(this.pitch) * this.distance,
-      this.target.z + Math.cos(this.yaw) * radiusXZ,
+      this.target.z + Math.cos(this.yaw) * radiusXZ
     )
     this.camera.lookAt(this.target)
   }
@@ -77,7 +77,7 @@ export class OrbitCameraController {
         this.distance += event.deltaY * 0.025
         this.update()
       },
-      { passive: false },
+      { passive: false }
     )
   }
 }

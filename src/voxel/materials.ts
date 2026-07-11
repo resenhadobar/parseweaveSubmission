@@ -65,7 +65,11 @@ export const palette = colors
 
 const cache = new Map<string, THREE.MeshStandardMaterial>()
 
-export function mat(key: PaletteKey, roughness = 0.72, metalness = 0.02): THREE.MeshStandardMaterial {
+export function mat(
+  key: PaletteKey,
+  roughness = 0.72,
+  metalness = 0.02
+): THREE.MeshStandardMaterial {
   const id = `${key}:${roughness}:${metalness}`
   const cached = cache.get(id)
   if (cached) return cached

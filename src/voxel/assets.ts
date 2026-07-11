@@ -494,4 +494,3 @@ export function createLifeguardTower(): THREE.Group {
   addBlock(group, { color: 'white', position: [-1.7, 1.05, -1.15], scale: [0.7, 0.16, 0.22] })
   return group
 }
-

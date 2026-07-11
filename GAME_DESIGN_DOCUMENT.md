@@ -36,16 +36,16 @@ This is now a delivery-game prototype with score hooks logged through runtime me
 
 ## Controls
 
-| Action | Input |
-| --- | --- |
-| Move camera-relative | `WASD` or Arrow Keys |
-| Toggle skate mode | `E` |
-| Kickflip while skating | `Space` |
-| Camera | Automatically stays behind the player/rider |
-| Open individual asset viewer | `V` |
-| Return to beach block | `B` |
-| Next asset | `]` or Right Arrow |
-| Previous asset | `[` or Left Arrow |
+| Action                       | Input                                       |
+| ---------------------------- | ------------------------------------------- |
+| Move camera-relative         | `WASD` or Arrow Keys                        |
+| Toggle skate mode            | `E`                                         |
+| Kickflip while skating       | `Space`                                     |
+| Camera                       | Automatically stays behind the player/rider |
+| Open individual asset viewer | `V`                                         |
+| Return to beach block        | `B`                                         |
+| Next asset                   | `]` or Right Arrow                          |
+| Previous asset               | `[` or Left Arrow                           |
 
 ## World and Theme
 

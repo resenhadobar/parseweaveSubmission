@@ -1,9 +1,7 @@
 {
   "name": "ElevenLabs",
   "output": {
-    "location": [
-      "src\\assets\\audio\\ocean_loop.mpga"
-    ],
+    "location": ["src\\assets\\audio\\ocean_loop.mpga"],
     "metadata": {
       "asset": {
         "id": "dcc7c292-306e-4b17-810d-e15b45cf9552",

@@ -46,7 +46,9 @@ export function createPerimeterScenery(): THREE.Group {
   treeSpots.forEach((spot) => addVoxelTree(group, spot))
   addPlayableRoadsidePosts(group)
 
-  console.info('[VoxelBeach] Added 2x-height optimized Rio rock horseshoe mountains with instanced voxel batches')
+  console.info(
+    '[VoxelBeach] Added 2x-height optimized Rio rock horseshoe mountains with instanced voxel batches'
+  )
   return group
 }
 
@@ -68,8 +70,15 @@ function createFlatBoardExtension(group: THREE.Group): void {
   const batch = createBlockBatch('outer-ground')
   for (let x = sceneryBounds.minX; x <= sceneryBounds.maxX; x += 2) {
     for (let z = sceneryBounds.minZ; z <= sceneryBounds.maxZ; z += 2) {
-      if (x >= worldBounds.minX && x <= worldBounds.maxX && z >= worldBounds.minZ && z <= worldBounds.maxZ) continue
-      const color: PaletteKey = z <= worldBounds.beachEndZ ? 'sand' : hash(x, z) > 0.9 ? 'leaf' : 'green'
+      if (
+        x >= worldBounds.minX &&
+        x <= worldBounds.maxX &&
+        z >= worldBounds.minZ &&
+        z <= worldBounds.maxZ
+      )
+        continue
+      const color: PaletteKey =
+        z <= worldBounds.beachEndZ ? 'sand' : hash(x, z) > 0.9 ? 'leaf' : 'green'
       batch.add({ color, position: [x, -0.04, z], scale: [2, 0.14, 2] })
     }
   }
@@ -87,12 +96,15 @@ function createOrganicMountains(group: THREE.Group): void {
     }
   }
   batch.build(group)
-  console.info(`[VoxelBeach] Optimized mountains into instanced batches from ${batch.count()} voxel transforms`)
+  console.info(
+    `[VoxelBeach] Optimized mountains into instanced batches from ${batch.count()} voxel transforms`
+  )
 }
 
 function isMountainAllowed(x: number, z: number): boolean {
   const outsidePlayable = x < worldBounds.minX || x > worldBounds.maxX || z > worldBounds.maxZ
-  const beachWaterHorseshoe = z < worldBounds.beachEndZ && (x < worldBounds.minX + 11 || x > worldBounds.maxX - 11)
+  const beachWaterHorseshoe =
+    z < worldBounds.beachEndZ && (x < worldBounds.minX + 11 || x > worldBounds.maxX - 11)
   return outsidePlayable || beachWaterHorseshoe
 }
 
@@ -113,18 +125,33 @@ function mountainHeight(x: number, z: number): number {
   return Math.floor(height * mountainScale)
 }
 
-function addOrganicColumn(add: (options?: Parameters<typeof addBlock>[1]) => void, x: number, z: number, height: number): void {
+function addOrganicColumn(
+  add: (options?: Parameters<typeof addBlock>[1]) => void,
+  x: number,
+  z: number,
+  height: number
+): void {
   const tiers = Math.max(1, Math.ceil(height / 2))
   for (let tier = 0; tier < tiers; tier += 1) {
     const level = tier * 2
     const greenPatch = hash(Math.floor(x / 4) + tier * 2, Math.floor(z / 4) - tier) > 0.8
     const lowSoil = level < height * 0.14 && hash(x + tier, z) > 0.45
-    const color: PaletteKey = greenPatch ? (hash(x, z + tier) > 0.5 ? 'leaf' : 'green') : lowSoil ? 'earth' : 'rock'
+    const color: PaletteKey = greenPatch
+      ? hash(x, z + tier) > 0.5
+        ? 'leaf'
+        : 'green'
+      : lowSoil
+        ? 'earth'
+        : 'rock'
     const width = 2.72 + hash(x + tier, z) * 0.55
     const depth = 2.72 + hash(x, z + tier) * 0.55
     add({
       color,
-      position: [x + (hash(x, tier) - 0.5) * 0.55, 0.38 + tier * 0.88, z + (hash(z, tier) - 0.5) * 0.55],
+      position: [
+        x + (hash(x, tier) - 0.5) * 0.55,
+        0.38 + tier * 0.88,
+        z + (hash(z, tier) - 0.5) * 0.55,
+      ],
       scale: [width, 0.9, depth],
     })
   }
@@ -145,14 +172,30 @@ function addVoxelTree(group: THREE.Group, spot: TreeSpot): void {
   }
 
   const baseHeight = Math.max(0, mountainHeight(spot.x, spot.z) * 0.44)
-  addBlock(group, { color: 'trunk', position: [spot.x, baseHeight + 0.65, spot.z], scale: [0.35, 1.25, 0.35] })
-  addBlock(group, { color: 'leaf', position: [spot.x, baseHeight + 1.55, spot.z], scale: [1.45, 0.9, 1.45] })
-  addBlock(group, { color: 'palm', position: [spot.x, baseHeight + 2.15, spot.z], scale: [1.05, 0.75, 1.05] })
+  addBlock(group, {
+    color: 'trunk',
+    position: [spot.x, baseHeight + 0.65, spot.z],
+    scale: [0.35, 1.25, 0.35],
+  })
+  addBlock(group, {
+    color: 'leaf',
+    position: [spot.x, baseHeight + 1.55, spot.z],
+    scale: [1.45, 0.9, 1.45],
+  })
+  addBlock(group, {
+    color: 'palm',
+    position: [spot.x, baseHeight + 2.15, spot.z],
+    scale: [1.05, 0.75, 1.05],
+  })
 }
 
 function addPlayableRoadsidePosts(group: THREE.Group): void {
   for (let x = worldBounds.minX + 2; x <= worldBounds.maxX - 2; x += 8) {
-    addBlock(group, { color: 'wood', position: [x, 0.5, worldBounds.maxZ + 0.8], scale: [0.18, 0.9, 0.18] })
+    addBlock(group, {
+      color: 'wood',
+      position: [x, 0.5, worldBounds.maxZ + 0.8],
+      scale: [0.18, 0.9, 0.18],
+    })
   }
   for (const x of [worldBounds.minX - 0.8, worldBounds.maxX + 0.8]) {
     for (let z = worldBounds.minZ + 2; z <= worldBounds.maxZ - 2; z += 8) {

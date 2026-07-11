@@ -21,7 +21,12 @@ export class DeliveryHud {
   private readonly timerCounter = document.createElement('div')
   private readonly radText = document.createElement('div')
   private readonly arrowScene = new THREE.Scene()
-  private readonly arrowCamera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 20)
+  private readonly arrowCamera = new THREE.PerspectiveCamera(
+    42,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    20
+  )
   private readonly arrow = createHudArrow()
   private radTimer = 0
 
@@ -36,7 +41,13 @@ export class DeliveryHud {
     this.radText.textContent = 'RAD!'
     this.addMapBackdrop()
     this.map.append(this.playerDot, this.targetDot)
-    this.root.append(this.cashCounter, this.timerCounter, this.radText, this.map, this.createTutorialModal())
+    this.root.append(
+      this.cashCounter,
+      this.timerCounter,
+      this.radText,
+      this.map,
+      this.createTutorialModal()
+    )
     this.mount.append(this.root)
     this.arrowScene.add(this.arrow)
     this.arrowCamera.position.set(0, 0, 6)
@@ -105,7 +116,13 @@ export class DeliveryHud {
   private addMapBackdrop(): void {
     const beach = document.createElement('div')
     beach.className = 'map-zone map-beach'
-    this.placeZone(beach, worldBounds.minX, worldBounds.maxX, worldBounds.minZ, worldBounds.beachEndZ)
+    this.placeZone(
+      beach,
+      worldBounds.minX,
+      worldBounds.maxX,
+      worldBounds.minZ,
+      worldBounds.beachEndZ
+    )
     this.map.append(beach)
 
     lots.forEach((lot) => {
@@ -113,7 +130,13 @@ export class DeliveryHud {
       const depth = Math.abs(Math.sin(lot.rotation)) > 0.5 ? lot.width : lot.depth
       const block = document.createElement('div')
       block.className = 'map-zone map-block'
-      this.placeZone(block, lot.x - width / 2, lot.x + width / 2, lot.z - depth / 2, lot.z + depth / 2)
+      this.placeZone(
+        block,
+        lot.x - width / 2,
+        lot.x + width / 2,
+        lot.z - depth / 2,
+        lot.z + depth / 2
+      )
       this.map.append(block)
     })
 
@@ -125,7 +148,13 @@ export class DeliveryHud {
     })
   }
 
-  private placeZone(zone: HTMLElement, minX: number, maxX: number, minZ: number, maxZ: number): void {
+  private placeZone(
+    zone: HTMLElement,
+    minX: number,
+    maxX: number,
+    minZ: number,
+    maxZ: number
+  ): void {
     const left = ((minX - worldBounds.minX) / (worldBounds.maxX - worldBounds.minX)) * 100
     const top = ((minZ - worldBounds.minZ) / (worldBounds.maxZ - worldBounds.minZ)) * 100
     const width = ((maxX - minX) / (worldBounds.maxX - worldBounds.minX)) * 100
@@ -166,7 +195,12 @@ export class DeliveryHud {
 
 function createHudArrow(): THREE.Group {
   const group = new THREE.Group()
-  const red = new THREE.MeshStandardMaterial({ color: '#e0453f', emissive: '#5a100d', emissiveIntensity: 0.25, roughness: 0.36 })
+  const red = new THREE.MeshStandardMaterial({
+    color: '#e0453f',
+    emissive: '#5a100d',
+    emissiveIntensity: 0.25,
+    roughness: 0.36,
+  })
   const cream = new THREE.MeshStandardMaterial({ color: '#fff1c2', roughness: 0.42 })
   const body = new THREE.Mesh(new THREE.BoxGeometry(0.58, 1.45, 0.34), red)
   const outlineHead = new THREE.Mesh(new THREE.ConeGeometry(0.84, 0.98, 4), cream)
