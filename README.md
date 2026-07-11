@@ -31,6 +31,9 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 - Unplayable surrounding scenery with 2x-height rock-dominant Rio-style horseshoe mountains, outer terrain, tree line, and perimeter border.
 - 60fps-oriented rendering optimizations using instanced mountain/outer-ground voxel batches, reduced pixel ratio cap, and lower shadow-map budget.
 - Animated player character, voxel pedestrians, and cars, varied palm/tropical trees, surf racks, bicycles, food cart, beach shower, tiny boat, and other props.
+- Player collision against buildings, trees, towers, umbrellas, benches, and major beach props.
+- Fewer signal-timed cars that recycle through tunnel routes instead of forming permanent jams.
+- Camera-frustum visibility culling so static scene sections outside the camera view are hidden from rendering.
 - Separate 3D asset inspection mode.
 - Responsive full-window browser canvas.
 
@@ -69,6 +72,8 @@ npm run typecheck
 - `src/voxel/scene.ts` - full beach block composition.
 - `src/voxel/traffic.ts` - deterministic moving cars and sidewalk pedestrian loops.
 - `src/player/playerController.ts` - isometric player walking and camera follow target.
+- `src/player/collisions.ts` - lightweight player collision bounds for buildings and props.
+- `src/render/visibilityCulling.ts` - camera-frustum culling for static scene sections.
 - `src/voxel/characterAnimation.ts` - shared voxel character walk-cycle animation.
 - `src/voxel/ocean.ts` - animated ocean shader.
 - `tests/voxelLayout.test.ts` - layout, road, scale, and perimeter validation tests.
