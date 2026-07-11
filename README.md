@@ -27,7 +27,8 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 - Beach decorations including towels, umbrellas, dunes, shells, volleyball net, and lifeguard tower.
 - Beachfront and inland buildings including pastel houses, surf shop, cottages, and smaller apartment clusters.
 - Voxel people scaled so buildings read as walkable interiors compared to cars and doors.
-- Unplayable surrounding scenery with voxel mountains, outer terrain, tree line, and perimeter border.
+- Unplayable surrounding scenery with 2x-height rock-dominant Rio-style horseshoe mountains, outer terrain, tree line, and perimeter border.
+- 60fps-oriented rendering optimizations using instanced mountain/outer-ground voxel batches, reduced pixel ratio cap, and lower shadow-map budget.
 - Voxel people, palm trees, pine trees, vehicles, and props.
 - Separate 3D asset inspection mode.
 - Responsive full-window browser canvas.
@@ -60,7 +61,7 @@ npm run typecheck
 - `src/app.ts` - renderer, scene, camera, resize, input, and animation loop.
 - `src/camera/orbitCamera.ts` - orbit/zoom camera controls.
 - `src/viewer/assetViewer.ts` - individual voxel asset viewer.
-- `src/voxel/blocks.ts` - reusable voxel block helpers.
+- `src/voxel/blocks.ts` - reusable voxel block helpers, including instanced voxel batching for dense scenery.
 - `src/voxel/materials.ts` - voxel color palette and materials.
 - `src/voxel/assets.ts` - procedural voxel asset factories.
 - `src/voxel/scenery.ts` - unplayable outer terrain, mountains, tree line, and playable border.
