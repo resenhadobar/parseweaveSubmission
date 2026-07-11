@@ -9,8 +9,10 @@ export function updateVoxelWalkCycle(character: THREE.Object3D, elapsedSeconds: 
 
   const body = character.getObjectByName('body')
   const head = character.getObjectByName('head')
+  const hair = character.getObjectByName('hair')
   if (body) body.position.y = 0.9 + bob
   if (head) head.position.y = 1.42 + bob
+  if (hair) hair.position.y = 1.68 + bob
 
   setLimb(character, 'left-leg', stride, bob)
   setLimb(character, 'right-leg', -stride, bob)
@@ -21,10 +23,7 @@ export function updateVoxelWalkCycle(character: THREE.Object3D, elapsedSeconds: 
 export function resetVoxelWalkCycle(character: THREE.Object3D): void {
   animatedLimbNames.forEach((name) => {
     const limb = character.getObjectByName(name)
-    if (limb) {
-      limb.rotation.x = 0
-      limb.position.z = 0
-    }
+    if (limb) limb.rotation.x = 0
   })
 }
 
@@ -33,10 +32,9 @@ function setLimb(character: THREE.Object3D, name: string, swing: number, bob: nu
   if (!limb) return
   limb.rotation.x = swing
   limb.position.y = baseY(name) + bob * 0.45
-  limb.position.z = swing * 0.08
 }
 
 function baseY(name: string): number {
-  if (name.includes('leg')) return 0.36
-  return 0.92
+  if (name.includes('leg')) return 0.63
+  return 1.15
 }
