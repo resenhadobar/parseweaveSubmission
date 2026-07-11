@@ -8,6 +8,7 @@ type HudSnapshot = {
   pickups: HudPoint[]
   target?: HudPoint
   cash: number
+  timer: number
 }
 
 export class DeliveryHud {
@@ -17,6 +18,7 @@ export class DeliveryHud {
   private readonly pickupDots: HTMLDivElement[] = []
   private readonly targetDot = document.createElement('div')
   private readonly cashCounter = document.createElement('div')
+  private readonly timerCounter = document.createElement('div')
   private readonly radText = document.createElement('div')
   private readonly arrowScene = new THREE.Scene()
   private readonly arrowCamera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 20)
@@ -29,11 +31,12 @@ export class DeliveryHud {
     this.playerDot.className = 'map-dot map-player'
     this.targetDot.className = 'map-dot map-target'
     this.cashCounter.className = 'cash-counter'
+    this.timerCounter.className = 'timer-counter'
     this.radText.className = 'rad-text'
     this.radText.textContent = 'RAD!'
     this.addMapBackdrop()
     this.map.append(this.playerDot, this.targetDot)
-    this.root.append(this.cashCounter, this.radText, this.map)
+    this.root.append(this.cashCounter, this.timerCounter, this.radText, this.map, this.createTutorialModal())
     this.mount.append(this.root)
     this.arrowScene.add(this.arrow)
     this.arrowCamera.position.set(0, 0, 6)
@@ -43,6 +46,8 @@ export class DeliveryHud {
   update(snapshot: HudSnapshot, player: THREE.Object3D): void {
     this.syncPickupDots(snapshot.pickups)
     this.cashCounter.textContent = `$${snapshot.cash}`
+    this.timerCounter.textContent = snapshot.active ? `TIME ${Math.ceil(snapshot.timer)}` : ''
+    this.timerCounter.style.display = snapshot.active ? 'block' : 'none'
     this.placeDot(this.playerDot, { x: player.position.x, z: player.position.z })
     snapshot.pickups.forEach((point, index) => this.placeDot(this.pickupDots[index], point))
     this.targetDot.style.display = snapshot.target ? 'block' : 'none'
@@ -52,7 +57,7 @@ export class DeliveryHud {
     if (snapshot.target) {
       const dx = snapshot.target.x - player.position.x
       const dz = snapshot.target.z - player.position.z
-      this.arrow.rotation.z = Math.atan2(dx, dz) + player.rotation.y + Math.PI
+      this.arrow.rotation.z = Math.atan2(dx, dz) + player.rotation.y
       this.arrow.rotation.x = -0.55
       this.arrow.rotation.y = 0.35
     }
@@ -129,6 +134,34 @@ export class DeliveryHud {
     zone.style.top = `${top}%`
     zone.style.width = `${width}%`
     zone.style.height = `${height}%`
+  }
+
+  private createTutorialModal(): HTMLElement {
+    const overlay = document.createElement('div')
+    overlay.className = 'tutorial-modal'
+    const card = document.createElement('div')
+    card.className = 'tutorial-card'
+    card.innerHTML = `
+      <h1>Welcome to VOXEL BEACH</h1>
+      <p>You will earn cash making deliveries around the beach block. Skate fast, avoid traffic and buildings, and reach the red dropoff aura before time runs out.</p>
+      <ul>
+        <li><strong>WASD / Arrows</strong> move and steer.</li>
+        <li><strong>E</strong> toggles your skateboard.</li>
+        <li><strong>Space</strong> kickflips while skating. During a delivery, kickflips are RAD and increase the payout.</li>
+        <li>Stop near green NPC markers on sidewalks to accept delivery jobs.</li>
+        <li>Follow the red 3D arrow and red ground aura to deliver fast for more cash.</li>
+        <li><strong>V</strong> opens the asset viewer, <strong>B</strong> returns to the beach.</li>
+      </ul>
+      <button type="button">Start Deliveries</button>
+    `
+    const close = () => {
+      overlay.remove()
+      console.info('[VoxelBeach] Tutorial modal dismissed')
+    }
+    card.querySelector('button')?.addEventListener('click', close)
+    window.addEventListener('keydown', close, { once: true })
+    overlay.append(card)
+    return overlay
   }
 }
 
