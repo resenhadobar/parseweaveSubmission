@@ -26,6 +26,7 @@ export class PlayerController {
     this.rider.name = 'player-rider'
     this.rider.scale.setScalar(1.15)
     this.bike.position.set(0, 0, 1.35)
+    this.bike.visible = false
     this.object.add(this.rider, this.bike)
     bindKeyboard()
     console.info('[VoxelBeach] Delivery player ready: WASD/arrows move camera-relative, E mounts the delivery bike, hold Space to sprint/boost')
