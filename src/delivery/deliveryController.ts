@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import { addBlock } from '../voxel/blocks'
 import { createVoxelPerson } from '../voxel/assets'
 
 type DeliveryPoint = { x: number; z: number }
@@ -35,8 +34,8 @@ export class DeliveryController {
     this.group.name = 'delivery-pointers'
     pickupPoints.forEach((point, index) => {
       const arrow = createArrow('green')
-      arrow.position.set(point.x, 3.6, point.z)
-      arrow.scale.setScalar(1.45)
+      arrow.position.set(point.x, 2.65, point.z)
+      arrow.scale.setScalar(0.72)
       const npc = createVoxelPerson(['yellow', 'teal', 'pink', 'coral'][index] as 'yellow' | 'teal' | 'pink' | 'coral')
       npc.name = 'delivery-offer-npc'
       npc.position.set(point.x, 0.12, point.z)
@@ -98,7 +97,7 @@ export class DeliveryController {
     this.offerNpcs.forEach((npc) => (npc.visible = true))
     this.timer -= deltaSeconds * (speed > 14 ? 0.82 : 1)
     const target = dropoffPoints[this.activeDropoff]
-    this.targetArrow.position.set(target.x, 3.1 + Math.sin(performance.now() * 0.006) * 0.35, target.z)
+    this.targetArrow.position.set(target.x, 2.9 + Math.sin(performance.now() * 0.006) * 0.22, target.z)
     this.targetArrow.lookAt(player.position.x, this.targetArrow.position.y, player.position.z)
     if (distanceTo(player, target) < 3.4) {
       this.completed += 1
@@ -119,7 +118,7 @@ export class DeliveryController {
     const spin = deltaSeconds * 2.2
     this.pickupArrows.forEach((arrow, index) => {
       arrow.rotation.y += spin
-      arrow.position.y = 2.4 + Math.sin(performance.now() * 0.004 + index) * 0.18
+      arrow.position.y = 2.5 + Math.sin(performance.now() * 0.004 + index) * 0.12
     })
     this.targetArrow.rotation.y += spin * 1.8
   }
@@ -127,9 +126,18 @@ export class DeliveryController {
 
 function createArrow(color: 'green' | 'red'): THREE.Group {
   const group = new THREE.Group()
-  addBlock(group, { color, position: [0, 0.35, 0], scale: [0.35, 0.7, 0.35] })
-  addBlock(group, { color, position: [0, -0.15, -0.42], scale: [1.15, 0.28, 0.38] })
-  addBlock(group, { color, position: [0, -0.15, 0.18], scale: [0.55, 0.28, 0.85] })
+  const fill = color === 'green' ? '#65d66e' : '#e0453f'
+  const glow = color === 'green' ? '#1b6d31' : '#66110e'
+  const material = new THREE.MeshStandardMaterial({ color: fill, emissive: glow, emissiveIntensity: 0.35, roughness: 0.38 })
+  const trim = new THREE.MeshStandardMaterial({ color: '#fff1c2', emissive: '#3b2d16', emissiveIntensity: 0.15, roughness: 0.42 })
+  const halo = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.035, 8, 24), trim)
+  const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.62, 12), material)
+  const head = new THREE.Mesh(new THREE.ConeGeometry(0.32, 0.48, 4), material)
+  stem.position.y = 0.26
+  head.position.y = -0.28
+  head.rotation.x = Math.PI
+  halo.rotation.x = Math.PI / 2
+  group.add(halo, stem, head)
   return group
 }
 
