@@ -27,11 +27,11 @@ export class BeachAudioController {
     this.setupLoop(this.ocean, 'ocean')
     this.setupLoop(this.wind, 'wind')
     this.cash.preload = 'auto'
-    this.cash.volume = 0.74
+    this.cash.volume = 0.42
     this.rad.preload = 'auto'
-    this.rad.volume = 0.78
+    this.rad.volume = 0.64
     this.yeah.preload = 'auto'
-    this.yeah.volume = 0.72
+    this.yeah.volume = 0.38
     this.wind.volume = 0
     window.addEventListener('pointerdown', () => this.unlock(), { once: true })
     window.addEventListener('keydown', () => this.unlock(), { once: true })
@@ -63,6 +63,7 @@ export class BeachAudioController {
   playRad(): void {
     if (!this.unlocked) return
     this.rad.currentTime = 0
+    this.rad.playbackRate = 0.94 + Math.random() * 0.14
     void this.rad.play()
     console.info('[VoxelBeach] RAD voice sound played')
   }
