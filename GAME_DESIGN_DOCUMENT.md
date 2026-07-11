@@ -39,8 +39,7 @@ This is now a delivery-game prototype with score hooks logged through runtime me
 | Move camera-relative | `WASD` or Arrow Keys |
 | Mount/dismount delivery bike | `E` |
 | Sprint/boost | Hold `Space` |
-| Rotate over-the-shoulder camera | Drag mouse/touch |
-| Adjust camera pitch | Mouse wheel/trackpad |
+| Camera | Automatically stays behind the player/rider |
 | Open individual asset viewer | `V` |
 | Return to beach block | `B` |
 | Next asset | `]` or Right Arrow |
@@ -100,7 +99,8 @@ Rules:
 - Performance optimization pass for the tall mountain perimeter using instanced mountain/ground batches, coarser mountain sampling, reduced pixel ratio cap, and lower shadow-map budget to target 60fps.
 - Latest architecture pass reworked beach houses, surf shop, apartments/hotels, palm trees, tropical trees, and beach props for stronger personality while batching the dense playable ground tiles for performance.
 - Latest street-life pass adds deterministic animated cars, walking pedestrians on sidewalk loops, denser planting in empty green lawn areas, tunnel portals at side/far mountain exits, and shared voxel walk cycles.
-- GTA-style over-the-shoulder camera, camera-relative movement, delivery bike mounting, boost riding, near-miss bonus logs, and traffic clip speed penalties.
+- Automatic GTA-style over-the-shoulder camera, camera-relative movement, delivery bike mounting, boost riding, near-miss bonus logs, and traffic clip speed penalties.
+- Fixed-point voxel limb pivots for clearer player and NPC walk animation.
 - Player collision resolution against buildings and major props.
 - Simplified fewer-car traffic with signal timing and tunnel recycling so cars do not permanently jam.
 - Camera-frustum culling of static scene sections outside the current camera view.
