@@ -1,0 +1,45 @@
+{
+  "name": "ElevenLabs",
+  "output": {
+    "location": [
+      "src\\assets\\audio\\cash_collect.mpga"
+    ],
+    "metadata": {
+      "asset": {
+        "id": "fe2c5bac-ada3-4fbf-acaa-3b1e3c28558c",
+        "asset_type": "audio",
+        "task": "sound_effect",
+        "model": "fal-ai/elevenlabs/sound-effects/v2",
+        "source": "ai_generated",
+        "created_at": "2026-07-11T14:34:48.265887Z",
+        "updated_at": "2026-07-11T14:34:48.265887Z",
+        "s3_key": "audio/d87a23b0-8826-4131-a8b1-b3f51d31b5bc.mp3",
+        "file_size_bytes": 18434,
+        "mime_type": "audio/mpeg",
+        "token_count": 25,
+        "metadata": {
+          "fal_request_id": "019f519a-2083-7e13-9749-4412113dcc62",
+          "fal_model_id": "fal-ai/elevenlabs/sound-effects/v2",
+          "prompt": "Short satisfying arcade cash register coin pickup sound, bright clink and ka-ching, punchy reward cue, no music",
+          "duration": 1.1,
+          "loop": false,
+          "source_audio_url": "https://v3b.fal.media/files/b/0aa1d540/OnO-fWA-KA7URRQUR9qOT_sound_effect.mp3",
+          "source_audio_content_type": "audio/mpeg",
+          "source_audio_file_name": "sound_effect.mp3",
+          "source_audio_file_size": 18434
+        },
+        "cache_hit": false,
+        "cache_type": null
+      }
+    }
+  },
+  "arguments": {
+    "audio_request": {
+      "type": "effect",
+      "model": "elevenlabs-sound-effects",
+      "prompt": "Short satisfying arcade cash register coin pickup sound, bright clink and ka-ching, punchy reward cue, no music",
+      "duration": 1.1,
+      "loop": false
+    }
+  }
+}
