@@ -2,11 +2,11 @@
 
 ## Concept
 
-**Voxel Beach Block** is a browser-playable 3D voxel diorama created for the Parsewave Game Jam 2026 requirements. The prototype presents a contained playable oceanfront neighborhood with a beach, improved ocean shader, Ocean Avenue, internal streets, visible borders, denser mixed housing blocks, props, cars, palm trees, and realistically scaled voxel people. The playable block is surrounded by an unplayable scenic perimeter with voxel mountains and trees inspired by `assets/conceptArt.png`.
+**Voxel Beach Block** is a browser-playable 3D voxel diorama created for the Parsewave Game Jam 2026 requirements. The prototype presents a contained playable oceanfront neighborhood with a beach, improved ocean shader, Ocean Avenue, internal streets, visible borders, denser mixed housing blocks, personality-rich props, cars, varied trees, and realistically scaled voxel people. The playable block is surrounded by an unplayable scenic perimeter with voxel mountains and trees inspired by `assets/conceptArt.png`.
 
 ## Design Pillars
 
-- **Polished voxel density:** many small block-built details instead of a sparse placeholder scene.
+- **Polished voxel density:** layered silhouettes and purposeful props instead of sparse placeholder boxes or noisy tiny detail.
 - **Beach-town identity:** sand, surf shop, lifeguard tower, umbrellas, towels, palm trees, beach houses, and ocean avenue.
 - **Readable scale:** people, cars, doors, story heights, and buildings should imply that characters could walk inside buildings.
 - **Contained playable area:** the neighborhood is the active inspectable/playable area, with mountains and trees used as non-playable surrounding scenery.
@@ -48,7 +48,7 @@ The scene is a sunny coastal neighborhood with:
 - Voxel sand beach with towels, umbrellas, shells, dunes, volleyball net, and lifeguard tower.
 - Ocean Avenue with asphalt, lane markings, crosswalks, sidewalks, parked cars, benches, and streetlights.
 - A larger contained neighborhood grid with visible perimeter borders and multiple internal streets.
-- Beachfront homes, surf shop, added cottages, smaller apartment clusters, fences, and porches.
+- Beachfront homes, surf shop, added cottages, smaller apartment clusters, fences, porches, balconies, rooftop terraces, awnings, planters, and street-facing identity details.
 - An unplayable outer perimeter with tall rock-dominant Rio-style horseshoe mountains, sparse green patches, terrain, pines, palms, and border fencing to frame the playable area.
 - Palm trees, decorations, people, and small environmental storytelling props.
 
@@ -56,6 +56,7 @@ The scene is a sunny coastal neighborhood with:
 
 - Bright stylized voxel art.
 - Clean block silhouettes with smaller decorative cubes for windows, signs, railings, awnings, wheels, lights, and props.
+- Architecture references: `assets/voxelBeachSkill.txt` and `assets/buildingReference.png`; current building direction favors memorable silhouettes, thick rooflines, stepped volumes, porches, balconies, storefronts, rooftop props, cohesive palettes, and clear building purpose.
 - Concept art reference: `assets/conceptArt.png`; current direction prioritizes a scenic, toy-like voxel block with mountains and dense neighborhood structures.
 - Warm sun lighting, soft shadows, sky-blue fog, saturated beach palette.
 - Ocean uses a custom animated shader for shallow/deep color blending, foam bands, ripples, and shimmer while remaining outside the sand footprint.
@@ -87,6 +88,7 @@ Rules:
 - Reduced voxel person size and increased building story height so characters read correctly beside cars, doors, and buildings.
 - Unplayable mountain/tree perimeter surrounding the playable block.
 - Performance optimization pass for the tall mountain perimeter using instanced mountain/ground batches, coarser mountain sampling, reduced pixel ratio cap, and lower shadow-map budget to target 60fps.
+- Latest architecture pass reworked beach houses, surf shop, apartments/hotels, palm trees, tropical trees, and beach props for stronger personality while batching the dense playable ground tiles for performance.
 - Separate individual asset viewer.
 - Responsive camera and canvas.
 
