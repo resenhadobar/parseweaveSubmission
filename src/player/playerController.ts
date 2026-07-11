@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { createVoxelPerson } from '../voxel/assets'
 import { isRoad, isSidewalk, worldBounds } from '../voxel/layout'
 import { updateVoxelWalkCycle } from '../voxel/characterAnimation'
+import { resolvePlayerCollision } from './collisions'
 
 const keys = new Set<string>()
 const moveKeys = new Set(['w', 'a', 's', 'd', 'arrowup', 'arrowleft', 'arrowdown', 'arrowright'])
@@ -26,7 +27,8 @@ export class PlayerController {
     this.readInputDirection()
     const speed = this.isOnRoadOrSidewalk() ? 8.6 : 6.2
     this.velocity.copy(this.direction).multiplyScalar(speed * deltaSeconds)
-    this.object.position.add(this.velocity)
+    const desired = this.object.position.clone().add(this.velocity)
+    this.object.position.copy(resolvePlayerCollision(this.object.position, desired))
     this.clampToWorld()
 
     const movingSpeed = this.direction.lengthSq() > 0 ? speed : 0
