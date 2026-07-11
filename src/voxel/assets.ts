@@ -200,12 +200,13 @@ export function createCar(color: PaletteKey = 'red'): THREE.Group {
 
 export function createVoxelPerson(shirt: PaletteKey = 'teal'): THREE.Group {
   const group = new THREE.Group()
-  addBlock(group, { color: 'skin', position: [0, 1.35, 0], scale: [0.38, 0.38, 0.38] })
-  addBlock(group, { color: shirt, position: [0, 0.88, 0], scale: [0.42, 0.58, 0.28] })
-  addBlock(group, { color: 'navy', position: [-0.12, 0.36, 0], scale: [0.14, 0.52, 0.16] })
-  addBlock(group, { color: 'navy', position: [0.12, 0.36, 0], scale: [0.14, 0.52, 0.16] })
-  addBlock(group, { color: 'skin', position: [-0.34, 0.88, 0], scale: [0.12, 0.48, 0.12] })
-  addBlock(group, { color: 'skin', position: [0.34, 0.88, 0], scale: [0.12, 0.48, 0.12] })
+  group.name = 'voxel-person'
+  addBlock(group, { color: 'skin', name: 'head', position: [0, 1.35, 0], scale: [0.38, 0.38, 0.38] })
+  addBlock(group, { color: shirt, name: 'body', position: [0, 0.88, 0], scale: [0.42, 0.58, 0.28] })
+  addBlock(group, { color: 'navy', name: 'left-leg', position: [-0.12, 0.36, 0], scale: [0.14, 0.52, 0.16] })
+  addBlock(group, { color: 'navy', name: 'right-leg', position: [0.12, 0.36, 0], scale: [0.14, 0.52, 0.16] })
+  addBlock(group, { color: 'skin', name: 'left-arm', position: [-0.34, 0.88, 0], scale: [0.12, 0.48, 0.12] })
+  addBlock(group, { color: 'skin', name: 'right-arm', position: [0.34, 0.88, 0], scale: [0.12, 0.48, 0.12] })
   return group
 }
 
