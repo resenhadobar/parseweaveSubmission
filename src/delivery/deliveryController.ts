@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { addBlock } from '../voxel/blocks'
+import { createVoxelPerson } from '../voxel/assets'
 
 type DeliveryPoint = { x: number; z: number }
 
@@ -22,6 +23,7 @@ const dropoffPoints: DeliveryPoint[] = [
 export class DeliveryController {
   private readonly group = new THREE.Group()
   private readonly pickupArrows: THREE.Group[] = []
+  private readonly offerNpcs: THREE.Group[] = []
   private readonly targetArrow = createArrow('red')
   private state: DeliveryState = 'waiting'
   private activePickup = 0
@@ -33,8 +35,15 @@ export class DeliveryController {
     this.group.name = 'delivery-pointers'
     pickupPoints.forEach((point, index) => {
       const arrow = createArrow('green')
-      arrow.position.set(point.x, 2.4, point.z)
+      arrow.position.set(point.x, 3.6, point.z)
+      arrow.scale.setScalar(1.45)
+      const npc = createVoxelPerson(['yellow', 'teal', 'pink', 'coral'][index] as 'yellow' | 'teal' | 'pink' | 'coral')
+      npc.name = 'delivery-offer-npc'
+      npc.position.set(point.x, 0.12, point.z)
+      npc.rotation.y = Math.PI
+      this.offerNpcs[index] = npc
       this.pickupArrows[index] = arrow
+      this.group.add(npc)
       this.group.add(arrow)
     })
     this.targetArrow.visible = false
@@ -60,6 +69,11 @@ export class DeliveryController {
 
   private updateWaiting(player: THREE.Object3D, skating: boolean, speed: number): void {
     this.pickupArrows.forEach((arrow) => (arrow.visible = skating))
+    this.offerNpcs.forEach((npc, index) => {
+      npc.visible = true
+      npc.rotation.y += 0.012
+      npc.position.y = 0.12 + Math.sin(performance.now() * 0.004 + index) * 0.04
+    })
     if (!skating || Math.abs(speed) > 0.8) return
     const index = pickupPoints.findIndex((point) => distanceTo(player, point) < 3.2)
     if (index < 0) return
