@@ -40,7 +40,6 @@ const cars: CarSpec[] = [
   { color: 'teal', route: carRoutes[0], delay: 0, speed: 6.2 },
   { color: 'yellow', route: carRoutes[1], delay: 18, speed: 5.9 },
   { color: 'blue', route: carRoutes[2], delay: 8, speed: 5.4 },
-  { color: 'red', route: carRoutes[3], delay: 24, speed: 5.2 },
 ]
 
 const walkers: PersonSpec[] = [
@@ -73,6 +72,10 @@ export class TrafficController {
       updateActor(actor)
       if (actor.kind === 'person') updateVoxelWalkCycle(actor.object, this.elapsed + actor.phaseOffset, movingSpeed)
     })
+  }
+
+  getCarObjects(): THREE.Object3D[] {
+    return this.cars.map((actor) => actor.object)
   }
 
   private canMove(actor: Actor): boolean {
