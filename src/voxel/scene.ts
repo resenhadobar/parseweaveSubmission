@@ -208,7 +208,7 @@ function createLandscape(world: THREE.Group): void {
 }
 
 function addCrosswalk(world: THREE.Group, x: number, z: number, direction: 'horizontal' | 'vertical'): void {
-  const offset = direction === 'horizontal' ? 2.35 : 2.35
+  const offset = 2.35
   if (direction === 'horizontal') {
     for (const dz of [-offset, offset]) addBlock(world, { color: 'white', position: [x, 0.2, z + dz], scale: [3.7, 0.05, 0.16] })
   } else {
