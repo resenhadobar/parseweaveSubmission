@@ -208,7 +208,12 @@ function createLandscape(world: THREE.Group): void {
 }
 
 function addCrosswalk(world: THREE.Group, x: number, z: number, direction: 'horizontal' | 'vertical'): void {
-  for (let i = -2; i <= 2; i += 1) addBlock(world, { color: 'white', position: direction === 'horizontal' ? [x, 0.2, z + i * 0.62] : [x + i * 0.62, 0.2, z], scale: direction === 'horizontal' ? [1.95, 0.05, 0.22] : [0.22, 0.05, 1.95] })
+  const offset = direction === 'horizontal' ? 2.35 : 2.35
+  if (direction === 'horizontal') {
+    for (const dz of [-offset, offset]) addBlock(world, { color: 'white', position: [x, 0.2, z + dz], scale: [3.7, 0.05, 0.16] })
+  } else {
+    for (const dx of [-offset, offset]) addBlock(world, { color: 'white', position: [x + dx, 0.2, z], scale: [0.16, 0.05, 3.7] })
+  }
 }
 
 function addRoadEndTunnels(world: THREE.Group): void {
