@@ -1,6 +1,5 @@
 import * as THREE from 'three'
-import type { VoxelAsset } from '../voxel/assets'
-import { createViewerAssets } from '../voxel/viewerAssets'
+import { createViewerAssets, type VoxelAsset } from '../voxel/viewerAssets'
 
 export class AssetViewer {
   private readonly assets: VoxelAsset[] = createViewerAssets()
