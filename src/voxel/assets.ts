@@ -234,7 +234,6 @@ export function createDeliveryBike(): THREE.Group {
   for (const x of [-0.34, 0.34]) for (const z of [-0.58, 0.58]) addBlock(group, { color: 'black', position: [x, 0.06, z], scale: [0.18, 0.18, 0.18] })
   addBlock(group, { color: 'metal', position: [0, 0.12, -0.58], scale: [0.88, 0.08, 0.08] })
   addBlock(group, { color: 'metal', position: [0, 0.12, 0.58], scale: [0.88, 0.08, 0.08] })
-  addBlock(group, { color: 'yellow', name: 'delivery-box', position: [0, 0.78, 0.88], scale: [0.62, 0.48, 0.48] })
   return group
 }
 
