@@ -20,6 +20,7 @@ export class DeliveryHud {
   private readonly cashCounter = document.createElement('div')
   private readonly timerCounter = document.createElement('div')
   private readonly radText = document.createElement('div')
+  private readonly payoutText = document.createElement('div')
   private readonly arrowScene = new THREE.Scene()
   private readonly arrowCamera = new THREE.PerspectiveCamera(
     42,
@@ -29,6 +30,7 @@ export class DeliveryHud {
   )
   private readonly arrow = createHudArrow()
   private radTimer = 0
+  private payoutTimer = 0
 
   constructor(private readonly mount: HTMLElement) {
     this.root.className = 'delivery-hud'
@@ -38,6 +40,7 @@ export class DeliveryHud {
     this.cashCounter.className = 'cash-counter'
     this.timerCounter.className = 'timer-counter'
     this.radText.className = 'rad-text'
+    this.payoutText.className = 'payout-text'
     this.radText.textContent = 'RAD!'
     this.addMapBackdrop()
     this.map.append(this.playerDot, this.targetDot)
@@ -45,6 +48,7 @@ export class DeliveryHud {
       this.cashCounter,
       this.timerCounter,
       this.radText,
+      this.payoutText,
       this.map,
       this.createTutorialModal()
     )
@@ -75,10 +79,17 @@ export class DeliveryHud {
 
     this.radTimer = Math.max(0, this.radTimer - 1 / 60)
     this.radText.style.opacity = this.radTimer > 0 ? '1' : '0'
+    this.payoutTimer = Math.max(0, this.payoutTimer - 1 / 60)
+    this.payoutText.style.opacity = this.payoutTimer > 0 ? '1' : '0'
   }
 
   showRad(): void {
     this.radTimer = 0.9
+  }
+
+  showPayout(amount: number): void {
+    this.payoutText.textContent = `+$${amount}`
+    this.payoutTimer = 1.15
   }
 
   render(renderer: THREE.WebGLRenderer): void {
