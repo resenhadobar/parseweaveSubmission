@@ -97,6 +97,71 @@ canvas:active {
   transition: opacity 0.12s ease;
 }
 
+.timer-counter {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  border: 2px solid rgba(255, 245, 220, 0.9);
+  border-radius: 999px;
+  background: rgba(107, 22, 20, 0.78);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
+  color: #fff1c2;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.tutorial-modal {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(6, 22, 31, 0.55);
+  pointer-events: auto;
+}
+
+.tutorial-card {
+  width: min(620px, 94vw);
+  max-height: min(720px, 92vh);
+  overflow: auto;
+  padding: 26px 30px;
+  border: 3px solid #fff1c2;
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(36, 112, 131, 0.94), rgba(246, 177, 92, 0.94));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.42);
+  color: #fffaf0;
+  pointer-events: auto;
+}
+
+.tutorial-card h1 {
+  margin: 0 0 12px;
+  font-size: clamp(30px, 5vw, 48px);
+  letter-spacing: 0.05em;
+  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.tutorial-card p,
+.tutorial-card li {
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.tutorial-card button {
+  margin-top: 10px;
+  padding: 12px 18px;
+  border: 2px solid #fff1c2;
+  border-radius: 999px;
+  background: #e0453f;
+  color: #fffaf0;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
 .map-zone {
   position: absolute;
 }
