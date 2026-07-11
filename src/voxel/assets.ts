@@ -18,8 +18,8 @@ type HouseOptions = {
 
 type WindowPattern = 'paired' | 'wide' | 'offset'
 
-const houseBodies: PaletteKey[] = ['cream', 'white', 'coral', 'teal', 'blue', 'yellow', 'pink']
-const roofColors: PaletteKey[] = ['teal', 'navy', 'orange', 'red', 'coral']
+const houseBodies: PaletteKey[] = ['cream', 'white', 'coral', 'teal', 'blue', 'yellow']
+const roofColors: PaletteKey[] = ['navy', 'orange', 'red', 'wood']
 const trims: PaletteKey[] = ['white', 'wood', 'cream']
 
 function variantFromId(id = 'beach-house'): number {
@@ -37,8 +37,8 @@ export function createBeachHouse(options: HouseOptions = {}): THREE.Group {
   const roof = options.roof ?? roofColors[variant % roofColors.length]
   const trim = options.trim ?? trims[variant % trims.length]
   const stories = options.stories ?? 2
-  const width = options.shop ? 8.4 : 7.2
-  const depth = options.shop ? 6.4 : 6.1
+  const width = options.shop ? 7.4 : 6.35
+  const depth = options.shop ? 5.45 : 5.25
   const floorHeight = 2.25
   const bodyHeight = stories * floorHeight
   const roofStyle = options.shop ? 'flat' : variant % 3 === 0 ? 'stepped' : variant % 3 === 1 ? 'gable' : 'terrace'
@@ -66,40 +66,40 @@ export function createBeachHouse(options: HouseOptions = {}): THREE.Group {
 
 function addHouseRoof(group: THREE.Group, width: number, depth: number, y: number, roof: PaletteKey, trim: PaletteKey, style: string): void {
   if (style === 'gable') {
-    for (let layer = 0; layer < 3; layer += 1) {
-      addBlock(group, { color: roof, position: [0, y + 0.2 + layer * 0.36, 0], scale: [width + 1.1 - layer * 1.25, 0.34, depth + 1.05 - layer * 0.5] })
-    }
-    addBlock(group, { color: trim, position: [0, y + 1.35, 0], scale: [1.2, 0.35, depth + 0.75] })
+    addBlock(group, { color: roof, position: [0, y + 0.22, 0], scale: [width + 0.55, 0.34, depth + 0.45] })
+    addBlock(group, { color: roof, position: [0, y + 0.58, 0], scale: [width - 0.75, 0.32, depth + 0.15] })
+    addBlock(group, { color: trim, position: [0, y + 0.9, 0], scale: [0.62, 0.26, depth + 0.35] })
     return
   }
 
   if (style === 'stepped') {
-    addBlock(group, { color: roof, position: [0, y + 0.28, 0], scale: [width + 1.15, 0.5, depth + 1.15] })
-    addBlock(group, { color: roof, position: [1.25, y + 0.85, -0.4], scale: [width - 1.8, 0.56, depth - 1.1] })
-    addBlock(group, { color: trim, position: [-width / 2 + 1.1, y + 1.45, 0.45], scale: [1.6, 0.85, 1.4] })
+    addBlock(group, { color: roof, position: [0, y + 0.18, 0], scale: [width + 0.45, 0.34, depth + 0.4] })
+    addBlock(group, { color: trim, position: [0, y + 0.52, -depth / 2 + 0.42], scale: [width - 0.55, 0.34, 0.2] })
+    addBlock(group, { color: trim, position: [-width / 2 + 0.42, y + 0.52, 0], scale: [0.2, 0.34, depth - 0.6] })
+    addBlock(group, { color: 'metal', position: [width / 2 - 1.05, y + 0.62, depth / 2 - 0.95], scale: [0.78, 0.2, 0.52] })
     return
   }
 
-  addBlock(group, { color: roof, position: [0, y + 0.28, 0], scale: [width + 1.05, 0.5, depth + 1.05] })
-  addRoofTerrace(group, width, depth, y + 0.7, trim, roof, false)
+  addBlock(group, { color: roof, position: [0, y + 0.2, 0], scale: [width + 0.42, 0.32, depth + 0.38] })
+  addRoofTerrace(group, width, depth, y + 0.46, trim, roof, false)
 }
 
 function addPorch(group: THREE.Group, width: number, depth: number, trim: PaletteKey, roof: PaletteKey, variant: number): void {
   const porchX = variant % 2 === 0 ? -1.45 : 1.15
-  const frontZ = -depth / 2 - 0.65
-  addBlock(group, { color: 'wood', position: [porchX, 0.35, frontZ], scale: [3.5, 0.32, 1.55] })
-  addBlock(group, { color: roof, position: [porchX, 2.35, frontZ], scale: [3.9, 0.32, 1.75] })
-  for (const x of [porchX - 1.45, porchX + 1.45]) addBlock(group, { color: trim, position: [x, 1.28, frontZ - 0.55], scale: [0.18, 1.85, 0.18] })
-  addBlock(group, { color: 'wood', position: [porchX, 0.18, frontZ - 1.18], scale: [2.4, 0.2, 0.45] })
+  const frontZ = -depth / 2 - 0.42
+  addBlock(group, { color: 'wood', position: [porchX, 0.35, frontZ], scale: [3.05, 0.32, 1.05] })
+  addBlock(group, { color: roof, position: [porchX, 2.35, frontZ], scale: [3.28, 0.28, 1.15] })
+  for (const x of [porchX - 1.25, porchX + 1.25]) addBlock(group, { color: trim, position: [x, 1.28, frontZ - 0.36], scale: [0.16, 1.85, 0.16] })
+  addBlock(group, { color: 'wood', position: [porchX, 0.18, frontZ - 0.82], scale: [2.05, 0.2, 0.32] })
   addBlock(group, { color: 'darkGlass', position: [porchX, 1.18, -depth / 2 - 0.08], scale: [0.82, 1.58, 0.1] })
 }
 
 function addBalcony(group: THREE.Group, width: number, depth: number, trim: PaletteKey, roof: PaletteKey, variant: number): void {
   const balconyX = variant % 2 === 0 ? 1.9 : -1.8
-  const frontZ = -depth / 2 - 0.45
-  addBlock(group, { color: 'wood', position: [balconyX, 2.95, frontZ], scale: [2.75, 0.22, 1.1] })
-  addBlock(group, { color: roof, position: [balconyX, 3.28, frontZ - 0.55], scale: [2.85, 0.22, 0.16] })
-  for (let i = -1; i <= 1; i += 1) addBlock(group, { color: trim, position: [balconyX + i * 0.85, 3.48, frontZ - 0.55], scale: [0.12, 0.55, 0.12] })
+  const frontZ = -depth / 2 - 0.3
+  addBlock(group, { color: 'wood', position: [balconyX, 2.95, frontZ], scale: [2.35, 0.2, 0.72] })
+  addBlock(group, { color: roof, position: [balconyX, 3.28, frontZ - 0.35], scale: [2.45, 0.18, 0.14] })
+  for (let i = -1; i <= 1; i += 1) addBlock(group, { color: trim, position: [balconyX + i * 0.72, 3.48, frontZ - 0.35], scale: [0.1, 0.5, 0.1] })
   addBlock(group, { color: 'glass', position: [balconyX, 3.82, -depth / 2 - 0.08], scale: [0.9, 0.62, 0.08] })
   addBlock(group, { color: trim, position: [balconyX, 4.24, -depth / 2 - 0.09], scale: [1.1, 0.14, 0.08] })
 }
@@ -111,8 +111,8 @@ function addShopfront(group: THREE.Group, width: number, depth: number, height: 
   addBlock(group, { color: 'darkGlass', position: [1.8, 1.18, frontZ], scale: [2.2, 1.55, 0.1] })
   addBlock(group, { color: trim, position: [0, 1.15, frontZ - 0.01], scale: [0.25, 1.72, 0.14] })
   addSign(group, ['teal', 'white', 'coral', 'yellow', 'blue'], [0, 3.2, frontZ - 0.05])
-  addBlock(group, { color: roof, position: [0, height + 0.25, 0], scale: [width + 0.95, 0.5, depth + 0.95] })
-  addSurfboardRack(group, width / 2 + 0.85, -depth / 2 - 0.15, variant)
+  addBlock(group, { color: roof, position: [0, height + 0.2, 0], scale: [width + 0.38, 0.34, depth + 0.35] })
+  addSurfboardRack(group, width / 2 + 0.48, -depth / 2 + 0.15, variant)
 }
 
 function addHouseWindows(group: THREE.Group, width: number, depth: number, stories: number, floorHeight: number, pattern: WindowPattern): void {
