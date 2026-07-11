@@ -32,7 +32,7 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 - Unplayable surrounding scenery with 2x-height rock-dominant Rio-style horseshoe mountains, outer terrain, tree line, and perimeter border.
 - 60fps-oriented rendering optimizations using instanced mountain/outer-ground voxel batches, reduced pixel ratio cap, and lower shadow-map budget.
 - Animated player/skater character, skateboard, voxel pedestrians, and cars, varied palm/tropical trees, surf racks, bicycles, food cart, beach shower, tiny boat, and other props.
-- Green in-world arrows mark NPC delivery offers; stopping near one starts a timed delivery with a red dropoff arrow.
+- Green in-world arrows and minimap dots mark NPC delivery offers; stopping near one starts a timed delivery with a red dropoff dot and top-center 3D Crazy Taxi-style direction arrow.
 - Skate crashes against cars, pedestrians, houses, trees, or props trigger a bail animation and time penalty.
 - Player collision against buildings, trees, towers, umbrellas, benches, and major beach props.
 - Fewer signal-timed cars that recycle through tunnel routes instead of forming permanent jams.
@@ -77,6 +77,7 @@ npm run typecheck
 - `src/voxel/traffic.ts` - deterministic moving cars and sidewalk pedestrian loops.
 - `src/player/playerController.ts` - camera-follow walking, skate mode, push movement, kickflips, bails, and collision-aware skating.
 - `src/delivery/deliveryController.ts` - green pickup offers, red dropoff arrow, timers, payouts, and crash penalties.
+- `src/delivery/deliveryHud.ts` - delivery minimap and screen-space 3D destination arrow.
 - `src/player/collisions.ts` - lightweight player collision bounds for buildings and props.
 - `src/render/visibilityCulling.ts` - camera-frustum culling for static scene sections.
 - `src/voxel/characterAnimation.ts` - shared voxel character walk-cycle animation.
