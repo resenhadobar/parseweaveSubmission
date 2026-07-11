@@ -9,8 +9,8 @@ export function updateVoxelWalkCycle(character: THREE.Object3D, elapsedSeconds: 
 
   const body = character.getObjectByName('body')
   const head = character.getObjectByName('head')
-  if (body) body.position.y = 0.88 + bob
-  if (head) head.position.y = 1.35 + bob
+  if (body) body.position.y = 0.9 + bob
+  if (head) head.position.y = 1.42 + bob
 
   setLimb(character, 'left-leg', stride, bob)
   setLimb(character, 'right-leg', -stride, bob)
@@ -38,5 +38,5 @@ function setLimb(character: THREE.Object3D, name: string, swing: number, bob: nu
 
 function baseY(name: string): number {
   if (name.includes('leg')) return 0.36
-  return 0.88
+  return 0.92
 }
