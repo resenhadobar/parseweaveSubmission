@@ -54,6 +54,7 @@ const walkers: PersonSpec[] = [
 export class TrafficController {
   private readonly actors: Actor[] = []
   private readonly cars: Actor[] = []
+  private readonly pedestrians: Actor[] = []
   private elapsed = 0
 
   constructor(world: THREE.Group) {
@@ -78,6 +79,10 @@ export class TrafficController {
     return this.cars.map((actor) => actor.object)
   }
 
+  getPedestrianObjects(): THREE.Object3D[] {
+    return this.pedestrians.map((actor) => actor.object)
+  }
+
   private canMove(actor: Actor): boolean {
     if (actor.kind !== 'car' || actor.distance < 0 || actor.distance > actor.length) return true
     if (!greenForActor(actor)) return false
@@ -100,6 +105,7 @@ export class TrafficController {
     world.add(person)
     const actor = makeActor(person, spec.route, spec.speed, spec.offset, 0.1, 0.25, 'person', spec.offset)
     this.actors.push(actor)
+    this.pedestrians.push(actor)
     updateActor(actor)
   }
 }
