@@ -58,8 +58,8 @@ export class DeliveryHud {
       const dx = snapshot.target.x - player.position.x
       const dz = snapshot.target.z - player.position.z
       this.arrow.rotation.z = Math.atan2(dx, dz) + player.rotation.y
-      this.arrow.rotation.x = -0.55
-      this.arrow.rotation.y = 0.35
+      this.arrow.rotation.x = -0.82
+      this.arrow.rotation.y = 0.62
     }
 
     this.radTimer = Math.max(0, this.radTimer - 1 / 60)
@@ -168,15 +168,18 @@ function createHudArrow(): THREE.Group {
   const group = new THREE.Group()
   const red = new THREE.MeshStandardMaterial({ color: '#e0453f', emissive: '#5a100d', emissiveIntensity: 0.25, roughness: 0.36 })
   const cream = new THREE.MeshStandardMaterial({ color: '#fff1c2', roughness: 0.42 })
-  const body = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.3, 0.24), red)
-  const head = new THREE.Mesh(new THREE.ConeGeometry(0.56, 0.72, 4), red)
-  const trim = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.04, 8, 4), cream)
-  body.position.y = -0.18
-  head.position.y = 0.72
+  const body = new THREE.Mesh(new THREE.BoxGeometry(0.58, 1.45, 0.34), red)
+  const outlineHead = new THREE.Mesh(new THREE.ConeGeometry(0.84, 0.98, 4), cream)
+  const head = new THREE.Mesh(new THREE.ConeGeometry(0.72, 0.9, 4), red)
+  const trim = new THREE.Mesh(new THREE.TorusGeometry(0.58, 0.055, 8, 4), cream)
+  body.position.y = -0.22
+  outlineHead.position.y = 0.76
+  head.position.y = 0.78
+  outlineHead.rotation.y = Math.PI / 4
   head.rotation.y = Math.PI / 4
   trim.position.y = -0.86
   trim.scale.y = 0.55
-  group.add(body, head, trim)
+  group.add(body, outlineHead, head, trim)
   const light = new THREE.DirectionalLight('#ffffff', 2.4)
   light.position.set(2, 3, 4)
   group.add(light)
