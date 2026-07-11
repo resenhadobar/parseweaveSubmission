@@ -110,6 +110,7 @@ function createRoadDetails(world: THREE.Group): void {
       addCrosswalk(world, (vertical.minX + vertical.maxX) / 2, (horizontal.minZ + horizontal.maxZ) / 2, 'vertical')
     }
   }
+  addRoadEndTunnels(world)
 }
 
 function createBuildings(world: THREE.Group): void {
@@ -208,6 +209,28 @@ function createLandscape(world: THREE.Group): void {
 
 function addCrosswalk(world: THREE.Group, x: number, z: number, direction: 'horizontal' | 'vertical'): void {
   for (let i = -2; i <= 2; i += 1) addBlock(world, { color: 'white', position: direction === 'horizontal' ? [x, 0.2, z + i * 0.62] : [x + i * 0.62, 0.2, z], scale: direction === 'horizontal' ? [1.95, 0.05, 0.22] : [0.22, 0.05, 1.95] })
+}
+
+function addRoadEndTunnels(world: THREE.Group): void {
+  roads.forEach((road) => {
+    if (road.direction === 'horizontal') {
+      const z = (road.minZ + road.maxZ) / 2
+      addTunnelPortal(world, road.minX - 0.65, z, 'horizontal')
+      addTunnelPortal(world, road.maxX + 0.65, z, 'horizontal')
+    } else {
+      const x = (road.minX + road.maxX) / 2
+      addTunnelPortal(world, x, road.minZ - 0.65, 'vertical')
+      addTunnelPortal(world, x, road.maxZ + 0.65, 'vertical')
+    }
+  })
+}
+
+function addTunnelPortal(world: THREE.Group, x: number, z: number, direction: 'horizontal' | 'vertical'): void {
+  const horizontal = direction === 'horizontal'
+  addBlock(world, { color: 'black', position: [x, 1.05, z], scale: horizontal ? [0.28, 2.1, 3.55] : [3.55, 2.1, 0.28] })
+  addBlock(world, { color: 'rock', position: [x, 2.35, z], scale: horizontal ? [0.45, 0.55, 4.25] : [4.25, 0.55, 0.45] })
+  addBlock(world, { color: 'rock', position: horizontal ? [x, 1.05, z - 1.95] : [x - 1.95, 1.05, z], scale: horizontal ? [0.48, 2.1, 0.5] : [0.5, 2.1, 0.48] })
+  addBlock(world, { color: 'rock', position: horizontal ? [x, 1.05, z + 1.95] : [x + 1.95, 1.05, z], scale: horizontal ? [0.48, 2.1, 0.5] : [0.5, 2.1, 0.48] })
 }
 
 function addStreetLight(world: THREE.Group, x: number, z: number): void {
