@@ -87,9 +87,11 @@ export class DeliveryHud {
     this.map.append(beach)
 
     lots.forEach((lot) => {
+      const width = Math.abs(Math.sin(lot.rotation)) > 0.5 ? lot.depth : lot.width
+      const depth = Math.abs(Math.sin(lot.rotation)) > 0.5 ? lot.width : lot.depth
       const block = document.createElement('div')
       block.className = 'map-zone map-block'
-      this.placeZone(block, lot.x - lot.width / 2, lot.x + lot.width / 2, lot.z - lot.depth / 2, lot.z + lot.depth / 2)
+      this.placeZone(block, lot.x - width / 2, lot.x + width / 2, lot.z - depth / 2, lot.z + depth / 2)
       this.map.append(block)
     })
 
