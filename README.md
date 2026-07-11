@@ -2,6 +2,10 @@
 
 A browser-playable 3D voxel beach neighborhood prototype built with Vite, TypeScript, and Three.js.
 
+## AI tools used
+
+This game was entirely built with AI using Jabali Studio (jabali.ai), music, sounds, assets (proceduraly generated threeJS geometry) were all built using GPT 5.5 within the Studio.
+
 ## Overview
 
 Voxel Beach Block is now a GTA-style over-the-shoulder voxel skate delivery game prototype set in a polished oceanfront neighborhood. Players start with a tutorial modal, toggle skate mode, kickflip, dodge traffic/obstacles, stop at green sidewalk NPC delivery offers, then follow a red Crazy Taxi-style 3D arrow and red ground aura to the dropoff before time runs out. Fast deliveries pay more cash, kickflips during active runs add RAD bonus value, and the scene includes a seamless procedural beach sky dome, music, ocean ambience, ride wind, animated ocean shader, Ocean Avenue, dense neighborhood blocks, animated cars, walking pedestrians, swaying palm/tropical trees, lifeguard towers, beach props, and mountain perimeter scenery.
