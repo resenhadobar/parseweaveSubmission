@@ -7,6 +7,7 @@ import { PlayerController } from './player/playerController'
 import { VisibilityCullingController } from './render/visibilityCulling'
 import { OverShoulderCameraController } from './camera/overShoulderCamera'
 import { DeliveryController } from './delivery/deliveryController'
+import { DeliveryHud } from './delivery/deliveryHud'
 
 export class VoxelBeachApp {
   private readonly scene = new THREE.Scene()
@@ -20,6 +21,7 @@ export class VoxelBeachApp {
   private readonly traffic: TrafficController
   private readonly player: PlayerController
   private readonly delivery: DeliveryController
+  private readonly deliveryHud: DeliveryHud
   private readonly culling: VisibilityCullingController
   private mode: 'scene' | 'viewer' = 'scene'
 
@@ -39,6 +41,7 @@ export class VoxelBeachApp {
     this.player = new PlayerController(this.camera)
     this.beachBlock.add(this.player.object)
     this.delivery = new DeliveryController(this.beachBlock)
+    this.deliveryHud = new DeliveryHud(this.mount)
     this.culling = new VisibilityCullingController(this.beachBlock)
     this.viewer = new AssetViewer(this.scene)
     this.cameraController = new OverShoulderCameraController(this.camera, this.renderer.domElement)
@@ -90,6 +93,7 @@ export class VoxelBeachApp {
     this.camera.aspect = window.innerWidth / window.innerHeight
     this.camera.updateProjectionMatrix()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
+    this.deliveryHud.resize()
   }
 
   private render(): void {
@@ -103,10 +107,12 @@ export class VoxelBeachApp {
       this.player.update(delta, [...this.traffic.getCarObjects(), ...this.traffic.getPedestrianObjects()])
       if (this.player.consumeFallPenalty()) this.delivery.applyFallPenalty()
       this.delivery.update(delta, this.player.object, this.player.isSkating(), this.player.getSpeed())
+      this.deliveryHud.update(this.delivery.getHudSnapshot(), this.player.object)
       this.cameraController.update(this.player.object, delta, this.player.isBikeMounted())
       this.culling.update(this.camera, delta)
     }
     this.viewer.update(delta)
     this.renderer.render(this.scene, this.camera)
+    if (this.mode === 'scene') this.deliveryHud.render(this.renderer)
   }
 }
