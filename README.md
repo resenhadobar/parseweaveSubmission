@@ -4,7 +4,7 @@ A browser-playable 3D voxel beach neighborhood prototype built with Vite, TypeSc
 
 ## Overview
 
-Voxel Beach Block is now a GTA-style over-the-shoulder voxel skate delivery game prototype set in a polished oceanfront neighborhood. Players toggle skate mode, kickflip, dodge traffic/obstacles, stop at green NPC delivery offers, then follow a red Crazy Taxi-style 3D arrow to the dropoff before time runs out. Fast deliveries pay more cash, kickflips during active runs add RAD bonus value, and the scene includes a beach skybox, music, ocean ambience, ride wind, animated ocean shader, Ocean Avenue, dense neighborhood blocks, animated cars, walking pedestrians, swaying palm/tropical trees, lifeguard towers, beach props, and mountain perimeter scenery.
+Voxel Beach Block is now a GTA-style over-the-shoulder voxel skate delivery game prototype set in a polished oceanfront neighborhood. Players start with a tutorial modal, toggle skate mode, kickflip, dodge traffic/obstacles, stop at green sidewalk NPC delivery offers, then follow a red Crazy Taxi-style 3D arrow and red ground aura to the dropoff before time runs out. Fast deliveries pay more cash, kickflips during active runs add RAD bonus value, and the scene includes a seamless procedural beach sky dome, music, ocean ambience, ride wind, animated ocean shader, Ocean Avenue, dense neighborhood blocks, animated cars, walking pedestrians, swaying palm/tropical trees, lifeguard towers, beach props, and mountain perimeter scenery.
 
 It also includes a separate individual 3D asset viewer so each voxel structure can be inspected outside the full neighborhood scene.
 
@@ -33,9 +33,11 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 - 60fps-oriented rendering optimizations using instanced mountain/outer-ground voxel batches, reduced pixel ratio cap, and lower shadow-map budget.
 - Animated player/skater character, skateboard, voxel pedestrians, and cars, varied palm/tropical trees, surf racks, bicycles, food cart, beach shower, tiny boat, and other props.
 - Green in-world arrows and minimap dots mark NPC delivery offers; stopping near one starts a timed delivery with a red dropoff dot and top-center 3D Crazy Taxi-style direction arrow.
-- Cash counter tracks delivery earnings; faster deliveries pay more and active-run kickflips show RAD! feedback while increasing delivery value.
+- Quest NPCs are placed on deterministic randomized sidewalk positions so offers do not spawn inside buildings.
+- Cash counter and delivery timer track delivery earnings and remaining time; faster deliveries pay more and active-run kickflips show RAD! feedback while increasing delivery value.
+- Active dropoffs show a red GTA-style ground aura at the destination.
 - Skate crashes against cars, pedestrians, houses, trees, or props trigger a bail animation and time penalty.
-- Beach skybox, coastal music loop, ocean surf loop, and speed-reactive wind loop add atmosphere.
+- Seamless procedural beach sky dome, coastal music loop, ocean surf loop, and speed-reactive wind loop add atmosphere.
 - Player collision against buildings, trees, towers, umbrellas, benches, and major beach props.
 - Fewer signal-timed cars that recycle through tunnel routes instead of forming permanent jams.
 - Camera-frustum visibility culling so static scene sections outside the camera view are hidden from rendering.
@@ -79,9 +81,10 @@ npm run typecheck
 - `src/voxel/traffic.ts` - deterministic moving cars and sidewalk pedestrian loops.
 - `src/player/playerController.ts` - camera-follow walking, skate mode, push movement, kickflips, bails, and collision-aware skating.
 - `src/delivery/deliveryController.ts` - green pickup offers, red dropoff arrow, timers, payouts, and crash penalties.
-- `src/delivery/deliveryHud.ts` - delivery minimap, cash counter, RAD text, and screen-space 3D destination arrow.
+- `src/delivery/deliveryHud.ts` - tutorial modal, delivery minimap, timer, cash counter, RAD text, and screen-space 3D destination arrow.
 - `src/delivery/scoring.ts` - delivery payout scoring helper.
 - `src/audio/beachAudio.ts` - music, ocean ambience, and speed-reactive ride wind loop playback.
+- `src/render/skyDome.ts` - seamless procedural beach sky dome.
 - `src/voxel/palmWind.ts` - shared palm-tree wind sway registry and animation update.
 - `src/player/collisions.ts` - lightweight player collision bounds for buildings and props.
 - `src/render/visibilityCulling.ts` - camera-frustum culling for static scene sections.
