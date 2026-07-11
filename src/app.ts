@@ -6,6 +6,7 @@ import { TrafficController } from './voxel/traffic'
 import { PlayerController } from './player/playerController'
 import { VisibilityCullingController } from './render/visibilityCulling'
 import { OverShoulderCameraController } from './camera/overShoulderCamera'
+import { DeliveryController } from './delivery/deliveryController'
 
 export class VoxelBeachApp {
   private readonly scene = new THREE.Scene()
@@ -18,6 +19,7 @@ export class VoxelBeachApp {
   private readonly ocean: THREE.Object3D | undefined
   private readonly traffic: TrafficController
   private readonly player: PlayerController
+  private readonly delivery: DeliveryController
   private readonly culling: VisibilityCullingController
   private mode: 'scene' | 'viewer' = 'scene'
 
@@ -36,12 +38,13 @@ export class VoxelBeachApp {
     this.traffic = new TrafficController(this.beachBlock)
     this.player = new PlayerController(this.camera)
     this.beachBlock.add(this.player.object)
+    this.delivery = new DeliveryController(this.beachBlock)
     this.culling = new VisibilityCullingController(this.beachBlock)
     this.viewer = new AssetViewer(this.scene)
     this.cameraController = new OverShoulderCameraController(this.camera, this.renderer.domElement)
     this.bindEvents()
     this.resize()
-    console.info('[VoxelBeach] Delivery game initialized. WASD/arrows move relative to over-shoulder camera, E mounts bike, Space boosts, V opens asset viewer.')
+    console.info('[VoxelBeach] Skate delivery game initialized. WASD/arrows steer and push, E toggles skate mode, Space kickflips, stop at green arrows to start deliveries.')
   }
 
   start(): void {
@@ -97,7 +100,9 @@ export class VoxelBeachApp {
     if (this.ocean) updateOcean(this.ocean, elapsed)
     if (this.mode === 'scene') {
       this.traffic.update(delta)
-      this.player.update(delta, this.traffic.getCarObjects())
+      this.player.update(delta, [...this.traffic.getCarObjects(), ...this.traffic.getPedestrianObjects()])
+      if (this.player.consumeFallPenalty()) this.delivery.applyFallPenalty()
+      this.delivery.update(delta, this.player.object, this.player.isSkating(), this.player.getSpeed())
       this.cameraController.update(this.player.object, delta, this.player.isBikeMounted())
       this.culling.update(this.camera, delta)
     }
