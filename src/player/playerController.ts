@@ -47,7 +47,7 @@ export class PlayerController {
     this.checkTrafficNearMiss(trafficCars)
     this.updateDeliveryScore(deltaSeconds)
 
-    if (this.direction.lengthSq() > 0.01) this.object.rotation.y = Math.atan2(this.direction.x, this.direction.z)
+    if (this.direction.lengthSq() > 0.01) this.object.rotation.y = Math.atan2(-this.direction.x, -this.direction.z)
     this.updatePose()
   }
 
