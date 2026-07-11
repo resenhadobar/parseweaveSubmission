@@ -5,6 +5,12 @@ import { calculateDeliveryScore } from './scoring'
 
 type DeliveryPoint = { x: number; z: number }
 
+export type DeliveryCompletion = {
+  position: THREE.Vector3
+  payout: number
+  cash: number
+}
+
 type DeliveryState = 'waiting' | 'active'
 
 const pickupPoints: DeliveryPoint[] = createSidewalkPoints(931, 5)
@@ -24,6 +30,7 @@ export class DeliveryController {
   private completed = 0
   private cash = 0
   private radBonus = 0
+  private completion: DeliveryCompletion | undefined
 
   constructor(world: THREE.Group) {
     this.group.name = 'delivery-pointers'
@@ -76,6 +83,12 @@ export class DeliveryController {
       `[VoxelBeach] RAD kickflip bonus added: delivery value +$8, current trick bonus $${this.radBonus}`
     )
     return true
+  }
+
+  consumeCompletion(): DeliveryCompletion | undefined {
+    const completion = this.completion
+    this.completion = undefined
+    return completion
   }
 
   getHudSnapshot(): {
@@ -131,6 +144,11 @@ export class DeliveryController {
       this.completed += 1
       const score = calculateDeliveryScore(this.timer, speed, this.radBonus)
       this.cash += score.payout
+      this.completion = {
+        position: new THREE.Vector3(target.x, 0.2, target.z),
+        payout: score.payout,
+        cash: this.cash,
+      }
       this.state = 'waiting'
       this.targetArrow.visible = false
       this.targetAura.visible = false
