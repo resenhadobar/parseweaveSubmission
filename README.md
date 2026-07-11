@@ -150,6 +150,7 @@ Built with AI assistance inside Jabali Studio. AI assistance was used for:
 
 - Started from the Jabali Vite/TypeScript web base template.
 - Uses the open-source Three.js library through npm.
+- Jabali threeJS template consists of a simple floating cube, it's an empty template.
 - Uses Vite, TypeScript, Vitest, oxlint, and oxfmt npm packages listed in `package.json`.
 - `assets/voxelBeachSkill.txt` and `assets/buildingReference.png` are local creative references for the latest architecture and beach personality pass; the runtime scene remains procedurally built from code.
 - `assets/conceptArt.png` is a local concept reference for the scenic voxel beach-block direction.
