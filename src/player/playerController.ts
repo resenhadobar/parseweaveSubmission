@@ -10,118 +10,131 @@ const moveKeys = new Set(['w', 'a', 's', 'd', 'arrowup', 'arrowleft', 'arrowdown
 export class PlayerController {
   readonly object = new THREE.Group()
   readonly rider = createVoxelPerson('blue')
-  readonly bike = createDeliveryBike()
+  readonly skate = createDeliveryBike()
   private readonly direction = new THREE.Vector3()
   private readonly velocity = new THREE.Vector3()
-  private bikeMounted = false
+  private skateMode = false
   private speed = 0
-  private deliveryScore = 0
-  private deliveryTimer = 0
+  private jumpTimer = 0
+  private fallTimer = 0
   private elapsed = 0
-  private loggedFirstRide = false
+  private fallPenaltyQueued = false
 
   constructor(private readonly camera: THREE.PerspectiveCamera) {
     this.object.name = 'player-character'
     this.object.position.set(0, 0.12, 4)
     this.rider.name = 'player-rider'
     this.rider.scale.setScalar(1.15)
-    this.bike.position.set(0, 0, 1.35)
-    this.bike.visible = false
-    this.object.add(this.rider, this.bike)
+    this.skate.position.set(0, 0.02, 0.1)
+    this.skate.visible = false
+    this.object.add(this.rider, this.skate)
     bindKeyboard()
-    console.info('[VoxelBeach] Delivery player ready: WASD/arrows move camera-relative, E mounts the delivery bike, hold Space to sprint/boost')
+    console.info('[VoxelBeach] Skater ready: WASD/arrows steer and push, E toggles skate mode, Space kickflips while skating')
   }
 
-  update(deltaSeconds: number, trafficCars: THREE.Object3D[] = []): void {
+  update(deltaSeconds: number, hazards: THREE.Object3D[] = []): void {
     this.elapsed += deltaSeconds
-    this.deliveryTimer += deltaSeconds
-    if (consumeKey('e')) this.setBikeMounted(!this.bikeMounted)
+    if (consumeKey('e')) this.setSkateMode(!this.skateMode)
+    if (this.skateMode && consumeKey(' ') && this.jumpTimer <= 0 && this.fallTimer <= 0) this.startKickflip()
 
-    this.readMovementDirection(deltaSeconds)
-    const desiredSpeed = this.getTargetSpeed()
-    this.speed = THREE.MathUtils.lerp(this.speed, desiredSpeed, this.bikeMounted ? 0.08 : 0.18)
-    this.velocity.copy(this.direction).multiplyScalar(this.speed * deltaSeconds)
-    const desired = this.object.position.clone().add(this.velocity)
-    this.object.position.copy(resolvePlayerCollision(this.object.position, desired, this.bikeMounted ? 0.62 : 0.42))
+    this.readMovement(deltaSeconds)
+    const previous = this.object.position.clone()
+    const desired = previous.clone().add(this.velocity.copy(this.direction).multiplyScalar(this.speed * deltaSeconds))
+    const resolved = resolvePlayerCollision(previous, desired, this.skateMode ? 0.62 : 0.42)
+    this.object.position.copy(resolved)
     this.clampToWorld()
-    this.checkTrafficNearMiss(trafficCars)
-    this.updateDeliveryScore(deltaSeconds)
 
-    if (this.direction.lengthSq() > 0.01) this.object.rotation.y = Math.atan2(-this.direction.x, -this.direction.z)
-    this.updatePose()
-  }
+    if (this.skateMode && this.fallTimer <= 0 && this.jumpTimer <= 0) {
+      const hitStatic = desired.distanceTo(resolved) > 0.08 && this.speed > 6
+      const hitHazard = hazards.some((hazard) => hazard.visible && hazard.position.distanceTo(this.object.position) < 1.45)
+      if (hitStatic || hitHazard) this.startFall()
+    }
 
-  private setBikeMounted(mounted: boolean): void {
-    this.bikeMounted = mounted
-    this.bike.visible = mounted
-    this.rider.position.set(0, mounted ? 0.35 : 0, mounted ? 0.18 : 0)
-    this.rider.scale.setScalar(mounted ? 0.95 : 1.15)
-    this.speed *= mounted ? 0.7 : 0.25
-    console.info(`[VoxelBeach] ${mounted ? 'Mounted' : 'Dismounted'} delivery bike`)
+    this.updatePose(deltaSeconds)
   }
 
   isBikeMounted(): boolean {
-    return this.bikeMounted
+    return this.skateMode
   }
 
-  getHeadingYaw(): number {
-    return this.object.rotation.y
+  isSkating(): boolean {
+    return this.skateMode && this.fallTimer <= 0
   }
 
-  private readMovementDirection(deltaSeconds: number): void {
+  getSpeed(): number {
+    return this.speed
+  }
+
+  consumeFallPenalty(): boolean {
+    if (!this.fallPenaltyQueued) return false
+    this.fallPenaltyQueued = false
+    return true
+  }
+
+  private setSkateMode(enabled: boolean): void {
+    this.skateMode = enabled
+    this.skate.visible = enabled
+    this.rider.position.set(0, enabled ? 0.28 : 0, 0)
+    this.rider.scale.setScalar(enabled ? 0.98 : 1.15)
+    this.speed *= enabled ? 0.75 : 0.2
+    console.info(`[VoxelBeach] ${enabled ? 'Stepped onto' : 'Stepped off'} delivery skateboard`)
+  }
+
+  private startKickflip(): void {
+    this.jumpTimer = 0.72
+    this.speed += 2.2
+    console.info('[VoxelBeach] Kickflip started')
+  }
+
+  private startFall(): void {
+    this.fallTimer = 1.25
+    this.speed = 0
+    this.fallPenaltyQueued = true
+    console.info('[VoxelBeach] Skater bailed: collision caused a time penalty')
+  }
+
+  private readMovement(deltaSeconds: number): void {
     const turn = Number(keys.has('d') || keys.has('arrowright')) - Number(keys.has('a') || keys.has('arrowleft'))
-    const throttle = Number(keys.has('w') || keys.has('arrowup')) - Number(keys.has('s') || keys.has('arrowdown'))
-    const turnRate = this.bikeMounted ? 2.55 : 3.8
+    const push = Number(keys.has('w') || keys.has('arrowup')) - Number(keys.has('s') || keys.has('arrowdown'))
+    if (this.fallTimer > 0) {
+      this.direction.set(0, 0, 0)
+      this.speed = 0
+      return
+    }
+
+    const turnRate = this.skateMode ? 2.35 : 3.8
     this.object.rotation.y -= turn * turnRate * deltaSeconds
     const forward = new THREE.Vector3(-Math.sin(this.object.rotation.y), 0, -Math.cos(this.object.rotation.y))
-    this.direction.copy(forward.multiplyScalar(throttle))
-    if (this.direction.lengthSq() > 0) this.direction.normalize()
-  }
+    this.direction.copy(forward)
 
-  private getTargetSpeed(): number {
-    if (this.direction.lengthSq() === 0) return 0
-    if (!this.bikeMounted) return this.isOnRoadOrSidewalk() ? 8.2 : 5.8
-    const boost = keys.has(' ') ? 1.45 : 1
-    const surface = this.isOnRoadOrSidewalk() ? 1 : 0.72
-    return 15.5 * boost * surface
-  }
-
-  private updateDeliveryScore(deltaSeconds: number): void {
-    if (!this.bikeMounted || this.speed < 7) return
-    this.deliveryScore += this.speed * deltaSeconds
-    if (this.deliveryTimer > 6) {
-      this.deliveryTimer = 0
-      console.info(`[VoxelBeach] Delivery pace score ${Math.floor(this.deliveryScore)}; faster safe riding increases payout`)
-    }
-  }
-
-  private checkTrafficNearMiss(cars: THREE.Object3D[]): void {
-    if (!this.bikeMounted) return
-    cars.forEach((car) => {
-      if (!car.visible) return
-      const distance = this.object.position.distanceTo(car.position)
-      if (distance < 1.7) {
-        this.speed *= 0.25
-        console.info('[VoxelBeach] Bike clipped traffic: speed penalty applied')
-      } else if (distance < 3.2 && this.speed > 12 && !this.loggedFirstRide) {
-        this.loggedFirstRide = true
-        this.deliveryScore += 25
-        console.info('[VoxelBeach] Near miss bonus: dodged traffic while riding fast')
-      }
-    })
-  }
-
-  private updatePose(): void {
-    const movingSpeed = this.direction.lengthSq() > 0 ? this.speed : 0
-    this.bike.visible = this.bikeMounted
-    updateVoxelWalkCycle(this.rider, this.elapsed, this.bikeMounted ? 0 : movingSpeed)
-    if (this.bikeMounted) {
-      const lean = THREE.MathUtils.clamp(this.speed / 24, 0, 0.22)
-      this.rider.rotation.x = -lean
-      this.rider.position.y = 0.35 + Math.abs(Math.sin(this.elapsed * 14)) * 0.025
+    if (this.skateMode) {
+      const surface = this.isOnRoadOrSidewalk() ? 1 : 0.68
+      this.speed += push * 18 * surface * deltaSeconds
+      this.speed *= Math.pow(push === 0 ? 0.9 : 0.965, deltaSeconds * 8)
+      this.speed = THREE.MathUtils.clamp(this.speed, -5, 22 * surface)
     } else {
-      this.rider.rotation.x = 0
+      this.speed = push === 0 ? 0 : (this.isOnRoadOrSidewalk() ? 7.2 : 5.3) * push
     }
+  }
+
+  private updatePose(deltaSeconds: number): void {
+    this.skate.visible = this.skateMode
+    if (this.fallTimer > 0) {
+      this.fallTimer = Math.max(0, this.fallTimer - deltaSeconds)
+      this.rider.rotation.set(Math.PI / 2, 0, 0.35)
+      this.rider.position.set(0, 0.18, 0.15)
+      this.skate.rotation.set(0, this.elapsed * 5, 0.45)
+      return
+    }
+
+    const jumpProgress = this.jumpTimer > 0 ? 1 - this.jumpTimer / 0.72 : 1
+    if (this.jumpTimer > 0) this.jumpTimer = Math.max(0, this.jumpTimer - deltaSeconds)
+    const jumpHeight = this.jumpTimer > 0 ? Math.sin(jumpProgress * Math.PI) * 1.25 : 0
+    this.rider.rotation.set(this.skateMode ? -THREE.MathUtils.clamp(Math.abs(this.speed) / 34, 0, 0.2) : 0, 0, 0)
+    this.rider.position.y = (this.skateMode ? 0.28 : 0) + jumpHeight + Math.abs(Math.sin(this.elapsed * 13)) * (this.skateMode && Math.abs(this.speed) > 2 ? 0.025 : 0)
+    this.skate.position.y = 0.02 + jumpHeight
+    this.skate.rotation.z = this.jumpTimer > 0 ? jumpProgress * Math.PI * 2 : THREE.MathUtils.lerp(this.skate.rotation.z, 0, 0.2)
+    updateVoxelWalkCycle(this.rider, this.elapsed, this.skateMode ? 0 : Math.abs(this.speed))
   }
 
   private isOnRoadOrSidewalk(): boolean {
