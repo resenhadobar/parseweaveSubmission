@@ -8,8 +8,12 @@ import {
   createSurfShop,
   createTropicalTree,
   createVoxelPerson,
-  type VoxelAsset,
 } from './assets'
+
+export type VoxelAsset = {
+  label: string
+  create: () => THREE.Group
+}
 
 export function createViewerAssets(): VoxelAsset[] {
   return [
