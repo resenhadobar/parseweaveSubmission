@@ -49,7 +49,7 @@ The scene is a sunny coastal neighborhood with:
 - Ocean Avenue with asphalt, lane markings, crosswalks, sidewalks, parked cars, benches, and streetlights.
 - A larger contained neighborhood grid with visible perimeter borders and multiple internal streets.
 - Beachfront homes, surf shop, added cottages, smaller apartment clusters, fences, and porches.
-- An unplayable outer perimeter with voxel mountains, terrain, pines, palms, and border fencing to frame the playable area.
+- An unplayable outer perimeter with tall rock-dominant Rio-style horseshoe mountains, sparse green patches, terrain, pines, palms, and border fencing to frame the playable area.
 - Palm trees, decorations, people, and small environmental storytelling props.
 
 ## Visual Style
@@ -66,7 +66,7 @@ The scene is a sunny coastal neighborhood with:
 - `src/app.ts` owns Three.js renderer, camera, scene switching, input, resize handling, and animation loop.
 - `src/camera/orbitCamera.ts` contains the orbit camera controller.
 - `src/viewer/assetViewer.ts` contains the standalone asset inspection mode.
-- `src/voxel/` contains voxel block helpers, materials, layout data, procedural asset factories, perimeter scenery, the beach block scene, and ocean shader.
+- `src/voxel/` contains voxel block helpers, instanced voxel batching, materials, layout data, procedural asset factories, perimeter scenery, the beach block scene, and ocean shader.
 - `tests/voxelLayout.test.ts` validates road/lot placement, vehicle lanes, scale ratios, and the surrounding scenery bounds.
 
 Rules:
@@ -86,6 +86,7 @@ Rules:
 - Multiple grounded buildings including beach houses, cottages, surf shop, smaller multi-building apartment blocks, and back-block buildings with roofs attached to walls.
 - Reduced voxel person size and increased building story height so characters read correctly beside cars, doors, and buildings.
 - Unplayable mountain/tree perimeter surrounding the playable block.
+- Performance optimization pass for the tall mountain perimeter using instanced mountain/ground batches, coarser mountain sampling, reduced pixel ratio cap, and lower shadow-map budget to target 60fps.
 - Separate individual asset viewer.
 - Responsive camera and canvas.
 
