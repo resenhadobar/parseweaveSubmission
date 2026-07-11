@@ -4,7 +4,7 @@ A browser-playable 3D voxel beach neighborhood prototype built with Vite, TypeSc
 
 ## Overview
 
-Voxel Beach Block presents a polished oceanfront diorama with a proper voxel beach, animated ocean shader, Ocean Avenue, denser playable neighborhood blocks, varied houses and smaller multi-building apartment blocks, cars, realistically scaled people, palm trees, lifeguard tower, umbrellas, towels, benches, signs, streetlights, and decorations. The playable neighborhood is surrounded by an unplayable voxel perimeter of mountains, trees, and border scenery inspired by `assets/conceptArt.png`.
+Voxel Beach Block presents a polished oceanfront diorama with a proper voxel beach, animated ocean shader, Ocean Avenue, denser playable neighborhood blocks, personality-rich layered houses and multi-building apartment blocks, cars, realistically scaled people, varied palm/tropical trees, lifeguard towers, umbrellas, towels, benches, signs, streetlights, and beach-life decorations. The playable neighborhood is surrounded by an unplayable voxel perimeter of mountains, trees, and border scenery inspired by `assets/conceptArt.png`.
 
 It also includes a separate individual 3D asset viewer so each voxel structure can be inspected outside the full neighborhood scene.
 
@@ -25,11 +25,11 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 - Animated ocean shader with waves, foam bands, shallow/deep water blending, and shimmer.
 - Ocean Avenue with road markings, sidewalks, crosswalks, streetlights, cars, and benches.
 - Beach decorations including towels, umbrellas, dunes, shells, volleyball net, and lifeguard tower.
-- Beachfront and inland buildings including pastel houses, surf shop, cottages, and smaller apartment clusters.
+- Beachfront and inland buildings reworked around `assets/voxelBeachSkill.txt` and `assets/buildingReference.png`, using stronger silhouettes, thick roofs, porches, balconies, awnings, storefronts, rooftop details, and cohesive beach-town palettes.
 - Voxel people scaled so buildings read as walkable interiors compared to cars and doors.
 - Unplayable surrounding scenery with 2x-height rock-dominant Rio-style horseshoe mountains, outer terrain, tree line, and perimeter border.
 - 60fps-oriented rendering optimizations using instanced mountain/outer-ground voxel batches, reduced pixel ratio cap, and lower shadow-map budget.
-- Voxel people, palm trees, pine trees, vehicles, and props.
+- Voxel people, varied palm/tropical trees, vehicles, surf racks, bicycles, food cart, beach shower, tiny boat, and other props.
 - Separate 3D asset inspection mode.
 - Responsive full-window browser canvas.
 
@@ -52,7 +52,7 @@ npm run typecheck
 - Vite
 - TypeScript
 - Three.js
-- Procedural voxel geometry built from Three.js box meshes
+- Procedural voxel geometry built from Three.js box meshes, with ground and perimeter batches where density is highest
 - Custom GLSL shader material for ocean animation
 
 ## Project Structure
@@ -95,4 +95,4 @@ Built with AI assistance inside Jabali Studio. AI assistance was used for:
 
 - Started from the Jabali Vite/TypeScript web base template.
 - Uses the open-source Three.js library through npm.
-- No external art assets are currently required; the scene is procedurally built from code.
+- `assets/voxelBeachSkill.txt` and `assets/buildingReference.png` are local creative references for the latest architecture and beach personality pass; the runtime scene remains procedurally built from code.
