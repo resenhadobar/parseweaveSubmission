@@ -7,7 +7,7 @@
   },
   "arguments": {
     "model": "gpt-4o-mini-tts",
-    "voice": "coral",
+    "voice": "sage",
     "instructions": "High-energy arcade announcer, cheerful, punchy, quick exclamation with a skater-game vibe.",
     "prompt": "RAD!"
   }
