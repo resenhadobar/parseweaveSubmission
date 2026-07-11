@@ -1,0 +1,14 @@
+{
+  "name": "text_to_speech_generator",
+  "output": {
+    "location": [
+      "assets/tts/announcer/rad_voice.wav"
+    ]
+  },
+  "arguments": {
+    "model": "gpt-4o-mini-tts",
+    "voice": "nova",
+    "instructions": "High-energy arcade announcer, cheerful, punchy, quick exclamation with a skater-game vibe.",
+    "prompt": "RAD!"
+  }
+}
