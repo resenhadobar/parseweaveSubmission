@@ -23,6 +23,11 @@ export class OrbitCameraController {
     this.update()
   }
 
+  followTarget(target: THREE.Vector3Tuple): void {
+    this.target.set(...target)
+    this.update()
+  }
+
   setAngles(yaw: number, pitch: number): void {
     this.yaw = yaw
     this.pitch = pitch
