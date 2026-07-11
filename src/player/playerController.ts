@@ -37,7 +37,7 @@ export class PlayerController {
     this.deliveryTimer += deltaSeconds
     if (consumeKey('e')) this.setBikeMounted(!this.bikeMounted)
 
-    this.readCameraRelativeDirection()
+    this.readMovementDirection(deltaSeconds)
     const desiredSpeed = this.getTargetSpeed()
     this.speed = THREE.MathUtils.lerp(this.speed, desiredSpeed, this.bikeMounted ? 0.08 : 0.18)
     this.velocity.copy(this.direction).multiplyScalar(this.speed * deltaSeconds)
@@ -68,15 +68,13 @@ export class PlayerController {
     return this.object.rotation.y
   }
 
-  private readCameraRelativeDirection(): void {
-    const x = Number(keys.has('d') || keys.has('arrowright')) - Number(keys.has('a') || keys.has('arrowleft'))
-    const z = Number(keys.has('w') || keys.has('arrowup')) - Number(keys.has('s') || keys.has('arrowdown'))
-    const forward = new THREE.Vector3()
-    this.camera.getWorldDirection(forward)
-    forward.y = 0
-    forward.normalize()
-    const right = new THREE.Vector3(-forward.z, 0, forward.x).normalize()
-    this.direction.copy(forward.multiplyScalar(z)).add(right.multiplyScalar(x))
+  private readMovementDirection(deltaSeconds: number): void {
+    const turn = Number(keys.has('d') || keys.has('arrowright')) - Number(keys.has('a') || keys.has('arrowleft'))
+    const throttle = Number(keys.has('w') || keys.has('arrowup')) - Number(keys.has('s') || keys.has('arrowdown'))
+    const turnRate = this.bikeMounted ? 2.55 : 3.8
+    this.object.rotation.y -= turn * turnRate * deltaSeconds
+    const forward = new THREE.Vector3(-Math.sin(this.object.rotation.y), 0, -Math.cos(this.object.rotation.y))
+    this.direction.copy(forward.multiplyScalar(throttle))
     if (this.direction.lengthSq() > 0) this.direction.normalize()
   }
 
