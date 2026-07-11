@@ -44,3 +44,47 @@ canvas {
 canvas:active {
   cursor: grabbing;
 }
+
+.delivery-hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.delivery-map {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  width: 150px;
+  height: 150px;
+  border: 2px solid rgba(255, 245, 220, 0.9);
+  border-radius: 12px;
+  background: rgba(24, 34, 38, 0.52);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+.map-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+}
+
+.map-player {
+  width: 12px;
+  height: 12px;
+  background: #7fb1c5;
+  border: 2px solid #f2eadc;
+}
+
+.map-pickup {
+  background: #65d66e;
+  box-shadow: 0 0 10px #65d66e;
+}
+
+.map-target {
+  background: #e0453f;
+  box-shadow: 0 0 12px #e0453f;
+}
