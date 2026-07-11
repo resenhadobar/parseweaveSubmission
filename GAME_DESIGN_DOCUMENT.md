@@ -128,4 +128,12 @@ Rules:
 
 ## Parsewave Submission Notes
 
-The game is browser-playable and should be deployed from the Vite `dist/` output. README disclosures should list the engine/framework, AI-assisted creation process, and any prior template usage.
+The game is browser-playable and should be deployed from the Vite `dist/` output. README disclosures list the engine/framework, AI-assisted creation process, jam-window contribution, deployment flow, and prior template/resource usage.
+
+Submission package reminders:
+
+- Deploy `dist/` and submit the deployed browser-playable game URL.
+- Publish the source repository publicly without `node_modules/` or local generated caches.
+- Include `README.md`, `GAME_DESIGN_DOCUMENT.md`, `package.json`, `package-lock.json`, `src/`, `tests/`, `assets/`, and `uploads/parseweave_jam_requirements.txt` in the public repo.
+- Export Jabali Studio AI-agent traces/chats/prompts/logs/tool outputs as one separate zip for the jam submission.
+- Before final submission, verify that the README’s “Built During the Jam Window” section accurately distinguishes jam-window work from any prior work.
