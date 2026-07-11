@@ -76,6 +76,7 @@ The scene is a sunny coastal neighborhood with:
 - `src/viewer/assetViewer.ts` contains the standalone asset inspection mode.
 - `src/player/playerController.ts` contains walking, skate mode, push speed, kickflips, bails, and collision-aware delivery skating.
 - `src/delivery/deliveryController.ts` contains green pickup offers, red dropoff arrow, timed delivery runs, payouts, and crash penalties.
+- `src/delivery/deliveryHud.ts` contains the delivery minimap and screen-space 3D destination arrow.
 - `src/player/collisions.ts` contains lightweight player collision bounds for buildings, trees, towers, umbrellas, benches, and major props.
 - `src/render/visibilityCulling.ts` contains camera-frustum visibility culling for static world sections.
 - `src/voxel/` contains voxel block helpers, instanced voxel batching, materials, layout data, procedural asset factories, perimeter scenery, shared character animation, traffic, the beach block scene, and ocean shader.
@@ -101,7 +102,7 @@ Rules:
 - Performance optimization pass for the tall mountain perimeter using instanced mountain/ground batches, coarser mountain sampling, reduced pixel ratio cap, and lower shadow-map budget to target 60fps.
 - Latest architecture pass reworked beach houses, surf shop, apartments/hotels, palm trees, tropical trees, and beach props for stronger personality while batching the dense playable ground tiles for performance.
 - Latest street-life pass adds deterministic animated cars, walking pedestrians on sidewalk loops, denser planting in empty green lawn areas, tunnel portals at side/far mountain exits, and shared voxel walk cycles.
-- Automatic GTA-style over-the-shoulder camera, skate movement, delivery pickup/dropoff arrows, timed runs, kickflip animation, bail animation, and crash time penalties.
+- Automatic GTA-style over-the-shoulder camera, skate movement, delivery pickup/dropoff arrows, minimap indicators, top-center Crazy Taxi-style destination arrow, timed runs, kickflip animation, bail animation, and crash time penalties.
 - Fixed-point voxel limb pivots for clearer player and NPC walk animation.
 - Player collision resolution against buildings and major props.
 - Simplified fewer-car traffic with signal timing and tunnel recycling so cars do not permanently jam.
