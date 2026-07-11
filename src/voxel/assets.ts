@@ -164,14 +164,29 @@ export function createPalmTree(variant = 0): THREE.Group {
   const group = new THREE.Group()
   group.name = 'voxel-palm-tree'
   const height = 4 + (variant % 3) * 0.45
-  for (let i = 0; i < 5; i += 1) addBlock(group, { color: 'trunk', position: [Math.sin(i * 0.65 + variant) * 0.14, 0.48 + i * height / 5, 0], scale: [0.38, 0.82, 0.38] })
-  const crownY = height + 0.45
-  const fronds: THREE.Vector3Tuple[] = [[1.25, 0, 0], [-1.2, 0.08, 0], [0, 0.02, 1.25], [0, 0.1, -1.2], [0.85, -0.1, 0.85], [-0.85, -0.05, -0.85]]
-  fronds.forEach((pos, index) => {
-    addBlock(group, { color: index % 2 === 0 ? 'palm' : 'leaf', position: [pos[0] * (1 + variant * 0.03), crownY + pos[1], pos[2]], scale: [index < 2 ? 1.75 : 0.54, 0.24, index < 2 ? 0.54 : 1.75] })
+  let trunkX = 0
+  for (let i = 0; i < 5; i += 1) {
+    trunkX = Math.sin(i * 0.65 + variant) * 0.14
+    addBlock(group, { color: 'trunk', position: [trunkX, 0.48 + i * height / 5, 0], scale: [0.38, 0.82, 0.38] })
+  }
+  const crownY = height + 0.2
+  const crownX = trunkX
+  addBlock(group, { color: 'leaf', position: [crownX, crownY, 0], scale: [0.9, 0.35, 0.9] })
+  const fronds = [0, Math.PI / 3, Math.PI * 2 / 3, Math.PI, Math.PI * 4 / 3, Math.PI * 5 / 3]
+  fronds.forEach((angle, index) => {
+    const direction = new THREE.Vector3(Math.cos(angle), 0, Math.sin(angle))
+    for (let segment = 0; segment < 3; segment += 1) {
+      const distance = 0.55 + segment * 0.62
+      const y = crownY - segment * 0.22 - Math.max(0, segment - 1) * 0.12
+      addBlock(group, {
+        color: index % 2 === 0 ? 'palm' : 'leaf',
+        position: [crownX + direction.x * distance, y, direction.z * distance],
+        scale: [Math.abs(direction.x) > 0.5 ? 0.72 : 0.38, 0.18, Math.abs(direction.z) > 0.5 ? 0.72 : 0.38],
+      })
+    }
   })
-  addBlock(group, { color: 'orange', position: [0.24, crownY - 0.24, 0.18], scale: [0.22, 0.24, 0.22] })
-  addBlock(group, { color: 'orange', position: [-0.2, crownY - 0.18, -0.12], scale: [0.2, 0.22, 0.2] })
+  addBlock(group, { color: 'orange', position: [crownX + 0.24, crownY - 0.28, 0.18], scale: [0.22, 0.24, 0.22] })
+  addBlock(group, { color: 'orange', position: [crownX - 0.2, crownY - 0.22, -0.12], scale: [0.2, 0.22, 0.2] })
   return group
 }
 
