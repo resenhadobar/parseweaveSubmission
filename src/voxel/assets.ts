@@ -178,10 +178,10 @@ export function createPalmTree(variant = 0): THREE.Group {
 export function createTropicalTree(variant = 0): THREE.Group {
   const group = new THREE.Group()
   group.name = 'voxel-tropical-tree'
-  addBlock(group, { color: 'trunk', position: [0, 0.8, 0], scale: [0.42, 1.55, 0.42] })
-  addBlock(group, { color: 'leaf', position: [0, 1.95, 0], scale: [2.2, 1.15, 2.1] })
-  addBlock(group, { color: 'palm', position: [variant % 2 === 0 ? 0.65 : -0.65, 2.55, 0.15], scale: [1.35, 0.85, 1.3] })
-  addBlock(group, { color: 'leaf', position: [-0.45, 2.35, -0.65], scale: [1.35, 0.82, 1.25] })
+  addBlock(group, { color: 'trunk', position: [0, 1.15, 0], scale: [0.58, 2.25, 0.58] })
+  addBlock(group, { color: 'leaf', position: [0, 2.75, 0], scale: [3.25, 1.55, 3.05] })
+  addBlock(group, { color: 'palm', position: [variant % 2 === 0 ? 0.9 : -0.9, 3.48, 0.2], scale: [1.9, 1.05, 1.75] })
+  addBlock(group, { color: 'leaf', position: [-0.65, 3.15, -0.9], scale: [1.85, 1.05, 1.7] })
   return group
 }
 
@@ -227,15 +227,14 @@ function addCharacterLimb(parent: THREE.Group, name: string, color: PaletteKey, 
 
 export function createDeliveryBike(): THREE.Group {
   const group = new THREE.Group()
-  group.name = 'delivery-bike'
-  addBlock(group, { color: 'black', name: 'front-wheel', position: [0, 0.28, -0.58], scale: [0.18, 0.54, 0.54] })
-  addBlock(group, { color: 'black', name: 'rear-wheel', position: [0, 0.28, 0.58], scale: [0.18, 0.54, 0.54] })
-  addBlock(group, { color: 'metal', position: [0, 0.62, 0], scale: [0.16, 0.16, 1.08] })
-  addBlock(group, { color: 'teal', position: [0, 0.78, -0.18], scale: [0.2, 0.2, 0.62] })
-  addBlock(group, { color: 'wood', position: [0, 0.98, 0.2], scale: [0.46, 0.14, 0.32] })
-  addBlock(group, { color: 'metal', position: [0, 0.98, -0.82], scale: [0.72, 0.12, 0.12] })
-  addBlock(group, { color: 'yellow', name: 'delivery-box', position: [0, 1.05, 0.92], scale: [0.72, 0.6, 0.62] })
-  addBlock(group, { color: 'white', position: [0, 1.18, 0.58], scale: [0.5, 0.12, 0.08] })
+  group.name = 'delivery-skateboard'
+  addBlock(group, { color: 'wood', name: 'skate-deck', position: [0, 0.16, 0], scale: [0.62, 0.12, 1.55] })
+  addBlock(group, { color: 'teal', position: [0, 0.25, -0.52], scale: [0.54, 0.08, 0.32] })
+  addBlock(group, { color: 'yellow', position: [0, 0.25, 0.52], scale: [0.54, 0.08, 0.32] })
+  for (const x of [-0.34, 0.34]) for (const z of [-0.58, 0.58]) addBlock(group, { color: 'black', position: [x, 0.06, z], scale: [0.18, 0.18, 0.18] })
+  addBlock(group, { color: 'metal', position: [0, 0.12, -0.58], scale: [0.88, 0.08, 0.08] })
+  addBlock(group, { color: 'metal', position: [0, 0.12, 0.58], scale: [0.88, 0.08, 0.08] })
+  addBlock(group, { color: 'yellow', name: 'delivery-box', position: [0, 0.78, 0.88], scale: [0.62, 0.48, 0.48] })
   return group
 }
 
