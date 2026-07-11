@@ -110,9 +110,9 @@ export class PlayerController {
 
     if (this.skateMode) {
       const surface = this.isOnRoadOrSidewalk() ? 1 : 0.68
-      this.speed += push * 18 * surface * deltaSeconds
-      this.speed *= Math.pow(push === 0 ? 0.9 : 0.965, deltaSeconds * 8)
-      this.speed = THREE.MathUtils.clamp(this.speed, -5, 22 * surface)
+      this.speed += push * 7.5 * surface * deltaSeconds
+      this.speed *= Math.pow(push === 0 ? 0.82 : 0.93, deltaSeconds * 8)
+      this.speed = THREE.MathUtils.clamp(this.speed, -3.2, 11.5 * surface)
     } else {
       this.speed = push === 0 ? 0 : (this.isOnRoadOrSidewalk() ? 7.2 : 5.3) * push
     }
