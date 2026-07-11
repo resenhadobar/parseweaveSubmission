@@ -95,7 +95,7 @@ export class PlayerController {
       const distance = this.object.position.distanceTo(car.position)
       if (distance < 1.7) {
         this.speed *= 0.25
-+        console.info('[VoxelBeach] Bike clipped traffic: speed penalty applied')
+        console.info('[VoxelBeach] Bike clipped traffic: speed penalty applied')
       } else if (distance < 3.2 && this.speed > 12 && !this.loggedFirstRide) {
         this.loggedFirstRide = true
         this.deliveryScore += 25
@@ -111,7 +111,7 @@ export class PlayerController {
     if (this.bikeMounted) {
       const lean = THREE.MathUtils.clamp(this.speed / 24, 0, 0.22)
       this.rider.rotation.x = -lean
-+      this.rider.position.y = 0.35 + Math.abs(Math.sin(this.elapsed * 14)) * 0.025
+      this.rider.position.y = 0.35 + Math.abs(Math.sin(this.elapsed * 14)) * 0.025
     } else {
       this.rider.rotation.x = 0
     }
