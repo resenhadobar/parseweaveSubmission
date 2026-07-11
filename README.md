@@ -42,6 +42,7 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 - Green in-world arrows and minimap dots mark NPC delivery offers; stopping near one starts a timed delivery with a red dropoff dot and top-center 3D Crazy Taxi-style direction arrow.
 - Quest NPCs are placed on deterministic randomized sidewalk positions so offers do not spawn inside buildings.
 - Cash counter and delivery timer track delivery earnings and remaining time; faster deliveries pay more and active-run kickflips show RAD! feedback while increasing delivery value.
+- Completed deliveries now trigger a cash-gained popup, celebratory voxel particle burst, and short “yeah!” sound effect.
 - Active dropoffs show a red GTA-style ground aura at the destination.
 - Skate crashes against cars, pedestrians, houses, trees, or props trigger a bail animation and time penalty.
 - Seamless procedural beach sky dome, coastal music loop, ocean surf loop, and speed-reactive wind loop add atmosphere.
@@ -88,6 +89,7 @@ npm run typecheck
 - `src/voxel/traffic.ts` - deterministic moving cars and sidewalk pedestrian loops.
 - `src/player/playerController.ts` - camera-follow walking, skate mode, push movement, kickflips, bails, and collision-aware skating.
 - `src/delivery/deliveryController.ts` - green pickup offers, red dropoff arrow, timers, payouts, and crash penalties.
+- `src/delivery/deliveryEffects.ts` - delivery completion voxel particle burst.
 - `src/delivery/deliveryHud.ts` - tutorial modal, delivery minimap, timer, cash counter, RAD text, and screen-space 3D destination arrow.
 - `src/delivery/scoring.ts` - delivery payout scoring helper.
 - `src/audio/beachAudio.ts` - music, ocean ambience, and speed-reactive ride wind loop playback.
@@ -122,7 +124,7 @@ The intended jam-window contribution is the playable voxel skate-delivery protot
 - Procedural voxel beach neighborhood scene, roads, sidewalks, beach props, buildings, cars, people, palm trees, and perimeter scenery.
 - Over-the-shoulder player controller with skateboard toggle, steering, kickflips, bails, and collision handling.
 - Delivery system with sidewalk NPC pickups, randomized dropoffs, red destination aura, 3D direction arrow, timer, cash payouts, and RAD kickflip bonuses.
-- Minimap, cash counter, delivery timer, startup tutorial modal, audio loops, procedural sky dome, ocean shader, traffic/pedestrian animation, and palm wind sway.
+- Minimap, cash counter, cash-gained popup, delivery timer, startup tutorial modal, delivery “yeah!” sound, audio loops, procedural sky dome, ocean shader, traffic/pedestrian animation, and palm wind sway.
 - Documentation, validation scripts, and project structure updates for public jam submission.
 
 If any of this work started before the official 24-hour build window, that prior work must be called out explicitly before submission.
@@ -157,4 +159,4 @@ Built with AI assistance inside Jabali Studio. AI assistance was used for:
 - Uses Vite, TypeScript, Vitest, oxlint, and oxfmt npm packages listed in `package.json`.
 - `assets/voxelBeachSkill.txt` and `assets/buildingReference.png` are local creative references for the latest architecture and beach personality pass; the runtime scene remains procedurally built from code.
 - `assets/conceptArt.png` is a local concept reference for the scenic voxel beach-block direction.
-- Generated audio assets are stored under `src/assets/audio/` and should be disclosed as AI-generated audio assets.
+- Generated audio assets are stored under `src/assets/audio/` and should be disclosed as AI-generated audio assets, including the delivery “yeah!” sound effect.
