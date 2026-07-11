@@ -1,6 +1,6 @@
 import musicUrl from '../assets/audio/beach_groove_loop.wav'
-import oceanUrl from '../assets/audio/ocean_loop.mpga'
-import windUrl from '../assets/audio/ride_wind_loop.mpga'
+import oceanUrl from '../assets/audio/ocean_loop.mpga?url'
+import windUrl from '../assets/audio/ride_wind_loop.mpga?url'
 
 type LoopName = 'music' | 'ocean' | 'wind'
 
