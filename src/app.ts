@@ -1,11 +1,11 @@
 import * as THREE from 'three'
-import { OrbitCameraController } from './camera/orbitCamera'
 import { AssetViewer } from './viewer/assetViewer'
 import { createBeachBlockScene } from './voxel/scene'
 import { updateOcean } from './voxel/ocean'
 import { TrafficController } from './voxel/traffic'
 import { PlayerController } from './player/playerController'
 import { VisibilityCullingController } from './render/visibilityCulling'
+import { OverShoulderCameraController } from './camera/overShoulderCamera'
 
 export class VoxelBeachApp {
   private readonly scene = new THREE.Scene()
@@ -13,7 +13,7 @@ export class VoxelBeachApp {
   private readonly renderer = new THREE.WebGLRenderer({ antialias: true })
   private lastFrameSeconds = performance.now() / 1000
   private readonly beachBlock = createBeachBlockScene()
-  private readonly controller: OrbitCameraController
+  private readonly cameraController: OverShoulderCameraController
   private readonly viewer: AssetViewer
   private readonly ocean: THREE.Object3D | undefined
   private readonly traffic: TrafficController
@@ -38,12 +38,10 @@ export class VoxelBeachApp {
     this.beachBlock.add(this.player.object)
     this.culling = new VisibilityCullingController(this.beachBlock)
     this.viewer = new AssetViewer(this.scene)
-    this.controller = new OrbitCameraController(this.camera, this.renderer.domElement)
-    this.controller.setTarget([0, 1.4, 10], 92)
-    this.controller.setAngles(-0.18, 0.74)
+    this.cameraController = new OverShoulderCameraController(this.camera, this.renderer.domElement)
     this.bindEvents()
     this.resize()
-    console.info('[VoxelBeach] App initialized with 60fps-oriented pixel ratio and shadow budget. Use WASD/arrows to walk, V for asset viewer, B for beach block, [/] to cycle assets.')
+    console.info('[VoxelBeach] Delivery game initialized. WASD/arrows move relative to over-shoulder camera, E mounts bike, Space boosts, V opens asset viewer.')
   }
 
   start(): void {
@@ -78,11 +76,7 @@ export class VoxelBeachApp {
     this.mode = mode
     this.beachBlock.visible = mode === 'scene'
     this.viewer.setVisible(mode === 'viewer')
-    if (mode === 'viewer') this.controller.setTarget([0, 1.8, 0], 12)
-    else {
-      this.controller.setTarget([0, 1.4, 10], 92)
-      this.controller.setAngles(-0.18, 0.74)
-    }
+    if (mode === 'viewer') this.camera.position.set(0, 6, 12)
     document.body.dataset.mode = mode
   }
 
@@ -100,8 +94,8 @@ export class VoxelBeachApp {
     if (this.ocean) updateOcean(this.ocean, elapsed)
     if (this.mode === 'scene') {
       this.traffic.update(delta)
-      this.player.update(delta)
-      this.controller.followTarget([this.player.object.position.x, 1.4, this.player.object.position.z])
+      this.player.update(delta, this.traffic.getCarObjects())
+      this.cameraController.update(this.player.object, delta, this.player.isBikeMounted())
       this.culling.update(this.camera, delta)
     }
     this.viewer.update(delta)
