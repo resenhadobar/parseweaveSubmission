@@ -34,16 +34,18 @@ const cartoonShader = {
       vec3 east = texture2D(tDiffuse, vUv + vec2(texel.x, 0.0)).rgb;
       vec3 west = texture2D(tDiffuse, vUv - vec2(texel.x, 0.0)).rgb;
 
-      vec3 boosted = saturateColor(color, 1.34);
-      boosted = pow(boosted, vec3(0.88));
+      vec3 boosted = saturateColor(color, 1.28);
+      boosted = pow(boosted, vec3(0.78));
+      boosted = mix(boosted, vec3(1.0), 0.06);
       boosted = floor(boosted * 7.0) / 7.0;
 
       float edge = length(north - south) + length(east - west);
       float ink = smoothstep(0.2, 0.62, edge);
       vec2 centered = vUv - 0.5;
       float vignette = smoothstep(0.82, 0.28, dot(centered, centered));
-      vec3 finalColor = mix(boosted, boosted * 0.42, ink * 0.48);
-      finalColor *= mix(0.82, 1.08, vignette);
+      vec3 finalColor = mix(boosted, boosted * 0.68, ink * 0.34);
+      finalColor *= mix(0.94, 1.06, vignette);
+      finalColor = max(finalColor, color * 0.82 + vec3(0.04));
 
       gl_FragColor = vec4(finalColor, 1.0);
     }
