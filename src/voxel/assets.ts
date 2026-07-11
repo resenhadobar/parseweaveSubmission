@@ -176,12 +176,12 @@ export function createPalmTree(variant = 0): THREE.Group {
   fronds.forEach((angle, index) => {
     const direction = new THREE.Vector3(Math.cos(angle), 0, Math.sin(angle))
     for (let segment = 0; segment < 3; segment += 1) {
-      const distance = 0.55 + segment * 0.62
-      const y = crownY - segment * 0.22 - Math.max(0, segment - 1) * 0.12
+      const distance = 0.46 + segment * 0.48
+      const y = crownY - segment * 0.18 - Math.max(0, segment - 1) * 0.1
       addBlock(group, {
         color: index % 2 === 0 ? 'palm' : 'leaf',
         position: [crownX + direction.x * distance, y, direction.z * distance],
-        scale: [Math.abs(direction.x) > 0.5 ? 0.72 : 0.38, 0.18, Math.abs(direction.z) > 0.5 ? 0.72 : 0.38],
+        scale: [Math.abs(direction.x) > 0.5 ? 0.92 : 0.58, 0.2, Math.abs(direction.z) > 0.5 ? 0.92 : 0.58],
       })
     }
   })
