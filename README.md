@@ -94,14 +94,41 @@ npm run typecheck
 - `GAME_DESIGN_DOCUMENT.md` - living design document.
 - `uploads/parseweave_jam_requirements.txt` - supplied Parsewave Game Jam requirements reference.
 
-## Parsewave Game Jam Notes
+## Parsewave Game Jam 2026 Submission Checklist
 
-This project is structured for the Parsewave Game Jam 2026 requirements:
+This repository is structured for the Parsewave Game Jam 2026 requirements:
 
-- Browser-playable web game/prototype.
-- Source code can be published publicly.
-- README documents controls, tech stack, scope, and disclosures.
-- AI-agent traces/chats/tool outputs should be exported separately as required by the jam submission.
+| Requirement | Status | Notes |
+| --- | --- | --- |
+| Deployed browser-playable game URL | Pending deployment | Build with `npm run build`, then deploy the generated `dist/` output. |
+| Public source code repository | Ready to publish | Source lives in `src/`, tests in `tests/`, docs in `README.md` and `GAME_DESIGN_DOCUMENT.md`. Do not publish `node_modules/`. |
+| README with game explanation and controls | Done | See Overview, How to Play, Features, Tech Stack, and Project Structure. |
+| README states what was built during the jam window | Documented below | See “Built During the Jam Window.” |
+| README discloses AI tools and workflow | Documented below | See “AI Tools and Workflow Disclosure.” |
+| README credits prior work/external resources | Documented below | See “Prior Work / External Resources.” |
+| AI-agent traces/chats/prompts/logs/tool outputs zip | Must be exported separately | Submit one zip of Jabali chat/tool traces and any supporting AI logs; this repo references the requirement but does not contain the final trace zip. |
+
+## Built During the Jam Window
+
+The intended jam-window contribution is the playable voxel skate-delivery prototype and its polish pass, including:
+
+- Procedural voxel beach neighborhood scene, roads, sidewalks, beach props, buildings, cars, people, palm trees, and perimeter scenery.
+- Over-the-shoulder player controller with skateboard toggle, steering, kickflips, bails, and collision handling.
+- Delivery system with sidewalk NPC pickups, randomized dropoffs, red destination aura, 3D direction arrow, timer, cash payouts, and RAD kickflip bonuses.
+- Minimap, cash counter, delivery timer, startup tutorial modal, audio loops, procedural sky dome, ocean shader, traffic/pedestrian animation, and palm wind sway.
+- Documentation, validation scripts, and project structure updates for public jam submission.
+
+If any of this work started before the official 24-hour build window, that prior work must be called out explicitly before submission.
+
+## Deployment Notes
+
+Recommended submission flow:
+
+1. Run `npm install` if dependencies are not installed.
+2. Run `npm run build`.
+3. Deploy the generated `dist/` folder to a static web host.
+4. Publish the source repository publicly without `node_modules/` or local-only generated caches.
+5. Export Jabali Studio AI-agent traces/chats/tool outputs as a separate zip and attach it to the jam submission.
 
 ## AI Tools and Workflow Disclosure
 
@@ -112,10 +139,14 @@ Built with AI assistance inside Jabali Studio. AI assistance was used for:
 - Designing the prototype scope and controls.
 - Generating modular TypeScript/Three.js implementation files.
 - Creating procedural voxel assets and shader code.
+- Generating the beach music, ocean ambience, ride wind sound effects, and earlier skybox experiment.
 - Updating documentation for jam-readiness.
 
 ## Prior Work / External Resources
 
 - Started from the Jabali Vite/TypeScript web base template.
 - Uses the open-source Three.js library through npm.
+- Uses Vite, TypeScript, Vitest, oxlint, and oxfmt npm packages listed in `package.json`.
 - `assets/voxelBeachSkill.txt` and `assets/buildingReference.png` are local creative references for the latest architecture and beach personality pass; the runtime scene remains procedurally built from code.
+- `assets/conceptArt.png` is a local concept reference for the scenic voxel beach-block direction.
+- Generated audio assets are stored under `src/assets/audio/` and should be disclosed as AI-generated audio assets.
