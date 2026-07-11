@@ -15,8 +15,7 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 | Move camera-relative | `WASD` or Arrow Keys |
 | Mount/dismount delivery bike | `E` |
 | Sprint/boost | Hold `Space` |
-| Rotate over-the-shoulder camera | Drag mouse/touch |
-| Adjust camera pitch | Mouse wheel/trackpad |
+| Camera | Automatically stays behind the player/rider |
 | Open individual asset viewer | `V` |
 | Return to beach block | `B` |
 | Next asset | `]` or Right Arrow |
@@ -66,7 +65,7 @@ npm run typecheck
 
 - `src/main.ts` - app entry point.
 - `src/app.ts` - renderer, scene, camera, resize, input, and animation loop.
-- `src/camera/overShoulderCamera.ts` - GTA-style over-the-shoulder camera controls.
+- `src/camera/overShoulderCamera.ts` - automatic GTA-style over-the-shoulder follow camera.
 - `src/camera/orbitCamera.ts` - legacy orbit/zoom camera controls retained for reference.
 - `src/viewer/assetViewer.ts` - individual voxel asset viewer.
 - `src/voxel/blocks.ts` - reusable voxel block helpers, including instanced voxel batching for dense scenery.
