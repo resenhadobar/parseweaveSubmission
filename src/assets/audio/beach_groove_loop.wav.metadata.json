@@ -1,0 +1,44 @@
+{
+  "name": "CassetteAI",
+  "output": {
+    "location": [
+      "src/assets/audio/beach_groove_loop.wav"
+    ],
+    "metadata": {
+      "asset": {
+        "id": "536f0754-427d-42d0-b7f4-e394f1fb456b",
+        "asset_type": "audio",
+        "task": "soundtrack",
+        "model": "CassetteAI/music-generator",
+        "source": "ai_generated",
+        "created_at": "2026-07-11T13:28:48.621379Z",
+        "updated_at": "2026-07-11T13:28:48.621379Z",
+        "s3_key": "audio/2c0bf0d8-2105-48ab-b524-e12d4d4af362.wav",
+        "file_size_bytes": 7938074,
+        "mime_type": "audio/wav",
+        "token_count": 1125,
+        "metadata": {
+          "fal_request_id": "019f515d-9ab3-7be1-9b92-d66b4971602d",
+          "fal_model_id": "CassetteAI/music-generator",
+          "prompt": "Loop-friendly upbeat coastal skate groove with warm electric piano, light funk bass, relaxed drums, soft synth pads, sunny playful mood, polished game music mix",
+          "duration": 45,
+          "source_audio_url": "https://v3b.fal.media/files/b/0aa1d3c0/5MAqxp4wBGRAIrAV1kxKU_generated.wav",
+          "source_audio_content_type": "application/octet-stream",
+          "source_audio_file_name": "generated.wav",
+          "source_audio_file_size": 7938074
+        },
+        "cache_hit": false,
+        "cache_type": null
+      }
+    }
+  },
+  "arguments": {
+    "audio_request": {
+      "type": "music",
+      "model": "cassetteai-music-generator",
+      "prompt": "Loop-friendly upbeat coastal skate groove with warm electric piano, light funk bass, relaxed drums, soft synth pads, sunny playful mood, polished game music mix",
+      "duration": 45,
+      "loop": true
+    }
+  }
+}
