@@ -64,6 +64,10 @@ export class PlayerController {
     return this.bikeMounted
   }
 
+  getHeadingYaw(): number {
+    return this.object.rotation.y
+  }
+
   private readCameraRelativeDirection(): void {
     const x = Number(keys.has('d') || keys.has('arrowright')) - Number(keys.has('a') || keys.has('arrowleft'))
     const z = Number(keys.has('w') || keys.has('arrowup')) - Number(keys.has('s') || keys.has('arrowdown'))
