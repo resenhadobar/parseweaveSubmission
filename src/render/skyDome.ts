@@ -1,14 +1,14 @@
 import * as THREE from 'three'
 
 export function createSkyDome(): THREE.Mesh {
-  const geometry = new THREE.SphereGeometry(170, 32, 16)
+  const geometry = new THREE.SphereGeometry(700, 32, 16)
   const material = new THREE.ShaderMaterial({
     side: THREE.BackSide,
     depthWrite: false,
     uniforms: {
-      topColor: { value: new THREE.Color('#68cfff') },
-      horizonColor: { value: new THREE.Color('#ffd178') },
-      lowColor: { value: new THREE.Color('#ffe7a8') },
+      topColor: { value: new THREE.Color('#86dcff') },
+      horizonColor: { value: new THREE.Color('#ffd98a') },
+      lowColor: { value: new THREE.Color('#fff0bb') },
     },
     vertexShader: `
       varying vec3 vWorldPosition;
@@ -25,8 +25,8 @@ export function createSkyDome(): THREE.Mesh {
       varying vec3 vWorldPosition;
       void main() {
         float h = normalize(vWorldPosition).y;
-        vec3 lower = mix(lowColor, horizonColor, smoothstep(-0.25, 0.22, h));
-        vec3 color = mix(lower, topColor, smoothstep(0.12, 0.9, h));
+        vec3 lower = mix(lowColor, horizonColor, smoothstep(-0.35, 0.18, h));
+        vec3 color = mix(lower, topColor, smoothstep(0.18, 0.95, h));
         gl_FragColor = vec4(color, 1.0);
       }
     `,
