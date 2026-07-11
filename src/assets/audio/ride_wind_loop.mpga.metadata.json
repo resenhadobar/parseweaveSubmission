@@ -1,0 +1,45 @@
+{
+  "name": "ElevenLabs",
+  "output": {
+    "location": [
+      "src\\assets\\audio\\ride_wind_loop.mpga"
+    ],
+    "metadata": {
+      "asset": {
+        "id": "cf3a64f5-a90a-4f03-ac17-cf2147644d3a",
+        "asset_type": "audio",
+        "task": "sound_effect",
+        "model": "fal-ai/elevenlabs/sound-effects/v2",
+        "source": "ai_generated",
+        "created_at": "2026-07-11T13:28:53.035242Z",
+        "updated_at": "2026-07-11T13:28:53.035242Z",
+        "s3_key": "audio/d1a40c1f-51ba-4994-9e21-bccf5f67aaee.mp3",
+        "file_size_bytes": 193141,
+        "mime_type": "audio/mpeg",
+        "token_count": 300,
+        "metadata": {
+          "fal_request_id": "019f515d-bedb-7dc0-9663-5999f494905c",
+          "fal_model_id": "fal-ai/elevenlabs/sound-effects/v2",
+          "prompt": "Loop-friendly light rushing wind whoosh for fast skateboard riding, airy motion, subtle cloth flutter, smooth non-harsh high frequency movement",
+          "duration": 12,
+          "loop": true,
+          "source_audio_url": "https://v3b.fal.media/files/b/0aa1d3b5/VdnoiOfzcra3oRgTWStB9_sound_effect.mp3",
+          "source_audio_content_type": "audio/mpeg",
+          "source_audio_file_name": "sound_effect.mp3",
+          "source_audio_file_size": 193141
+        },
+        "cache_hit": false,
+        "cache_type": null
+      }
+    }
+  },
+  "arguments": {
+    "audio_request": {
+      "type": "effect",
+      "model": "elevenlabs-sound-effects",
+      "prompt": "Loop-friendly light rushing wind whoosh for fast skateboard riding, airy motion, subtle cloth flutter, smooth non-harsh high frequency movement",
+      "duration": 12,
+      "loop": true
+    }
+  }
+}
