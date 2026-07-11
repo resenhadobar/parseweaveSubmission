@@ -1,0 +1,16 @@
+{
+  "name": "gpt-image-1.5",
+  "output": {
+    "location": [
+      "src/assets/sky/beach_skybox.png"
+    ]
+  },
+  "arguments": {
+    "image_request": {
+      "prompt": "Wide panoramic stylized voxel-art beach skybox, vibrant sunny coastal USA suburb atmosphere, turquoise ocean horizon, soft puffy clouds, warm sunset-blue gradient sky, distant haze, no text, seamless-feeling equirectangular background, polished colorful game art",
+      "width": 1536,
+      "height": 1024,
+      "seed": 745877
+    }
+  }
+}
