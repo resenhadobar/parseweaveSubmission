@@ -33,7 +33,7 @@ export class VoxelBeachApp {
     this.controller.setAngles(-0.18, 0.74)
     this.bindEvents()
     this.resize()
-    console.info('[VoxelBeach] App initialized. Press V for asset viewer, B for beach block, [/] to cycle assets.')
+    console.info('[VoxelBeach] App initialized with 60fps-oriented pixel ratio and shadow budget. Press V for asset viewer, B for beach block, [/] to cycle assets.')
   }
 
   start(): void {
