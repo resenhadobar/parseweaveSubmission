@@ -59,6 +59,10 @@ export class PlayerController {
     console.info(`[VoxelBeach] ${mounted ? 'Mounted' : 'Dismounted'} delivery bike`)
   }
 
+  isBikeMounted(): boolean {
+    return this.bikeMounted
+  }
+
   private readCameraRelativeDirection(): void {
     const x = Number(keys.has('d') || keys.has('arrowright')) - Number(keys.has('a') || keys.has('arrowleft'))
     const z = Number(keys.has('w') || keys.has('arrowup')) - Number(keys.has('s') || keys.has('arrowdown'))
@@ -66,7 +70,7 @@ export class PlayerController {
     this.camera.getWorldDirection(forward)
     forward.y = 0
     forward.normalize()
-    const right = new THREE.Vector3().crossVectors(forward, new THREE.Vector3(0, 1, 0)).normalize()
+    const right = new THREE.Vector3(-forward.z, 0, forward.x).normalize()
     this.direction.copy(forward.multiplyScalar(z)).add(right.multiplyScalar(x))
     if (this.direction.lengthSq() > 0) this.direction.normalize()
   }
