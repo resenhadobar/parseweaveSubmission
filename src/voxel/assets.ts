@@ -2,11 +2,6 @@ import * as THREE from 'three'
 import { addBlock, addSign, addStripedAwning } from './blocks'
 import type { PaletteKey } from './materials'
 
-export type VoxelAsset = {
-  label: string
-  create: () => THREE.Group
-}
-
 type HouseOptions = {
   id?: string
   body?: PaletteKey
