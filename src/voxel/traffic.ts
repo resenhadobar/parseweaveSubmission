@@ -117,7 +117,7 @@ function shouldYield(actor: MovingActor, nextDistance: number, carsInOrder: Movi
 
   return carsInOrder.some((other) => {
     if (other === actor || !other.object.visible) return false
-    const otherPoint = nearestIntersection(other.object.position.toArray() as RoutePoint)
+    const otherPoint = nearestIntersection([other.object.position.x, other.object.position.z])
     if (!otherPoint || otherPoint[0] !== point[0] || otherPoint[1] !== point[1]) return false
     if (actor.id < other.id && distance2d(actor.object.position, other.object.position) > 2.4) return false
     return distance2d(actor.object.position, other.object.position) < 6.2
