@@ -1,0 +1,45 @@
+{
+  "name": "ElevenLabs",
+  "output": {
+    "location": [
+      "src\\assets\\audio\\delivery_yeah.mpga"
+    ],
+    "metadata": {
+      "asset": {
+        "id": "911c1868-40af-473a-9e3d-f74d142e23aa",
+        "asset_type": "audio",
+        "task": "sound_effect",
+        "model": "fal-ai/elevenlabs/sound-effects/v2",
+        "source": "ai_generated",
+        "created_at": "2026-07-11T14:30:25.969160Z",
+        "updated_at": "2026-07-11T14:30:25.969160Z",
+        "s3_key": "audio/6b8876c9-12c1-49b8-a58a-8c76d41cb321.mp3",
+        "file_size_bytes": 20106,
+        "mime_type": "audio/mpeg",
+        "token_count": 25,
+        "metadata": {
+          "fal_request_id": "019f5196-28a4-77d3-9232-55f06dcf5a7a",
+          "fal_model_id": "fal-ai/elevenlabs/sound-effects/v2",
+          "prompt": "Short enthusiastic arcade celebration voice-like shout saying yeah, cheerful group-style exclamation, bright and punchy, quick tail, no music",
+          "duration": 1.2,
+          "loop": false,
+          "source_audio_url": "https://v3b.fal.media/files/b/0aa1d532/KNAQ3dUAg3IOt9G3_H-Ev_sound_effect.mp3",
+          "source_audio_content_type": "audio/mpeg",
+          "source_audio_file_name": "sound_effect.mp3",
+          "source_audio_file_size": 20106
+        },
+        "cache_hit": false,
+        "cache_type": null
+      }
+    }
+  },
+  "arguments": {
+    "audio_request": {
+      "type": "effect",
+      "model": "elevenlabs-sound-effects",
+      "prompt": "Short enthusiastic arcade celebration voice-like shout saying yeah, cheerful group-style exclamation, bright and punchy, quick tail, no music",
+      "duration": 1.2,
+      "loop": false
+    }
+  }
+}
