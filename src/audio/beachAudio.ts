@@ -1,4 +1,5 @@
 import musicUrl from '../assets/audio/beach_groove_loop.wav'
+import yeahUrl from '../assets/audio/delivery_yeah.mpga?url'
 import oceanUrl from '../assets/audio/ocean_loop.mpga?url'
 import windUrl from '../assets/audio/ride_wind_loop.mpga?url'
 
@@ -14,12 +15,15 @@ export class BeachAudioController {
   private readonly music = new Audio(musicUrl)
   private readonly ocean = new Audio(oceanUrl)
   private readonly wind = new Audio(windUrl)
+  private readonly yeah = new Audio(yeahUrl)
   private unlocked = false
 
   constructor() {
     this.setupLoop(this.music, 'music')
     this.setupLoop(this.ocean, 'ocean')
     this.setupLoop(this.wind, 'wind')
+    this.yeah.preload = 'auto'
+    this.yeah.volume = 0.72
     this.wind.volume = 0
     window.addEventListener('pointerdown', () => this.unlock(), { once: true })
     window.addEventListener('keydown', () => this.unlock(), { once: true })
@@ -32,6 +36,13 @@ export class BeachAudioController {
     if (!this.unlocked) return
     const windTarget = skating ? Math.min(targets.wind, Math.max(0, (Math.abs(speed) - 3) / 28)) : 0
     this.wind.volume += (windTarget - this.wind.volume) * 0.08
+  }
+
+  playDeliveryYeah(): void {
+    if (!this.unlocked) return
+    this.yeah.currentTime = 0
+    void this.yeah.play()
+    console.info('[VoxelBeach] Delivery yeah sound played')
   }
 
   private setupLoop(audio: HTMLAudioElement, name: LoopName): void {
