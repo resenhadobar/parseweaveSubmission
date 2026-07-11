@@ -4,7 +4,7 @@ A browser-playable 3D voxel beach neighborhood prototype built with Vite, TypeSc
 
 ## Overview
 
-Voxel Beach Block is now a GTA-style over-the-shoulder voxel delivery game prototype set in a polished oceanfront neighborhood. Players move camera-relative, jump onto a delivery bike, dodge traffic and obstacles, and are rewarded for riding faster while staying safe. The scene still includes the beach, animated ocean shader, Ocean Avenue, dense neighborhood blocks, animated cars, walking pedestrians, varied palm/tropical trees, lifeguard towers, beach props, and mountain perimeter scenery.
+Voxel Beach Block is now a GTA-style over-the-shoulder voxel skate delivery game prototype set in a polished oceanfront neighborhood. Players toggle skate mode, kickflip, dodge traffic/obstacles, stop at green NPC delivery offers, then follow a red Crazy Taxi-style arrow to the dropoff before time runs out. The scene still includes the beach, animated ocean shader, Ocean Avenue, dense neighborhood blocks, animated cars, walking pedestrians, varied palm/tropical trees, lifeguard towers, beach props, and mountain perimeter scenery.
 
 It also includes a separate individual 3D asset viewer so each voxel structure can be inspected outside the full neighborhood scene.
 
@@ -13,8 +13,8 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 | Action | Input |
 | --- | --- |
 | Move camera-relative | `WASD` or Arrow Keys |
-| Mount/dismount delivery bike | `E` |
-| Sprint/boost | Hold `Space` |
+| Toggle skate mode | `E` |
+| Kickflip while skating | `Space` |
 | Camera | Automatically stays behind the player/rider |
 | Open individual asset viewer | `V` |
 | Return to beach block | `B` |
@@ -31,8 +31,9 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 - Voxel people scaled so buildings read as walkable interiors compared to cars and doors.
 - Unplayable surrounding scenery with 2x-height rock-dominant Rio-style horseshoe mountains, outer terrain, tree line, and perimeter border.
 - 60fps-oriented rendering optimizations using instanced mountain/outer-ground voxel batches, reduced pixel ratio cap, and lower shadow-map budget.
-- Animated player/rider character, delivery bike, voxel pedestrians, and cars, varied palm/tropical trees, surf racks, bicycles, food cart, beach shower, tiny boat, and other props.
-- Delivery prototype scoring in runtime logs: faster safe bike riding increases payout, near misses grant bonuses, and clipping traffic applies a speed penalty.
+- Animated player/skater character, skateboard, voxel pedestrians, and cars, varied palm/tropical trees, surf racks, bicycles, food cart, beach shower, tiny boat, and other props.
+- Green in-world arrows mark NPC delivery offers; stopping near one starts a timed delivery with a red dropoff arrow.
+- Skate crashes against cars, pedestrians, houses, trees, or props trigger a bail animation and time penalty.
 - Player collision against buildings, trees, towers, umbrellas, benches, and major beach props.
 - Fewer signal-timed cars that recycle through tunnel routes instead of forming permanent jams.
 - Camera-frustum visibility culling so static scene sections outside the camera view are hidden from rendering.
@@ -74,7 +75,8 @@ npm run typecheck
 - `src/voxel/scenery.ts` - unplayable outer terrain, mountains, tree line, and playable border.
 - `src/voxel/scene.ts` - full beach block composition.
 - `src/voxel/traffic.ts` - deterministic moving cars and sidewalk pedestrian loops.
-- `src/player/playerController.ts` - camera-relative walking, delivery-bike mounting, boost movement, near-miss scoring, and collision-aware riding.
+- `src/player/playerController.ts` - camera-follow walking, skate mode, push movement, kickflips, bails, and collision-aware skating.
+- `src/delivery/deliveryController.ts` - green pickup offers, red dropoff arrow, timers, payouts, and crash penalties.
 - `src/player/collisions.ts` - lightweight player collision bounds for buildings and props.
 - `src/render/visibilityCulling.ts` - camera-frustum culling for static scene sections.
 - `src/voxel/characterAnimation.ts` - shared voxel character walk-cycle animation.
