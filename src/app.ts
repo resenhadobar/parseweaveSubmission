@@ -10,6 +10,7 @@ import { DeliveryController } from './delivery/deliveryController'
 import { DeliveryHud } from './delivery/deliveryHud'
 import { BeachAudioController } from './audio/beachAudio'
 import skyboxUrl from './assets/sky/beach_skybox.png'
+import { updatePalmWind } from './voxel/palmWind'
 
 export class VoxelBeachApp {
   private readonly scene = new THREE.Scene()
@@ -111,6 +112,7 @@ export class VoxelBeachApp {
     this.lastFrameSeconds = now
     const elapsed = now
     if (this.ocean) updateOcean(this.ocean, elapsed)
+    updatePalmWind(elapsed)
     if (this.mode === 'scene') {
       this.traffic.update(delta)
       this.player.update(delta, [...this.traffic.getCarObjects(), ...this.traffic.getPedestrianObjects()])
