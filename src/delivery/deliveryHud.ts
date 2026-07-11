@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { worldBounds } from '../voxel/layout'
+import { lots, roads, worldBounds } from '../voxel/layout'
 
 type HudPoint = { x: number; z: number }
 
@@ -24,6 +24,7 @@ export class DeliveryHud {
     this.map.className = 'delivery-map'
     this.playerDot.className = 'map-dot map-player'
     this.targetDot.className = 'map-dot map-target'
+    this.addMapBackdrop()
     this.map.append(this.playerDot, this.targetDot)
     this.root.append(this.map)
     this.mount.append(this.root)
@@ -78,18 +79,57 @@ export class DeliveryHud {
     dot.style.left = `${x}%`
     dot.style.top = `${z}%`
   }
+
+  private addMapBackdrop(): void {
+    const beach = document.createElement('div')
+    beach.className = 'map-zone map-beach'
+    this.placeZone(beach, worldBounds.minX, worldBounds.maxX, worldBounds.minZ, worldBounds.beachEndZ)
+    this.map.append(beach)
+
+    lots.forEach((lot) => {
+      const block = document.createElement('div')
+      block.className = 'map-zone map-block'
+      this.placeZone(block, lot.x - lot.width / 2, lot.x + lot.width / 2, lot.z - lot.depth / 2, lot.z + lot.depth / 2)
+      this.map.append(block)
+    })
+
+    roads.forEach((road) => {
+      const street = document.createElement('div')
+      street.className = 'map-zone map-road'
+      this.placeZone(street, road.minX, road.maxX, road.minZ, road.maxZ)
+      this.map.append(street)
+    })
+  }
+
+  private placeZone(zone: HTMLElement, minX: number, maxX: number, minZ: number, maxZ: number): void {
+    const left = ((minX - worldBounds.minX) / (worldBounds.maxX - worldBounds.minX)) * 100
+    const top = ((minZ - worldBounds.minZ) / (worldBounds.maxZ - worldBounds.minZ)) * 100
+    const width = ((maxX - minX) / (worldBounds.maxX - worldBounds.minX)) * 100
+    const height = ((maxZ - minZ) / (worldBounds.maxZ - worldBounds.minZ)) * 100
+    zone.style.left = `${left}%`
+    zone.style.top = `${top}%`
+    zone.style.width = `${width}%`
+    zone.style.height = `${height}%`
+  }
 }
 
 function createHudArrow(): THREE.Group {
   const group = new THREE.Group()
-  const material = new THREE.MeshStandardMaterial({ color: '#e0453f', emissive: '#66110e', roughness: 0.45 })
-  const body = new THREE.Mesh(new THREE.BoxGeometry(0.38, 1.45, 0.22), material)
-  const head = new THREE.Mesh(new THREE.ConeGeometry(0.48, 0.78, 4), material)
-  body.position.y = -0.25
-  head.position.y = 0.75
-  head.rotation.z = Math.PI / 4
-  group.add(body, head)
-  group.rotation.x = -0.15
+  const shape = new THREE.Shape()
+  shape.moveTo(0, 1.05)
+  shape.lineTo(0.72, 0.18)
+  shape.lineTo(0.32, 0.18)
+  shape.lineTo(0.32, -1.05)
+  shape.lineTo(-0.32, -1.05)
+  shape.lineTo(-0.32, 0.18)
+  shape.lineTo(-0.72, 0.18)
+  shape.lineTo(0, 1.05)
+  const outline = new THREE.Mesh(new THREE.ShapeGeometry(shape), new THREE.MeshBasicMaterial({ color: '#fff1c2', side: THREE.DoubleSide }))
+  const fill = new THREE.Mesh(new THREE.ShapeGeometry(shape), new THREE.MeshBasicMaterial({ color: '#e0453f', side: THREE.DoubleSide }))
+  outline.scale.setScalar(1.12)
+  fill.position.z = 0.015
+  group.add(outline, fill)
+  group.rotation.x = -0.1
   group.add(new THREE.DirectionalLight('#ffffff', 2.2))
   return group
 }
