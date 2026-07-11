@@ -220,6 +220,20 @@ export function createVoxelPerson(shirt: PaletteKey = 'teal'): THREE.Group {
   return group
 }
 
+export function createDeliveryBike(): THREE.Group {
+  const group = new THREE.Group()
+  group.name = 'delivery-bike'
+  addBlock(group, { color: 'black', name: 'front-wheel', position: [0, 0.28, -0.58], scale: [0.18, 0.54, 0.54] })
+  addBlock(group, { color: 'black', name: 'rear-wheel', position: [0, 0.28, 0.58], scale: [0.18, 0.54, 0.54] })
+  addBlock(group, { color: 'metal', position: [0, 0.62, 0], scale: [0.16, 0.16, 1.08] })
+  addBlock(group, { color: 'teal', position: [0, 0.78, -0.18], scale: [0.2, 0.2, 0.62] })
+  addBlock(group, { color: 'wood', position: [0, 0.98, 0.2], scale: [0.46, 0.14, 0.32] })
+  addBlock(group, { color: 'metal', position: [0, 0.98, -0.82], scale: [0.72, 0.12, 0.12] })
+  addBlock(group, { color: 'yellow', name: 'delivery-box', position: [0, 1.05, 0.92], scale: [0.72, 0.6, 0.62] })
+  addBlock(group, { color: 'white', position: [0, 1.18, 0.58], scale: [0.5, 0.12, 0.08] })
+  return group
+}
+
 export function createBeachUmbrella(): THREE.Group {
   const group = new THREE.Group()
   addBlock(group, { color: 'wood', position: [0, 0.85, 0], scale: [0.16, 1.7, 0.16] })
