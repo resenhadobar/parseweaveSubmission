@@ -4,6 +4,7 @@ import { AssetViewer } from './viewer/assetViewer'
 import { createBeachBlockScene } from './voxel/scene'
 import { updateOcean } from './voxel/ocean'
 import { TrafficController } from './voxel/traffic'
+import { PlayerController } from './player/playerController'
 
 export class VoxelBeachApp {
   private readonly scene = new THREE.Scene()
@@ -15,6 +16,7 @@ export class VoxelBeachApp {
   private readonly viewer: AssetViewer
   private readonly ocean: THREE.Object3D | undefined
   private readonly traffic: TrafficController
+  private readonly player: PlayerController
   private mode: 'scene' | 'viewer' = 'scene'
 
   constructor(private readonly mount: HTMLElement) {
@@ -30,13 +32,15 @@ export class VoxelBeachApp {
     this.scene.add(this.beachBlock)
     this.ocean = this.beachBlock.getObjectByName('animated-ocean-shader')
     this.traffic = new TrafficController(this.beachBlock)
+    this.player = new PlayerController(this.camera)
+    this.beachBlock.add(this.player.object)
     this.viewer = new AssetViewer(this.scene)
     this.controller = new OrbitCameraController(this.camera, this.renderer.domElement)
     this.controller.setTarget([0, 1.4, 10], 92)
     this.controller.setAngles(-0.18, 0.74)
     this.bindEvents()
     this.resize()
-    console.info('[VoxelBeach] App initialized with 60fps-oriented pixel ratio and shadow budget. Press V for asset viewer, B for beach block, [/] to cycle assets.')
+    console.info('[VoxelBeach] App initialized with 60fps-oriented pixel ratio and shadow budget. Use WASD/arrows to walk, V for asset viewer, B for beach block, [/] to cycle assets.')
   }
 
   start(): void {
@@ -91,7 +95,11 @@ export class VoxelBeachApp {
     this.lastFrameSeconds = now
     const elapsed = now
     if (this.ocean) updateOcean(this.ocean, elapsed)
-    if (this.mode === 'scene') this.traffic.update(delta)
+    if (this.mode === 'scene') {
+      this.traffic.update(delta)
+      this.player.update(delta)
+      this.controller.followTarget([this.player.object.position.x, 1.4, this.player.object.position.z])
+    }
     this.viewer.update(delta)
     this.renderer.render(this.scene, this.camera)
   }
