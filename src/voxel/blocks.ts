@@ -8,6 +8,12 @@ export type BlockOptions = {
   name?: string
 }
 
+export type BlockBatch = {
+  add: (options?: BlockOptions) => void
+  build: (parent: THREE.Group) => void
+  count: () => number
+}
+
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 
 export function block(options: BlockOptions = {}): THREE.Mesh {
@@ -24,6 +30,38 @@ export function addBlock(parent: THREE.Group, options: BlockOptions = {}): THREE
   const mesh = block(options)
   parent.add(mesh)
   return mesh
+}
+
+export function createBlockBatch(name: string): BlockBatch {
+  const transforms = new Map<PaletteKey, THREE.Matrix4[]>()
+  const quaternion = new THREE.Quaternion()
+
+  return {
+    add(options: BlockOptions = {}) {
+      const color = options.color ?? 'white'
+      const matrices = transforms.get(color) ?? []
+      const position = new THREE.Vector3(...(options.position ?? [0, 0, 0]))
+      const scale = new THREE.Vector3(...(options.scale ?? [1, 1, 1]))
+      matrices.push(new THREE.Matrix4().compose(position, quaternion, scale))
+      transforms.set(color, matrices)
+    },
+    build(parent: THREE.Group) {
+      transforms.forEach((matrices, color) => {
+        const mesh = new THREE.InstancedMesh(boxGeometry, mat(color), matrices.length)
+        mesh.name = `${name}-${color}`
+        mesh.castShadow = true
+        mesh.receiveShadow = true
+        matrices.forEach((matrix, index) => mesh.setMatrixAt(index, matrix))
+        mesh.instanceMatrix.needsUpdate = true
+        parent.add(mesh)
+      })
+    },
+    count() {
+      let total = 0
+      transforms.forEach((matrices) => { total += matrices.length })
+      return total
+    },
+  }
 }
 
 export function addGrid(
