@@ -4,7 +4,7 @@ A browser-playable 3D voxel beach neighborhood prototype built with Vite, TypeSc
 
 ## Overview
 
-Voxel Beach Block presents a polished oceanfront diorama with a proper voxel beach, animated ocean shader, Ocean Avenue, denser playable neighborhood blocks, personality-rich layered houses and multi-building apartment blocks, animated cars, walking pedestrians, varied palm/tropical trees, lifeguard towers, umbrellas, towels, benches, signs, streetlights, and beach-life decorations. The playable neighborhood is surrounded by an unplayable voxel perimeter of mountains, trees, and border scenery inspired by `assets/conceptArt.png`.
+Voxel Beach Block presents a polished walkable oceanfront diorama with a proper voxel beach, animated ocean shader, Ocean Avenue, denser playable neighborhood blocks, personality-rich layered houses and multi-building apartment blocks, animated cars, walking pedestrians, varied palm/tropical trees, lifeguard towers, umbrellas, towels, benches, signs, streetlights, and beach-life decorations. The playable neighborhood is surrounded by an unplayable voxel perimeter of mountains, trees, and border scenery inspired by `assets/conceptArt.png`.
 
 It also includes a separate individual 3D asset viewer so each voxel structure can be inspected outside the full neighborhood scene.
 
@@ -12,6 +12,7 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 
 | Action | Input |
 | --- | --- |
+| Walk player isometrically | `WASD` or Arrow Keys |
 | Orbit camera | Drag mouse/touch |
 | Zoom camera | Mouse wheel/trackpad |
 | Open individual asset viewer | `V` |
@@ -29,7 +30,7 @@ It also includes a separate individual 3D asset viewer so each voxel structure c
 - Voxel people scaled so buildings read as walkable interiors compared to cars and doors.
 - Unplayable surrounding scenery with 2x-height rock-dominant Rio-style horseshoe mountains, outer terrain, tree line, and perimeter border.
 - 60fps-oriented rendering optimizations using instanced mountain/outer-ground voxel batches, reduced pixel ratio cap, and lower shadow-map budget.
-- Animated voxel people and cars, varied palm/tropical trees, surf racks, bicycles, food cart, beach shower, tiny boat, and other props.
+- Animated player character, voxel pedestrians, and cars, varied palm/tropical trees, surf racks, bicycles, food cart, beach shower, tiny boat, and other props.
 - Separate 3D asset inspection mode.
 - Responsive full-window browser canvas.
 
@@ -67,6 +68,8 @@ npm run typecheck
 - `src/voxel/scenery.ts` - unplayable outer terrain, mountains, tree line, and playable border.
 - `src/voxel/scene.ts` - full beach block composition.
 - `src/voxel/traffic.ts` - deterministic moving cars and sidewalk pedestrian loops.
+- `src/player/playerController.ts` - isometric player walking and camera follow target.
+- `src/voxel/characterAnimation.ts` - shared voxel character walk-cycle animation.
 - `src/voxel/ocean.ts` - animated ocean shader.
 - `tests/voxelLayout.test.ts` - layout, road, scale, and perimeter validation tests.
 - `GAME_DESIGN_DOCUMENT.md` - living design document.
