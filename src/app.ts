@@ -18,7 +18,7 @@ export class VoxelBeachApp {
   constructor(private readonly mount: HTMLElement) {
     this.scene.background = new THREE.Color('#b7ecff')
     this.scene.fog = new THREE.Fog('#b7ecff', 110, 240)
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.renderer.shadowMap.enabled = true
     this.renderer.shadowMap.type = THREE.PCFShadowMap
@@ -44,7 +44,7 @@ export class VoxelBeachApp {
     const sun = new THREE.DirectionalLight('#fff1c7', 3.1)
     sun.position.set(-16, 28, 14)
     sun.castShadow = true
-    sun.shadow.mapSize.set(2048, 2048)
+    sun.shadow.mapSize.set(1024, 1024)
     sun.shadow.camera.left = -90
     sun.shadow.camera.right = 90
     sun.shadow.camera.top = 90
