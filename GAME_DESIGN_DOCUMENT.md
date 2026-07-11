@@ -2,7 +2,7 @@
 
 ## Concept
 
-**Voxel Beach Block** is a browser-playable GTA-style voxel delivery game prototype. The player explores a contained oceanfront neighborhood from an over-the-shoulder camera, mounts a delivery bike, dodges traffic and obstacles, and is rewarded for fast safe riding. The playable block includes a beach, improved ocean shader, Ocean Avenue, internal streets, visible borders, denser mixed housing blocks, personality-rich props, animated cars, varied trees, walking voxel people, and a controllable rider. The playable block is surrounded by an unplayable scenic perimeter with voxel mountains and trees inspired by `assets/conceptArt.png`.
+**Voxel Beach Block** is a browser-playable GTA-style voxel skate delivery game prototype. The player explores a contained oceanfront neighborhood from an over-the-shoulder camera, toggles skate mode, kickflips, dodges traffic and obstacles, stops at green NPC delivery offers, then follows a red Crazy Taxi-style arrow to the dropoff before time runs out. The playable block includes a beach, improved ocean shader, Ocean Avenue, internal streets, visible borders, denser mixed housing blocks, personality-rich props, animated cars, varied trees, walking voxel people, and a controllable skater. The playable block is surrounded by an unplayable scenic perimeter with voxel mountains and trees inspired by `assets/conceptArt.png`.
 
 ## Design Pillars
 
@@ -10,7 +10,7 @@
 - **Beach-town identity:** sand, surf shop, lifeguard tower, umbrellas, towels, palm trees, beach houses, and ocean avenue.
 - **Readable scale:** people, cars, doors, story heights, and buildings should imply that characters could walk inside buildings.
 - **Responsive exploration:** player movement should feel solid, with collisions preventing walking through major buildings and props.
-- **Delivery speed fantasy:** faster bike riding should feel better and score better, while traffic/obstacles create risk.
+- **Skate delivery fantasy:** fast skating and kickflips should feel expressive, while traffic/obstacles create risk and time penalties.
 - **Contained playable area:** the neighborhood is the active inspectable/playable area, with mountains and trees used as non-playable surrounding scenery.
 - **Inspectable assets:** individual voxel structures can be isolated in a separate viewer.
 - **Browser-first reliability:** Vite + TypeScript + Three.js with responsive canvas rendering.
@@ -21,10 +21,11 @@ This is now a delivery-game prototype with score hooks logged through runtime me
 
 1. Load into the full voxel beach block.
 2. Move camera-relative from an over-the-shoulder camera.
-3. Mount the delivery bike and boost through the neighborhood.
-4. Dodge moving cars and static obstacles while maintaining speed.
-5. Earn faster-riding payout and near-miss bonuses through runtime score logs.
-6. Switch to the individual 3D viewer when inspecting assets.
+3. Toggle skate mode and push through the neighborhood.
+4. Stop near green NPC arrows to accept delivery runs.
+5. Follow the red dropoff arrow while dodging cars, pedestrians, buildings, trees, and props.
+6. Kickflip with Space; crashes trigger a bail animation and time penalty.
+7. Switch to the individual 3D viewer when inspecting assets.
 
 ## Player Goals
 
@@ -37,8 +38,8 @@ This is now a delivery-game prototype with score hooks logged through runtime me
 | Action | Input |
 | --- | --- |
 | Move camera-relative | `WASD` or Arrow Keys |
-| Mount/dismount delivery bike | `E` |
-| Sprint/boost | Hold `Space` |
+| Toggle skate mode | `E` |
+| Kickflip while skating | `Space` |
 | Camera | Automatically stays behind the player/rider |
 | Open individual asset viewer | `V` |
 | Return to beach block | `B` |
@@ -73,7 +74,8 @@ The scene is a sunny coastal neighborhood with:
 - `src/camera/overShoulderCamera.ts` contains the GTA-style over-the-shoulder camera controller.
 - `src/camera/orbitCamera.ts` contains the legacy orbit camera controller retained for reference.
 - `src/viewer/assetViewer.ts` contains the standalone asset inspection mode.
-- `src/player/playerController.ts` contains camera-relative walking, bike mounting, boost speed, near-miss scoring, and collision-aware delivery riding.
+- `src/player/playerController.ts` contains walking, skate mode, push speed, kickflips, bails, and collision-aware delivery skating.
+- `src/delivery/deliveryController.ts` contains green pickup offers, red dropoff arrow, timed delivery runs, payouts, and crash penalties.
 - `src/player/collisions.ts` contains lightweight player collision bounds for buildings, trees, towers, umbrellas, benches, and major props.
 - `src/render/visibilityCulling.ts` contains camera-frustum visibility culling for static world sections.
 - `src/voxel/` contains voxel block helpers, instanced voxel batching, materials, layout data, procedural asset factories, perimeter scenery, shared character animation, traffic, the beach block scene, and ocean shader.
@@ -99,7 +101,7 @@ Rules:
 - Performance optimization pass for the tall mountain perimeter using instanced mountain/ground batches, coarser mountain sampling, reduced pixel ratio cap, and lower shadow-map budget to target 60fps.
 - Latest architecture pass reworked beach houses, surf shop, apartments/hotels, palm trees, tropical trees, and beach props for stronger personality while batching the dense playable ground tiles for performance.
 - Latest street-life pass adds deterministic animated cars, walking pedestrians on sidewalk loops, denser planting in empty green lawn areas, tunnel portals at side/far mountain exits, and shared voxel walk cycles.
-- Automatic GTA-style over-the-shoulder camera, camera-relative movement, delivery bike mounting, boost riding, near-miss bonus logs, and traffic clip speed penalties.
+- Automatic GTA-style over-the-shoulder camera, skate movement, delivery pickup/dropoff arrows, timed runs, kickflip animation, bail animation, and crash time penalties.
 - Fixed-point voxel limb pivots for clearer player and NPC walk animation.
 - Player collision resolution against buildings and major props.
 - Simplified fewer-car traffic with signal timing and tunnel recycling so cars do not permanently jam.
