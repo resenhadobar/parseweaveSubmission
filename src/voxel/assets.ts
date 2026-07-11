@@ -209,15 +209,20 @@ export function createVoxelPerson(shirt: PaletteKey = 'teal'): THREE.Group {
   addBlock(group, { color: shirt, name: 'body', position: [0, 0.9, 0], scale: [0.5, 0.62, 0.32] })
   addBlock(group, { color: 'white', position: [0, 1.12, -0.18], scale: [0.34, 0.12, 0.04] })
   addBlock(group, { color: 'wood', position: [0, 0.58, -0.18], scale: [0.48, 0.08, 0.05] })
-  addBlock(group, { color: 'navy', name: 'left-leg', position: [-0.14, 0.36, 0], scale: [0.16, 0.54, 0.18] })
-  addBlock(group, { color: 'navy', name: 'right-leg', position: [0.14, 0.36, 0], scale: [0.16, 0.54, 0.18] })
-  addBlock(group, { color: 'black', position: [-0.14, 0.08, -0.04], scale: [0.2, 0.1, 0.24] })
-  addBlock(group, { color: 'black', position: [0.14, 0.08, -0.04], scale: [0.2, 0.1, 0.24] })
-  addBlock(group, { color: shirt, name: 'left-arm', position: [-0.38, 0.92, 0], scale: [0.13, 0.46, 0.14] })
-  addBlock(group, { color: shirt, name: 'right-arm', position: [0.38, 0.92, 0], scale: [0.13, 0.46, 0.14] })
-  addBlock(group, { color: 'skin', position: [-0.38, 0.62, -0.01], scale: [0.14, 0.14, 0.14] })
-  addBlock(group, { color: 'skin', position: [0.38, 0.62, -0.01], scale: [0.14, 0.14, 0.14] })
+  addCharacterLimb(group, 'left-leg', 'navy', [-0.14, 0.63, 0], [0.16, 0.54, 0.18], 'black')
+  addCharacterLimb(group, 'right-leg', 'navy', [0.14, 0.63, 0], [0.16, 0.54, 0.18], 'black')
+  addCharacterLimb(group, 'left-arm', shirt, [-0.38, 1.15, 0], [0.13, 0.46, 0.14], 'skin')
+  addCharacterLimb(group, 'right-arm', shirt, [0.38, 1.15, 0], [0.13, 0.46, 0.14], 'skin')
   return group
+}
+
+function addCharacterLimb(parent: THREE.Group, name: string, color: PaletteKey, position: THREE.Vector3Tuple, scale: THREE.Vector3Tuple, endColor: PaletteKey): void {
+  const limb = new THREE.Group()
+  limb.name = name
+  limb.position.set(...position)
+  addBlock(limb, { color, position: [0, -scale[1] / 2, 0], scale })
+  addBlock(limb, { color: endColor, position: [0, -scale[1] - 0.06, -0.02], scale: [scale[0] + 0.06, 0.12, scale[2] + 0.08] })
+  parent.add(limb)
 }
 
 export function createDeliveryBike(): THREE.Group {
